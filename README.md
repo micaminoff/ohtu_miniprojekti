@@ -4,3 +4,20 @@
 [Travis CI](https://travis-ci.org/micaminoff/ohtu_miniprojekti)
 
 https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti
+
+Backlogit (sis. hyväksymäkriteeri user storyille): 
+https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1
+
+Ryhmän määrittely Definition of Donelle:
+Tehtävä on tehty kun
+  - tuotantokoodi on valmis
+  - jos kyse luokasta, myös JUnit-testi valmis
+  - koko paketti testattu ja läpäisee testit
+  - testien rivikattavuus vähintään 80 %
+  - viety Githubiin ja koko ohjelmiston Travis-testit menevät läpi
+
+Koodin ylläpidettävyyden tulee olla mahdollisimman hyvä:
+- koodikieli englanti
+- luokkien nimet isolla, metodien pienellä, yleisesti camelCase
+- noudatetaan yhdessä katsottua arkkitehtuuria
+
