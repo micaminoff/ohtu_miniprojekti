@@ -6,6 +6,7 @@
 https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti
 
 Backlogit (sis. hyväksymäkriteeri user storyille): 
+https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1
 
 Ryhmän määrittely Definition of Donelle:
 Tehtävä on tehty kun
