@@ -3,13 +3,12 @@ sqlite shell windowsille ja testitietokanta
 avaa .db -tiedosto sqlite.exe:ll‰
 
 
-
 kirjoita 
 
-	".mode columns"
+	".mode column"
 
 	ja
 
-	".headers on"
+	".header on"
 
 jotta kyselyist‰ saa selv‰‰ 

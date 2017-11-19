@@ -71,7 +71,7 @@ public class App {
             System.out.println(
                     "title: " + rs.getString("title") + "\n" + 
                     "author: " + rs.getString("author") + "\n" + 
-                    "ISBN: " + rs.getString("isbn"));
+                    "ISBN: " + rs.getString("isbn") + "\n");
         }
         
 //        UserDao dao = new InMemoryUserDao();
