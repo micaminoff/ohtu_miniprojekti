@@ -69,6 +69,7 @@ public class App {
         
         while (rs.next()) {
             System.out.println(
+                    "id: " + rs.getString("id") + "\n" +
                     "title: " + rs.getString("title") + "\n" + 
                     "author: " + rs.getString("author") + "\n" + 
                     "ISBN: " + rs.getString("isbn") + "\n");
