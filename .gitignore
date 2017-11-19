@@ -1,3 +1,5 @@
-/LoginCucmber/.nb-gradle/
-/.nb-gradle/
-/build/
+.nb-gradle/
+
+.gradle/
+
+build/
