@@ -1,0 +1,15 @@
+sqlite shell windowsille ja testitietokanta
+
+avaa .db -tiedosto sqlite.exe:ll‰
+
+
+
+kirjoita 
+
+	".mode columns"
+
+	ja
+
+	".headers on"
+
+jotta kyselyist‰ saa selv‰‰ 

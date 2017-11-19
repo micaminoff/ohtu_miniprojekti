@@ -1,10 +1,15 @@
 package ohtu;
 
-import ohtu.data_access.InMemoryUserDao;
-import ohtu.data_access.UserDao;
-import ohtu.io.ConsoleIO;
+//import ohtu.data_access.InMemoryUserDao;
+//import ohtu.data_access.UserDao;
+//import ohtu.io.ConsoleIO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import ohtu.io.IO;
 import ohtu.services.AuthenticationService;
+
 
 public class App {
 
@@ -51,11 +56,28 @@ public class App {
         }
     }
 
-    public static void main(String[] args) {
-        UserDao dao = new InMemoryUserDao();
-        IO io = new ConsoleIO();
-        AuthenticationService auth = new AuthenticationService(dao);
-        new App(io, auth).run();
+    public static void main(String[] args) throws Exception {
+        //SQL TESTI
+        
+        Class.forName("org.sqlite.JDBC");
+        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");
+        Statement s = c.createStatement();
+        
+        ResultSet rs = s.executeQuery("SELECT * FROM Book");
+
+        System.out.println("\nTietokannassa olevat kirjat:\n");
+        
+        while (rs.next()) {
+            System.out.println(
+                    "title: " + rs.getString("title") + "\n" + 
+                    "author: " + rs.getString("author") + "\n" + 
+                    "ISBN: " + rs.getString("isbn"));
+        }
+        
+//        UserDao dao = new InMemoryUserDao();
+//        IO io = new ConsoleIO();
+//        AuthenticationService auth = new AuthenticationService(dao);
+//        new App(io, auth).run();
     }
     
     // testejä debugatessa saattaa olla hyödyllistä testata ohjelman ajamista
