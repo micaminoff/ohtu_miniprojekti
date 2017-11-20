@@ -39,5 +39,18 @@ public class SuggestionService {
         return teokset;
     }
     
-    
+    public List<Suggestable> findBookByCreator(String creator) {
+        //return bookDao.findByCreator(creator);
+        return null;
+    }
+    public Suggestable findBookByISBN(String ISBN) {
+        return bookDao.findByISBN(ISBN);
+    }
+    public List<Suggestable> findBookByDescription(String description) {
+        //return bookDao.findByDescription(description);
+        return null;
+    }
+    public Suggestable findBookByTitle(String title) {
+        return bookDao.findByTitle(title);
+    }
 }

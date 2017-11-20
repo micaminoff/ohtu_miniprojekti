@@ -77,6 +77,7 @@ public class App {
         while (true) {
             String command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
             if (command.equals("title")) {
+                
                 break;
             } else if (command.equals("description")) {
                 break;
