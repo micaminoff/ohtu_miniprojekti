@@ -1,10 +1,11 @@
 
 Feature: User can add a new book, so new tips for it can be added
 	
-	Scenario: Adding nonexistant book
-		Given book doesn't exist
-		When  it's attempted to be added
-		Then  it should exist and message "book added" is displayed 
+	Scenario: User can add a new book
+		Given command add is selected
+                Given command book is selected
+                When title "Book1" and author "Matti" and description "good book" are entered
+		Then message "New book added!" is displayed 
 		
 	Scenario: Attempting to add a book without title
 		Given book doesn't exist
