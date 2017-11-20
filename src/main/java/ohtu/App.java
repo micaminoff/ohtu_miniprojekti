@@ -32,16 +32,11 @@ public class App {
                 break;
             }
             if (command.equals("list")) {
-                for (Suggestable suggestable : sugg.listAll()) {
-
-                    if (suggestable.getClass().getName().equals("ohtu.domain.Book")) {
-                        Book book = (Book) suggestable;
-                        io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
-                    }
-
-                }
+                list();
             } else if (command.equals("add")) {
-                lisaa();
+                add();
+            } else if (command.equals("find")) {
+                find();
             } else {
                 io.print("Unknown command!");
             }
@@ -49,7 +44,7 @@ public class App {
 
     }
 
-    public void lisaa() {
+    public void add() {
         String command = io.readLine("What would you like to add? (types: book)");
         if (command.equals("book")) {
             String creator = io.readLine("Author: ");
@@ -63,6 +58,37 @@ public class App {
             }
         } else {
             io.print("Unknown command!");
+        }
+    }
+
+    public void list() {
+        for (Suggestable suggestable : sugg.listAll()) {
+
+            if (suggestable.getClass().getName().equals("ohtu.domain.Book")) {
+                Book book = (Book) suggestable;
+                io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
+            }
+
+        }
+    }
+
+    public void find() {
+        //HAKU KIRJALLE
+        while (true) {
+            String command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
+            if (command.equals("title")) {
+                break;
+            } else if (command.equals("description")) {
+                break;
+            } else if (command.equals("creator")) {
+                break;
+            } else if (command.equals("isbn")) {
+                break;
+            } else if (command.equals("q")) {
+                break;
+            } else {
+                System.out.println("Unknown command!");
+            }
         }
     }
 
