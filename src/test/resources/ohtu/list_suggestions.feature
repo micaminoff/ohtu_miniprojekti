@@ -1,6 +1,6 @@
-Feature: User can browse tips
+Feature: User can browse suggestions
 
-	Scenario: browsing all tips
-		Given tips exist
-		When  user selects option "Browse all tips"
-		Then  user is given a list of all tips
+	Scenario: browsing all suggestions
+		Given suggestions exist
+		When  user selects option "Browse all suggestions"
+		Then  user is given a list of all suggestions

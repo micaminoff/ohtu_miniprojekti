@@ -1,5 +1,5 @@
 
-Feature: User can add a new book, so new tips for it can be added
+Feature: User can add a new book, so new suggestions for it can be added
 	
     Scenario: User can add a new book
 	Given command add is selected
