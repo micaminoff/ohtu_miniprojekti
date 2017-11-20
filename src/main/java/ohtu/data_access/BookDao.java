@@ -16,9 +16,9 @@ import ohtu.domain.Book;
  */
 public interface BookDao {
     List<Book> listAll();
-    Book findByCreator(String creator);
+    List<Book> findByCreator(String creator);
     Book findByTitle(String title);
-    Book findByDescription(String description);
+    List<Book> findByDescription(String description);
     Book findByISBN(String ISBN);
     void add(Book book);
     

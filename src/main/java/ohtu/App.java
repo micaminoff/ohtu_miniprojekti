@@ -1,10 +1,8 @@
 package ohtu;
 
 import ohtu.io.ConsoleIO;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import ohtu.data_access.BookDao;
 import ohtu.data_access.InMemoryBookDao;
 import ohtu.domain.Book;
@@ -26,7 +24,7 @@ public class App {
 
         System.out.println("Welcome!");
         while (true) {
-            String command = io.readLine("\nCommand (list or add, empty command exits program)");
+            String command = io.readLine("\nCommand (list, find or add, empty command exits program)");
 
             if (command.isEmpty()) {
                 break;
@@ -73,24 +71,60 @@ public class App {
     }
 
     public void find() {
-        //HAKU KIRJALLE
+
+        List<Suggestable> booksFound = new ArrayList();
+        String command;
+
         while (true) {
-            String command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
+            command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
             if (command.equals("title")) {
-                
+                String command_title = io.readLine("Give title: ");
+                if (sugg.findBookByTitle(command_title) != null) {
+                    booksFound.add(sugg.findBookByTitle(command_title));
+                }
                 break;
+
             } else if (command.equals("description")) {
+                String command_description = io.readLine("Give description: ");
+                List<Book> booksByDesc = sugg.findBookByDescription(command_description);
+                if (!booksByDesc.isEmpty()) {
+                    booksFound.addAll(booksByDesc);
+                }
                 break;
+
             } else if (command.equals("creator")) {
+                String command_creator = io.readLine("Give creator: ");
+                List<Book> booksByCreator = sugg.findBookByCreator(command_creator);
+                if (!booksByCreator.isEmpty()) {
+                    booksFound.addAll(booksByCreator);
+                }
                 break;
+
             } else if (command.equals("isbn")) {
+                String command_isbn = io.readLine("Give isbn: ");
+
+                if (sugg.findBookByISBN(command_isbn) != null) {
+                    booksFound.add(sugg.findBookByISBN(command_isbn));
+                }
                 break;
+                
             } else if (command.equals("q")) {
                 break;
             } else {
                 System.out.println("Unknown command!");
             }
         }
+        if (!command.equals("q")) {
+            if (!booksFound.isEmpty()) {
+                for (Suggestable suggestable : booksFound) {
+                    Book book = (Book) suggestable;
+                    io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
+                }
+            } else {
+                System.out.println("No books found.");
+            }
+        }
+
     }
 
     public static void main(String[] args) throws Exception {
@@ -100,6 +134,8 @@ public class App {
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(bookDao);
         new App(io, sugg).run();
+
+        sugg.addBook("Paavo", "Paavon kirja", "Moi oon Paavo", "1337");
 
 //        Class.forName("org.sqlite.JDBC");
 //        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");

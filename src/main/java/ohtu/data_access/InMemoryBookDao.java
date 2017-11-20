@@ -35,13 +35,15 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByCreator(String creator) {
-        for (Book book: books) {
+    public List<Book> findByCreator(String creator) {
+        ArrayList<Book> booksReturn = new ArrayList();
+        
+        for (Book book : books) {
             if (book.getCreator().equals(creator)) {
-                return book;
+                booksReturn.add(book);
             }
         }
-        return null;
+        return booksReturn;
     }
 
     @Override
@@ -55,13 +57,14 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByDescription(String description) {
-        for (Book book: books) {
-            if (book.getDescription().equals(description)) {
-                return book;
+    public List<Book> findByDescription(String description) {
+        ArrayList<Book> booksReturn = new ArrayList();
+        for (Book book : books) {
+            if (book.getDescription().contains(description)) {
+                booksReturn.add(book);
             }
         }
-        return null;
+        return booksReturn;
     }
 
     @Override
