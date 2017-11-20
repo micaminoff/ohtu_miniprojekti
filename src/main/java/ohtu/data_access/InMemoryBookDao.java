@@ -8,21 +8,23 @@ package ohtu.data_access;
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Book;
+import ohtu.domain.Suggestable;
 
 /**
  *
  * @author paavo
+ * päivityksiä: mkotola
  */
 public class InMemoryBookDao implements BookDao {
-    private List<Book> books;
+    private List<Suggestable> books;
     
     public InMemoryBookDao() {
-        books = new ArrayList<Book>();
+        books = new ArrayList<Suggestable>();
         books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Paska kirja"));
     }
 
     @Override
-    public List<Book> listAll() {
+    public List<Suggestable> listAll() {
         return books;
     }
 
@@ -33,8 +35,8 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByCreator(String creator) {
-        for (Book book: books) {
+    public Suggestable findByCreator(String creator) {
+        for (Suggestable book: books) {
             if (book.getCreator().equals(creator)) {
                 return book;
             }
@@ -43,8 +45,8 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByTitle(String title) {
-        for (Book book: books) {
+    public Suggestable findByTitle(String title) {
+        for (Suggestable book: books) {
             if (book.getTitle().equals(title)) {
                 return book;
             }
@@ -53,8 +55,13 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByDescription(String description) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Suggestable findByDescription(String description) {
+        for (Suggestable book: books) {
+            if (book.getDescription().equals(description)) {
+                return book;
+            }
+        }
+        return null;
     }
     
 }

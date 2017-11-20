@@ -7,16 +7,18 @@ package ohtu.data_access;
 
 import java.util.List;
 import ohtu.domain.Book;
+import ohtu.domain.Suggestable;
 
 /**
  *
  * @author paavo
+ * päivityksiä: mkotola
  */
 public interface BookDao {
-    List<Book> listAll();
-    Book findByCreator(String creator);
-    Book findByTitle(String title);
-    Book findByDescription(String description);
+    List<Suggestable> listAll();
+    Suggestable findByCreator(String creator);
+    Suggestable findByTitle(String title);
+    Suggestable findByDescription(String description);
     void add(Book book);
     
 }

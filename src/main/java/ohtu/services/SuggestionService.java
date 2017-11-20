@@ -8,10 +8,12 @@ package ohtu.services;
 import java.util.List;
 import ohtu.data_access.BookDao;
 import ohtu.domain.Book;
+import ohtu.domain.Suggestable;
 
 /**
  *
  * @author paavo
+ * päivityksiä: mkotola
  */
 public class SuggestionService {
     private BookDao bookDao;
@@ -30,8 +32,12 @@ public class SuggestionService {
         return true;
     }
     
-    public BookDao getBookDao() {
-        return bookDao;
+//    public BookDao getBookDao() {
+//        return bookDao;
+//    }
+    
+    public List<Suggestable> listAll() {
+        return this.bookDao.listAll();
     }
     
     

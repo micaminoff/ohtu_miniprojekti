@@ -1,7 +1,5 @@
 package ohtu;
 
-//import ohtu.data_access.InMemoryUserDao;
-//import ohtu.data_access.UserDao;
 import ohtu.io.ConsoleIO;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,15 +8,14 @@ import java.sql.Statement;
 import ohtu.data_access.BookDao;
 import ohtu.data_access.InMemoryBookDao;
 import ohtu.domain.Book;
+import ohtu.domain.Suggestable;
 import ohtu.io.IO;
-import ohtu.services.AuthenticationService;
 import ohtu.services.SuggestionService;
 
 
 public class App {
 
     private IO io;
-//    private AuthenticationService auth;
     private SuggestionService sugg;
 
     public App(IO io, SuggestionService sugg) {
@@ -26,55 +23,24 @@ public class App {
         this.sugg = sugg;
     }
 
-    public String[] ask() {
-        String[] userPwd = new String[2];
-        userPwd[0] = io.readLine("username:");
-        userPwd[1] = io.readLine("password:");
-        return userPwd;
-    }
-
     public void run() {
         
         System.out.println("Tervetuloa!");
         while (true) {
-            String command = io.readLine("komento (listaa tai lisää)");
+            String command = io.readLine("\nKomento (listaa tai lisää)");
             
             if (command.isEmpty()) {
                 break;
             }
             if (command.equals("listaa")) {
-                for (Book book: sugg.getBookDao().listAll()) {
-                    io.print("Tekijä: " + book.getCreator() + "\nOtsikko: " + book.getTitle() + "\nKuvaus: " + book.getDescription() + "\n");
+                for (Suggestable suggestable: sugg.listAll()) {
+                    io.print("Tekijä: " + suggestable.getCreator() + "\nOtsikko: " + suggestable.getTitle() + "\nKuvaus: " + suggestable.getDescription() + "\n");
                 }
             } else if (command.equals("lisää")) {
                 lisaa();
             }
         }
-//        while (true) {
-//            String command = io.readLine("komento (new tai login):");
-//
-//            if (command.isEmpty()) {
-//                break;
-//            }
-//
-//            if (command.equals("new")) {
-//                String[] usernameAndPasword = ask();
-//                if (auth.createUser(usernameAndPasword[0], usernameAndPasword[1])) {
-//                    io.print("new user registered");
-//                } else {
-//                    io.print("new user not registered");
-//                }
-//
-//            } else if (command.equals("login")) {
-//                String[] usernameAndPasword = ask();
-//                if (auth.logIn(usernameAndPasword[0], usernameAndPasword[1])) {
-//                    io.print("logged in");
-//                } else {
-//                    io.print("wrong username or password");
-//                }
-//            }
-//
-//        }
+
     }
     
     public void lisaa() {
@@ -122,12 +88,4 @@ public class App {
 //        new App(io, auth).run();
     }
     
-    // testejä debugatessa saattaa olla hyödyllistä testata ohjelman ajamista
-    // samoin kuin testi tekee, eli injektoimalla käyttäjän syötteen StubIO:n avulla
-    //
-    // UserDao dao = new InMemoryUserDao();  
-    // StubIO io = new StubIO("new", "eero", "sala1nen" );   
-    //  AuthenticationService auth = new AuthenticationService(dao);
-    // new App(io, auth).run();
-    // System.out.println(io.getPrints());
 }
