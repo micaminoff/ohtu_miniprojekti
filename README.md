@@ -1,7 +1,9 @@
 # ohtu_miniprojekti
 [![Build Status](https://travis-ci.org/micaminoff/ohtu_miniprojekti.svg?branch=master)](https://travis-ci.org/micaminoff/ohtu_miniprojekti)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/d11375bdbe984bdbbad74d83e588c210)](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti?utm_source=github.com&utm_medium=referral&utm_content=micaminoff/ohtu_miniprojekti&utm_campaign=Badge_Coverage)
 
 [Travis CI](https://travis-ci.org/micaminoff/ohtu_miniprojekti)
+[Codacy](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti/dashboard)
 
 https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti
 
