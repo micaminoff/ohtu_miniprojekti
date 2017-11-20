@@ -12,7 +12,6 @@ import ohtu.domain.Suggestable;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
 
-
 public class App {
 
     private IO io;
@@ -24,30 +23,32 @@ public class App {
     }
 
     public void run() {
-        
+
         System.out.println("Welcome!");
         while (true) {
-            String command = io.readLine("\nCommand (list or add)");
-            
+            String command = io.readLine("\nCommand (list or add, empty command exits program)");
+
             if (command.isEmpty()) {
                 break;
             }
             if (command.equals("list")) {
-                for (Suggestable suggestable: sugg.listAll()) {
-                    
+                for (Suggestable suggestable : sugg.listAll()) {
+
                     if (suggestable.getClass().getName().equals("ohtu.domain.Book")) {
                         Book book = (Book) suggestable;
-                        io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN());
+                        io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
                     }
-                    
+
                 }
             } else if (command.equals("add")) {
                 lisaa();
+            } else {
+                io.print("Unknown command!");
             }
         }
 
     }
-    
+
     public void lisaa() {
         String command = io.readLine("What would you like to add? (types: book)");
         if (command.equals("book")) {
@@ -60,18 +61,19 @@ public class App {
             } else {
                 io.print("Adding a new book failed!");
             }
+        } else {
+            io.print("Unknown command!");
         }
     }
 
     public static void main(String[] args) throws Exception {
         //SQL TESTI
-        
-        
+
         BookDao bookDao = new InMemoryBookDao();
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(bookDao);
         new App(io, sugg).run();
-        
+
 //        Class.forName("org.sqlite.JDBC");
 //        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");
 //        Statement s = c.createStatement();
@@ -87,11 +89,10 @@ public class App {
 //                    "author: " + rs.getString("author") + "\n" + 
 //                    "ISBN: " + rs.getString("isbn") + "\n");
 //        }
-        
 //        UserDao dao = new InMemoryUserDao();
 //        IO io = new ConsoleIO();
 //        AuthenticationService auth = new AuthenticationService(dao);
 //        new App(io, auth).run();
     }
-    
+
 }

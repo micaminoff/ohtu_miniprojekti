@@ -19,7 +19,6 @@ import ohtu.domain.Suggestable;
 public class SuggestionService {
     private BookDao bookDao;
     
-    
     public SuggestionService(BookDao bookDao) {
         this.bookDao = bookDao;
     }
@@ -32,10 +31,6 @@ public class SuggestionService {
         
         return true;
     }
-    
-//    public BookDao getBookDao() {
-//        return bookDao;
-//    }
     
     public List<Suggestable> listAll() {
         List<Suggestable> teokset = new ArrayList<>();
