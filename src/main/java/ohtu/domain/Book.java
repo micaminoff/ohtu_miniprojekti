@@ -44,5 +44,4 @@ public class Book implements Suggestable {
         this.description = description;
     }
     
-    
 }
