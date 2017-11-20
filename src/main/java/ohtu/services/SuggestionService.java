@@ -5,6 +5,7 @@
  */
 package ohtu.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import ohtu.data_access.BookDao;
 import ohtu.domain.Book;
@@ -23,11 +24,11 @@ public class SuggestionService {
         this.bookDao = bookDao;
     }
     
-    public boolean addBook(String creator, String title, String description) {
+    public boolean addBook(String creator, String title, String description, String ISBN) {
         if (bookDao.findByTitle(title) != null) {
             return false;
         }
-        bookDao.add(new Book(creator, title, description));
+        bookDao.add(new Book(creator, title, description, ISBN));
         
         return true;
     }
@@ -37,7 +38,10 @@ public class SuggestionService {
 //    }
     
     public List<Suggestable> listAll() {
-        return this.bookDao.listAll();
+        List<Suggestable> teokset = new ArrayList<>();
+        List<Book> books = this.bookDao.listAll();
+        teokset.addAll(books);
+        return teokset;
     }
     
     

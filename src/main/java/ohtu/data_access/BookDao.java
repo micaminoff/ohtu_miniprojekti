@@ -7,7 +7,7 @@ package ohtu.data_access;
 
 import java.util.List;
 import ohtu.domain.Book;
-import ohtu.domain.Suggestable;
+
 
 /**
  *
@@ -15,10 +15,11 @@ import ohtu.domain.Suggestable;
  * päivityksiä: mkotola
  */
 public interface BookDao {
-    List<Suggestable> listAll();
-    Suggestable findByCreator(String creator);
-    Suggestable findByTitle(String title);
-    Suggestable findByDescription(String description);
+    List<Book> listAll();
+    Book findByCreator(String creator);
+    Book findByTitle(String title);
+    Book findByDescription(String description);
+    Book findByISBN(String ISBN);
     void add(Book book);
     
 }

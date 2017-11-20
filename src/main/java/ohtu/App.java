@@ -34,7 +34,12 @@ public class App {
             }
             if (command.equals("list")) {
                 for (Suggestable suggestable: sugg.listAll()) {
-                    io.print("Author: " + suggestable.getCreator() + "\nTitle: " + suggestable.getTitle() + "\nDescription: " + suggestable.getDescription() + "\n");
+                    
+                    if (suggestable.getClass().getName().equals("ohtu.domain.Book")) {
+                        Book book = (Book) suggestable;
+                        io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN());
+                    }
+                    
                 }
             } else if (command.equals("add")) {
                 lisaa();
@@ -49,7 +54,8 @@ public class App {
             String creator = io.readLine("Author: ");
             String title = io.readLine("Title: ");
             String description = io.readLine("Description: ");
-            if (sugg.addBook(creator, title, description)) {
+            String ISBN = io.readLine("ISBN: ");
+            if (sugg.addBook(creator, title, description, ISBN)) {
                 io.print("New book added!");
             } else {
                 io.print("Adding a new book failed!");

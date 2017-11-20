@@ -8,16 +8,19 @@ package ohtu.domain;
 /**
  *
  * @author hasasami
+ * päivityksiä: mkotola
  */
 public class Book implements Suggestable {
     private String creator;
     private String title;
     private String description;
+    private String ISBN;
     
-    public Book(String creator, String title, String description) {
+    public Book(String creator, String title, String description, String ISBN) {
         this.creator = creator;
         this.title = title;
         this.description = description;
+        this.ISBN = ISBN;
     }
 
     public String getCreator() {
@@ -42,6 +45,14 @@ public class Book implements Suggestable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getISBN() {
+        return ISBN;
+    }
+
+    public void setISBN(String ISBN) {
+        this.ISBN = ISBN;
     }
     
 }

@@ -16,15 +16,15 @@ import ohtu.domain.Suggestable;
  * päivityksiä: mkotola
  */
 public class InMemoryBookDao implements BookDao {
-    private List<Suggestable> books;
+    private List<Book> books;
     
     public InMemoryBookDao() {
-        books = new ArrayList<Suggestable>();
-        books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Paska kirja"));
+        books = new ArrayList<>();
+        books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Paska kirja", "978-951-98548-9-2"));
     }
 
     @Override
-    public List<Suggestable> listAll() {
+    public List<Book> listAll() {
         return books;
     }
 
@@ -35,8 +35,8 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Suggestable findByCreator(String creator) {
-        for (Suggestable book: books) {
+    public Book findByCreator(String creator) {
+        for (Book book: books) {
             if (book.getCreator().equals(creator)) {
                 return book;
             }
@@ -45,8 +45,8 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Suggestable findByTitle(String title) {
-        for (Suggestable book: books) {
+    public Book findByTitle(String title) {
+        for (Book book: books) {
             if (book.getTitle().equals(title)) {
                 return book;
             }
@@ -55,9 +55,19 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Suggestable findByDescription(String description) {
-        for (Suggestable book: books) {
+    public Book findByDescription(String description) {
+        for (Book book: books) {
             if (book.getDescription().equals(description)) {
+                return book;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Book findByISBN(String ISBN) {
+        for (Book book: books) {
+            if (book.getISBN().equals(ISBN)) {
                 return book;
             }
         }
