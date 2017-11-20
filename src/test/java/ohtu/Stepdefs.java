@@ -34,11 +34,12 @@ public class Stepdefs {
         inputLines.add("book");
     }
     
-    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-    public void title_author_descr_are_entered(String title, String author, String description) throws Throwable {
-       inputLines.add(title);
+    @When("^author \"([^\"]*)\" and title \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
+    public void title_author_descr_are_entered(String author, String title, String description, String ISBN) throws Throwable {
        inputLines.add(author);
+       inputLines.add(title);
        inputLines.add(description);
+       inputLines.add(ISBN);
        
        io = new StubIO(inputLines); 
        app = new App(io, sugg);

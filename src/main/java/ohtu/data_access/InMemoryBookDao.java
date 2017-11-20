@@ -20,7 +20,7 @@ public class InMemoryBookDao implements BookDao {
     
     public InMemoryBookDao() {
         books = new ArrayList<>();
-        books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Paska kirja", "978-951-98548-9-2"));
+        books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Good book", "978-951-98548-9-2"));
     }
 
     @Override
