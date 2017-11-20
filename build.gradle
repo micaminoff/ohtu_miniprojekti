@@ -1,6 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'application'
-apply plugin: "jacoco"
+apply plugin: 'jacoco'
 
 
 project.ext {
@@ -31,6 +31,10 @@ test {
     systemProperties System.getProperties()
 }
 
+jacoco {
+    toolVersion = "0.7.9"
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true
@@ -41,6 +45,11 @@ jacocoTestReport {
             fileTree(dir: it)
         })
     }
+}
+
+tasks.withType(Test) {
+    systemProperties = System.properties
+    systemProperties['user.dir'] = workingDir
 }
 
 mainClassName = 'ohtu.App'
