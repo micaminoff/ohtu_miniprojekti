@@ -25,18 +25,18 @@ public class App {
 
     public void run() {
         
-        System.out.println("Tervetuloa!");
+        System.out.println("Welcome!");
         while (true) {
-            String command = io.readLine("\nKomento (listaa tai lisää)");
+            String command = io.readLine("\nCommand (list or add)");
             
             if (command.isEmpty()) {
                 break;
             }
-            if (command.equals("listaa")) {
+            if (command.equals("list")) {
                 for (Suggestable suggestable: sugg.listAll()) {
-                    io.print("Tekijä: " + suggestable.getCreator() + "\nOtsikko: " + suggestable.getTitle() + "\nKuvaus: " + suggestable.getDescription() + "\n");
+                    io.print("Author: " + suggestable.getCreator() + "\nTitle: " + suggestable.getTitle() + "\nDescription: " + suggestable.getDescription() + "\n");
                 }
-            } else if (command.equals("lisää")) {
+            } else if (command.equals("add")) {
                 lisaa();
             }
         }
@@ -44,15 +44,15 @@ public class App {
     }
     
     public void lisaa() {
-        String command = io.readLine("Mitä lisätään? (kirja)");
-        if (command.equals("kirja")) {
-            String creator = io.readLine("Tekijä: ");
-            String title = io.readLine("Otsikko: ");
-            String description = io.readLine("Kuvaus: ");
+        String command = io.readLine("What would you like to add? (types: book)");
+        if (command.equals("book")) {
+            String creator = io.readLine("Author: ");
+            String title = io.readLine("Title: ");
+            String description = io.readLine("Description: ");
             if (sugg.addBook(creator, title, description)) {
-                io.print("Kirja lisätty!");
+                io.print("New book added!");
             } else {
-                io.print("Kirjan lisääminen ei onnistunut!");
+                io.print("Adding a new book failed!");
             }
         }
     }
