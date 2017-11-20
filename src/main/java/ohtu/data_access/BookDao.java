@@ -17,9 +17,10 @@ import ohtu.domain.Book;
 public interface BookDao {
     List<Book> listAll();
     List<Book> findByCreator(String creator);
-    Book findByTitle(String title);
+    List<Book> findByTitle(String title);
     List<Book> findByDescription(String description);
     Book findByISBN(String ISBN);
+    boolean containsTitleAndCreator(String creator, String title);
     void add(Book book);
     
 }

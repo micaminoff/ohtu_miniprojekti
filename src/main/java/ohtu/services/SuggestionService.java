@@ -24,7 +24,7 @@ public class SuggestionService {
     }
     
     public boolean addBook(String creator, String title, String description, String ISBN) {
-        if (bookDao.findByTitle(title) != null) {
+        if (bookDao.containsTitleAndCreator(creator, title)) {
             return false;
         }
         bookDao.add(new Book(creator, title, description, ISBN));
@@ -48,7 +48,7 @@ public class SuggestionService {
     public List<Book> findBookByDescription(String description) {
         return bookDao.findByDescription(description);
     }
-    public Book findBookByTitle(String title) {
+    public List<Book> findBookByTitle(String title) {
         return bookDao.findByTitle(title);
     }
 }

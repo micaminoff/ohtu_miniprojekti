@@ -79,8 +79,9 @@ public class App {
             command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
             if (command.equals("title")) {
                 String command_title = io.readLine("Give title: ");
-                if (sugg.findBookByTitle(command_title) != null) {
-                    booksFound.add(sugg.findBookByTitle(command_title));
+                List<Book> booksByTitle = sugg.findBookByTitle(command_title);
+                if (!booksByTitle.isEmpty()) {
+                    booksFound.addAll(booksByTitle);
                 }
                 break;
 

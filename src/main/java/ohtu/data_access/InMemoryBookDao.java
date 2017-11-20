@@ -20,6 +20,7 @@ public class InMemoryBookDao implements BookDao {
     
     public InMemoryBookDao() {
         books = new ArrayList<>();
+        
         books.add(new Book("Robert Martin", "Clean Code: A Handbook of Agile Software Craftsmanship", "Good book", "978-951-98548-9-2"));
     }
 
@@ -39,7 +40,7 @@ public class InMemoryBookDao implements BookDao {
         ArrayList<Book> booksReturn = new ArrayList();
         
         for (Book book : books) {
-            if (book.getCreator().equals(creator)) {
+            if (book.getCreator().toLowerCase().contains(creator.toLowerCase())) {
                 booksReturn.add(book);
             }
         }
@@ -47,20 +48,31 @@ public class InMemoryBookDao implements BookDao {
     }
 
     @Override
-    public Book findByTitle(String title) {
+    public List<Book> findByTitle(String title) {
+        List<Book> list = new ArrayList<>();
         for (Book book: books) {
-            if (book.getTitle().equals(title)) {
-                return book;
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                list.add(book);
             }
         }
-        return null;
+        return list;
+    }
+    
+    @Override
+    public boolean containsTitleAndCreator(String creator, String title) {
+        for (Book book: books) {
+            if (book.getCreator().toLowerCase().equals(creator.toLowerCase()) && book.getTitle().toLowerCase().equals(title.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
     public List<Book> findByDescription(String description) {
         ArrayList<Book> booksReturn = new ArrayList();
         for (Book book : books) {
-            if (book.getDescription().contains(description)) {
+            if (book.getDescription().toLowerCase().contains(description.toLowerCase())) {
                 booksReturn.add(book);
             }
         }
