@@ -13,19 +13,15 @@ Backlogit (sis. hyväksymäkriteeri user storyille):
 https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1
 
 
-Asennus- ja käyttöohje:
-Sovellus on työpöytäsovellus, jota käytetään tekstikäyttöliittymän kautta komentoriviltä.
-
-Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti.jar
-
-Siirry hakemistoon, johon tallensit jar-tiedoston ja käynnistä ohjelma komentorivilläsi seuraavalla komennolla: java -jar ohtu_miniprojekti.jar
-
-Jos koneellasi ei ole javaa, lataa java koneellesi osoitteesta https://java.com/en/download/.
-
-Käyttöliittymä on intuitiivinen ja listaa mahdolliset komennot käyttäjälle.
+<strong>Asennus- ja käyttöohje:</strong>
+Sovellus on työpöytäsovellus jota käytetään tekstikäyttöliittymän kautta komentoriviltä. Sovelluksen nykyinen versio tallentaa lukuvinkit ohjelman muistiin, eli vinkit säilyvät vain niin kauan kuin ohjelma on käynnissä.
+- Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti.jar
+- Siirry hakemistoon, johon tallensit jar-tiedoston ja käynnistä ohjelma komentorivilläsi seuraavalla komennolla: java -jar ohtu_miniprojekti.jar
+- Käyttöliittymä on intuitiivinen ja listaa mahdolliset komennot käyttäjälle.
+- Jos koneellasi ei ole javaa, lataa java koneellesi osoitteesta https://java.com/en/download/.
 
 
-Ryhmän määrittely Definition of Donelle:
+<strong>Ryhmän määrittely Definition of Donelle:</strong>
 Tehtävä on tehty kun
   - tuotantokoodi on valmis
   - jos kyse luokasta, myös JUnit-testi valmis
