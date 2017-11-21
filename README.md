@@ -12,6 +12,19 @@ https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti
 Backlogit (sis. hyväksymäkriteeri user storyille): 
 https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1
 
+
+Asennus- ja käyttöohje:
+Sovellus on työpöytäsovellus, jota käytetään tekstikäyttöliittymän kautta komentoriviltä.
+
+Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti.jar
+
+Siirry hakemistoon, johon tallensit jar-tiedoston ja käynnistä ohjelma komentorivilläsi seuraavalla komennolla: java -jar ohtu_miniprojekti.jar
+
+Jos koneellasi ei ole javaa, lataa java koneellesi osoitteesta https://java.com/en/download/.
+
+Käyttöliittymä on intuitiivinen ja listaa mahdolliset komennot käyttäjälle.
+
+
 Ryhmän määrittely Definition of Donelle:
 Tehtävä on tehty kun
   - tuotantokoodi on valmis
