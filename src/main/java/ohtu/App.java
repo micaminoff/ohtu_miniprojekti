@@ -122,7 +122,7 @@ public class App {
                     io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
                 }
             } else {
-                System.out.println("No books found.");
+                io.print("No books found.");
             }
         }
 

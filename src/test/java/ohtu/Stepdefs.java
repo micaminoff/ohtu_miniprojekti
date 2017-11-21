@@ -48,6 +48,10 @@ public class Stepdefs {
     
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {
+        System.out.println("<PRINTS>");
+        System.out.println(expectedOutput);
+        System.out.println(io.getPrints());
+        System.out.println("</PRINTS>");
         assertTrue(io.getPrints().contains(expectedOutput));
     }
     
