@@ -23,13 +23,13 @@ public class SuggestionService {
         this.bookDao = bookDao;
     }
     
-    public boolean addBook(String creator, String title, String description, String ISBN) {
+    public Book addBook(String creator, String title, String description, String ISBN) {
         if (bookDao.containsTitleAndCreator(creator, title)) {
-            return false;
+            return bookDao.findByTitleAndCreator(creator, title);
         }
-        bookDao.add(new Book(creator, title, description, ISBN));
-        
-        return true;
+        Book newBook = new Book(creator, title, description, ISBN);
+        bookDao.add(newBook);
+        return newBook;
     }
     
     public List<Suggestable> listAll() {
@@ -50,5 +50,14 @@ public class SuggestionService {
     }
     public List<Book> findBookByTitle(String title) {
         return bookDao.findByTitle(title);
+    }
+    
+    public boolean addSuggestionWithBook(String creator, String title, String description, String ISBN) {
+        Book suggestionBook = addBook(creator, title, description, ISBN);
+        if (suggestionBook != null) {
+            //suggestionDao.add(suggestionBook);
+            return true;
+        }
+        return false;
     }
 }

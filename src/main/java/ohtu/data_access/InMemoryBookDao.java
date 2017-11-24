@@ -89,4 +89,13 @@ public class InMemoryBookDao implements BookDao {
         return null;
     }
     
+    @Override
+    public Book findByTitleAndCreator(String title, String creator) {
+        for (Book book : books) {
+            if (book.getCreator() == creator && book.getTitle() == creator) {
+                return book;
+            }
+        }
+        return null;
+    } 
 }

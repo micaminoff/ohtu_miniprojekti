@@ -45,14 +45,15 @@ public class App {
     public void add() {
         String command = io.readLine("What would you like to add? (types: book)");
         if (command.equals("book")) {
+            
             String creator = io.readLine("Author: ");
             String title = io.readLine("Title: ");
             String description = io.readLine("Description: ");
             String ISBN = io.readLine("ISBN: ");
-            if (sugg.addBook(creator, title, description, ISBN)) {
-                io.print("New book added!");
+            if (sugg.addSuggestionWithBook(creator, title, description, ISBN)) {
+                io.print("New suggestion with book added!");
             } else {
-                io.print("Adding a new book failed!");
+                io.print("Adding a new suggestion with book failed!");
             }
         } else {
             io.print("Unknown command!");

@@ -18,7 +18,7 @@ public class Suggestion {
     // private List<Tag> tags;
     private Suggestable suggestable;
     
-    public Suggestion(Suggestable suggestable, String description) {
+    public Suggestion(Suggestable suggestable) {
         //this.tags.addAll(Arrays.asList(tags));
         this.suggestable = suggestable;
         
