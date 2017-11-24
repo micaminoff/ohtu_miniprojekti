@@ -31,10 +31,12 @@ public class Book implements Suggestable {
         this.creator = creator;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
