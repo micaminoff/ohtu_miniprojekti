@@ -5,11 +5,12 @@
  */
 package ohtu.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import ohtu.data_access.BookDao;
+import ohtu.data_access.SuggestionDao;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
+import ohtu.domain.Suggestion;
 
 /**
  *
@@ -18,25 +19,26 @@ import ohtu.domain.Suggestable;
  */
 public class SuggestionService {
     private BookDao bookDao;
+    private SuggestionDao suggestionDao;
     
-    public SuggestionService(BookDao bookDao) {
+    public SuggestionService(BookDao bookDao, SuggestionDao suggestionDao) {
         this.bookDao = bookDao;
+        this.suggestionDao = suggestionDao;
     }
     
     public Book addBook(String creator, String title, String description, String ISBN) {
+        Book newBook = null;
         if (bookDao.containsTitleAndCreator(creator, title)) {
-            return bookDao.findByTitleAndCreator(creator, title);
+            newBook = bookDao.findByTitleAndCreator(creator, title);
+            return newBook;
         }
-        Book newBook = new Book(creator, title, description, ISBN);
+        newBook = new Book(creator, title, description, ISBN);
         bookDao.add(newBook);
         return newBook;
     }
     
-    public List<Suggestable> listAll() {
-        List<Suggestable> teokset = new ArrayList<>();
-        List<Book> books = this.bookDao.listAll();
-        teokset.addAll(books);
-        return teokset;
+    public List<Suggestion> listAll() {
+        return suggestionDao.listAll();
     }
     
     public List<Book> findBookByCreator(String creator) {

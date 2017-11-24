@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtu.data_access.BookDao;
 import ohtu.data_access.InMemoryBookDao;
+import ohtu.data_access.InMemorySuggestionDao;
+import ohtu.data_access.SuggestionDao;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
+import ohtu.domain.Suggestion;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
 
@@ -61,13 +64,8 @@ public class App {
     }
 
     public void list() {
-        for (Suggestable suggestable : sugg.listAll()) {
-
-            if (suggestable.getClass().getName().equals("ohtu.domain.Book")) {
-                Book book = (Book) suggestable;
-                io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
-            }
-
+        for (Suggestion s : sugg.listAll()) {
+            //toString tähän
         }
     }
 
@@ -133,8 +131,9 @@ public class App {
         //SQL TESTI
 
         BookDao bookDao = new InMemoryBookDao();
+        SuggestionDao suggestionDao = new InMemorySuggestionDao();
         IO io = new ConsoleIO();
-        SuggestionService sugg = new SuggestionService(bookDao);
+        SuggestionService sugg = new SuggestionService(bookDao, suggestionDao);
         new App(io, sugg).run();
 
         sugg.addBook("Paavo", "Paavon kirja", "Moi oon Paavo", "1337");
