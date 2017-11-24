@@ -11,10 +11,9 @@ package ohtu.domain;
  */
 public interface Suggestable {
     String getTitle();
-    String getCreator();
-    String getDescription();
     
     void setTitle(String title);
-    void setCreator(String creator);
-    void setDescription(String description);
+
+    //tyyppi
+    //kurssit (ei sprint 2)
 }
