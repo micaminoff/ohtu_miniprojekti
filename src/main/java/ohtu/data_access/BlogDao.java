@@ -10,6 +10,8 @@ public interface BlogDao {
     List<Blog> findByCreator(String creator);
     Blog findByUrl(String url);
     List<Blog> findByBlogName(String blogName);
-
+    //etsimismetodi avaimella
+    void add(Blog blog);
+    //delete(Blog blog);
     
 }

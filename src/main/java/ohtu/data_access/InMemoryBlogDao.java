@@ -69,4 +69,9 @@ public class InMemoryBlogDao implements BlogDao {
         return blogsReturn;
     }
     
+    @Override
+    public void add(Blog blog) {
+        this.blogs.add(blog);
+    }
+    
 }

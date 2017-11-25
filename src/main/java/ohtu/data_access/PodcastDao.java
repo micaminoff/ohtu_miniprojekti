@@ -19,5 +19,8 @@ public interface PodcastDao {
     List<Podcast> findByCreator(String podcast);
     Podcast findByUrl(String url);
     List<Podcast> findByPodcastName(String podcastName);
+    //etsimismetodi avaimella
+    void add(Podcast podcast);
+    //delete
     
 }
