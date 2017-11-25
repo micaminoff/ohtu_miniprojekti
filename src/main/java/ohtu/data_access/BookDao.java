@@ -20,8 +20,8 @@ public interface BookDao {
     List<Book> findByTitle(String title);
     List<Book> findByDescription(String description);
     Book findByISBN(String ISBN);
-    boolean containsTitleAndCreator(String creator, String title);
-    Book findByTitleAndCreator(String creator, String title);
+    boolean containsTitleAndCreator(String title, String creator);
+    Book findByTitleAndCreator(String title, String creator);
     void add(Book book);
     
 }

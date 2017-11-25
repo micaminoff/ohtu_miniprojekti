@@ -53,7 +53,7 @@ public class App {
             String title = io.readLine("Title: ");
             String description = io.readLine("Description: ");
             String ISBN = io.readLine("ISBN: ");
-            if (sugg.addSuggestionWithBook(creator, title, description, ISBN)) {
+            if (sugg.addSuggestionWithBook(title, creator, description, ISBN)) {
                 io.print("New suggestion with book added!");
             } else {
                 io.print("Adding a new suggestion with book failed!");
@@ -136,7 +136,7 @@ public class App {
         SuggestionService sugg = new SuggestionService(bookDao, suggestionDao);
         new App(io, sugg).run();
 
-        sugg.addBook("Paavo", "Paavon kirja", "Moi oon Paavo", "1337");
+        sugg.addBook("Paavon kirja", "Paavo", "Moi oon Paavo", "1337");
 
 //        Class.forName("org.sqlite.JDBC");
 //        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");

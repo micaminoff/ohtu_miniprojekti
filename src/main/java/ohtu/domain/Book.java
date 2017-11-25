@@ -11,24 +11,16 @@ package ohtu.domain;
  * päivityksiä: mkotola
  */
 public class Book implements Suggestable {
-    private String creator;
     private String title;
+    private String creator;
     private String description;
     private String ISBN;
     
-    public Book(String creator, String title, String description, String ISBN) {
-        this.creator = creator;
+    public Book(String title, String creator, String description, String ISBN) {
         this.title = title;
+        this.creator = creator;
         this.description = description;
         this.ISBN = ISBN;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     @Override
@@ -39,6 +31,14 @@ public class Book implements Suggestable {
     @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public String getDescription() {

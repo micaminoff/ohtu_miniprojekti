@@ -46,7 +46,7 @@ public class BookDao2 implements Dao<Book, Integer> {
         stmt.close();
         connection.close();
         
-        return new Book(creator, title, description, ISBN);
+        return new Book(title, creator, description, ISBN);
 
     }
 
@@ -64,7 +64,7 @@ public class BookDao2 implements Dao<Book, Integer> {
             String description = rs.getString("description");
             String ISBN = rs.getString("ISBN");
 
-            books.add(new Book(creator, title, description, ISBN));
+            books.add(new Book(title, creator, description, ISBN));
         }
 
         rs.close();

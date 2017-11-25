@@ -26,13 +26,13 @@ public class SuggestionService {
         this.suggestionDao = suggestionDao;
     }
     
-    public Book addBook(String creator, String title, String description, String ISBN) {
+    public Book addBook(String title, String creator, String description, String ISBN) {
         Book newBook = null;
-        if (bookDao.containsTitleAndCreator(creator, title)) {
-            newBook = bookDao.findByTitleAndCreator(creator, title);
+        if (bookDao.containsTitleAndCreator(title, creator)) {
+            newBook = bookDao.findByTitleAndCreator(title, creator);
             return newBook;
         }
-        newBook = new Book(creator, title, description, ISBN);
+        newBook = new Book(title, creator, description, ISBN);
         bookDao.add(newBook);
         return newBook;
     }
@@ -54,8 +54,8 @@ public class SuggestionService {
         return bookDao.findByTitle(title);
     }
     
-    public boolean addSuggestionWithBook(String creator, String title, String description, String ISBN) {
-        Book suggestionBook = addBook(creator, title, description, ISBN);
+    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {
+        Book suggestionBook = addBook(title, creator, description, ISBN);
         if (suggestionBook != null) {
             //suggestionDao.add(suggestionBook);
             return true;
