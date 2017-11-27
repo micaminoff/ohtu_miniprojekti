@@ -31,7 +31,7 @@ public class InMemoryBookDao implements BookDao {
 
     @Override
     public void add(Book book) {
-        books.add(book);
+        books.add(book);    // Tämä lienee turha? Ei ainakaan ole käytössä 27.11
     }
 
     @Override

@@ -94,15 +94,18 @@ public class App {
             }
             
             Blog blog = sugg.findBlogByURL(url);
-            if (blog == null) {
+            if (blog != null) {
+                io.print("Failed to add suggestion with blog!");
+            } else {
                 blog = (new Blog(title, creator, url, blogName, description));
+                if (sugg.addSuggestionWithBlog(blog)) {
+                    io.print("New suggestion with blog added!");
+                } else {
+                    io.print("Failed to add suggestion with blog!");
+                }
             }
             
-            if (sugg.addSuggestionWithBlog(blog)) {
-                io.print("New suggestion with blog added!");
-            } else {
-                io.print("Failed to add suggestion with blog!");
-            }
+            
         // VIDEON LISÄYS
         } else if (command.equals("video")) {
             String title = io.readLine("Title: ");
@@ -116,15 +119,17 @@ public class App {
             }
             
             Video video = sugg.findVideoByURL(url);
-            if (video == null) {
+            if (video != null) {
+                io.print("Failed to add suggestion with video!");
+            } else {
                 video = new Video(title, creator, description, url);
+                if (sugg.addSuggestionWithVideo(video)) {
+                    io.print("New suggestion with video added!");
+                } else {
+                    io.print("Failed to add suggestion with video!");
+                }
             }
             
-            if (sugg.addSuggestionWithVideo(video)) {
-                io.print("New suggestion with video added!");
-            } else {
-                io.print("Failed to add suggestion with video!");
-            }
             
         //PODCASTIN LISÄYS
         } else if (command.equals("podcast")) {
@@ -141,15 +146,18 @@ public class App {
             
             Podcast podcast = sugg.findPodcastByURL(url);
             
-            if (podcast == null) {
+            if (podcast != null) {
+                io.print("Failed to add suggestion with podcast!");
+            } else {
                 podcast = new Podcast(podcastName, creator, url, episodeName, description);
+                if (sugg.addSuggestionWithPodcast(podcast)) {
+                    io.print("New suggestion with podcast added!");
+                } else {
+                    io.print("Failed to add suggestion with podcast!");
+                }
             }
             
-            if (sugg.addSuggestionWithPodcast(podcast)) {
-                io.print("New suggestion with podcast added!");
-            } else {
-                io.print("Failed to add suggestion with podcast!");
-            }
+            
             
         } else {
             io.print("Unknown command!");
@@ -158,7 +166,7 @@ public class App {
 
     public void list() {
         for (Suggestion s : sugg.listAll()) {
-            System.out.println("\n" + s);
+            io.print("\n" + s);
         }
     }
 
@@ -218,7 +226,8 @@ public class App {
             } else if (command.equals("q")) {
                 break;
             } else {
-                System.out.println("Unknown command!");
+                io.print("Unknown command!");
+                break;
             }
         }
         if (!command.equals("q")) {
