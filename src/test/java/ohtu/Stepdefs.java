@@ -37,7 +37,6 @@ public class Stepdefs {
     public void term_entered(String term) throws Throwable {
         inputLines.add(term);
         runApp();
-        
     }
     
     @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
@@ -57,8 +56,15 @@ public class Stepdefs {
     
     @Then("^book is found$")
     public void book_is_found() throws Throwable {
-        assertTrue(io.getPrints().contains("Author: Robert Martin\nTitle: Clean Code: A Handbook of Agile Software Craftsmanship\nDescription: Good book\nISBN: 978-951-98548-9-2\n"));
-        
+        boolean found = false;
+        ArrayList<String> prints = io.getPrints();
+        for (int i = 0; i < prints.size(); i++) {
+            String print = prints.get(i);
+            if (print.contains("ISBN: 978-951-98548-9-2")) {
+                found = true;
+            }
+        }
+        assertTrue(found);
     }
     
     private void runApp() {

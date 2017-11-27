@@ -16,7 +16,7 @@ Feature: User can search for suggestions
     Scenario: search suggestions by description
         Given command "find" is selected
 	Given command "description" is selected
-	When search term "Good book" is entered
+	When search term "Noted software expert Robert C. Martin presents" is entered
 	Then book is found
 
     Scenario: search suggestions by ISBN
@@ -46,5 +46,5 @@ Feature: User can search for suggestions
     Scenario: search by nonexistant ISBN
         Given command "find" is selected
 	Given command "isbn" is selected
-	When search term "1337" is entered
+	When search term "13379999999" is entered
 	Then message "No books found." is displayed
