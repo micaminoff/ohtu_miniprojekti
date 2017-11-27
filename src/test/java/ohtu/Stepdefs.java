@@ -27,6 +27,11 @@ public class Stepdefs {
         inputLines.add(cmd);
     }    
     
+    @When("^command \"([^\"]*)\" is entered$")
+    public void command_is_entered(String cmd) throws Throwable {
+        inputLines.add(cmd);
+    }
+    
     @When("^search term \"([^\"]*)\" is entered")
     public void term_entered(String term) throws Throwable {
         inputLines.add(term);
@@ -35,10 +40,10 @@ public class Stepdefs {
         app.run();
     }
     
-    @When("^author \"([^\"]*)\" and title \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
-    public void title_author_descr_are_entered(String author, String title, String description, String ISBN) throws Throwable {
-       inputLines.add(author);
+    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
+    public void title_author_descr_isbn_are_entered(String author, String title, String description, String ISBN) throws Throwable {
        inputLines.add(title);
+       inputLines.add(author);
        inputLines.add(description);
        inputLines.add(ISBN);
        
