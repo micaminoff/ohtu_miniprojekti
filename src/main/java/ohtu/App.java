@@ -48,16 +48,32 @@ public class App {
     public void add() {
         String command = io.readLine("What would you like to add? (types: book)");
         if (command.equals("book")) {
-            
-            String creator = io.readLine("Author: ");
             String title = io.readLine("Title: ");
-            String description = io.readLine("Description: ");
-            String ISBN = io.readLine("ISBN: ");
-            if (sugg.addSuggestionWithBook(title, creator, description, ISBN)) {
+            String creator = io.readLine("Author: ");
+            Book book = sugg.findBookByTitleAndCreator(title, creator);
+                
+            if (book == null) {
+                String description = io.readLine("Description: ");
+                String ISBN = io.readLine("ISBN: ");
+                book = new Book(title, creator, description, ISBN);
+            }
+            
+            if (sugg.addSuggestionWithBook(book)) {
                 io.print("New suggestion with book added!");
             } else {
                 io.print("Adding a new suggestion with book failed!");
             }
+            
+            //vanha kirjan lisäys
+//            String creator = io.readLine("Author: ");
+//            String title = io.readLine("Title: ");
+//            String description = io.readLine("Description: ");
+//            String ISBN = io.readLine("ISBN: ");
+//            if (sugg.addSuggestionWithBook(title, creator, description, ISBN)) {
+//                io.print("New suggestion with book added!");
+//            } else {
+//                io.print("Adding a new suggestion with book failed!");
+//            }
         } else {
             io.print("Unknown command!");
         }
@@ -135,8 +151,6 @@ public class App {
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(bookDao, suggestionDao);
         new App(io, sugg).run();
-
-        sugg.addBook("Paavon kirja", "Paavo", "Moi oon Paavo", "1337");
 
 //        Class.forName("org.sqlite.JDBC");
 //        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");

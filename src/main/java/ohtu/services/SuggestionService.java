@@ -26,16 +26,17 @@ public class SuggestionService {
         this.suggestionDao = suggestionDao;
     }
     
-    public Book addBook(String title, String creator, String description, String ISBN) {
-        Book newBook = null;
-        if (bookDao.containsTitleAndCreator(title, creator)) {
-            newBook = bookDao.findByTitleAndCreator(title, creator);
-            return newBook;
-        }
-        newBook = new Book(title, creator, description, ISBN);
-        bookDao.add(newBook);
-        return newBook;
-    }
+    //vanha kirjan lisäys
+//    public Book addBook(String title, String creator, String description, String ISBN) {
+//        Book newBook = null;
+//        if (bookDao.containsTitleAndCreator(title, creator)) {
+//            newBook = bookDao.findByTitleAndCreator(title, creator);
+//            return newBook;
+//        }
+//        newBook = new Book(title, creator, description, ISBN);
+//        bookDao.add(newBook);
+//        return newBook;
+//    }
     
     public List<Suggestion> listAll() {
         return suggestionDao.listAll();
@@ -54,12 +55,25 @@ public class SuggestionService {
         return bookDao.findByTitle(title);
     }
     
-    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {
-        Book suggestionBook = addBook(title, creator, description, ISBN);
-        if (suggestionBook != null) {
-            //suggestionDao.add(suggestionBook);
+    public Book findBookByTitleAndCreator(String title, String creator) {
+        return bookDao.findByTitleAndCreator(title, creator);
+    }
+    
+    public boolean addSuggestionWithBook(Book book) {
+        if (book != null) {
+            //suggestionDao.add(book);
             return true;
         }
         return false;
     }
+    
+    //vanha kirjan lisäys
+//    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {
+//        Book suggestionBook = addBook(title, creator, description, ISBN);
+//        if (suggestionBook != null) {
+//            //suggestionDao.add(suggestionBook);
+//            return true;
+//        }
+//        return false;
+//    }
 }

@@ -20,7 +20,6 @@ public class InMemoryBookDao implements BookDao {
     
     public InMemoryBookDao() {
         books = new ArrayList<>();
-        
         books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert Martin", "Good book", "978-951-98548-9-2"));
     }
 
@@ -58,11 +57,11 @@ public class InMemoryBookDao implements BookDao {
         return list;
     }
     
+    //taitaa olla turha
     @Override
     public boolean containsTitleAndCreator(String title, String creator) {
         for (Book book: books) {
             if (book.getTitle().toLowerCase().equals(title.toLowerCase()) && book.getCreator().toLowerCase().equals(creator.toLowerCase()) ) {
-//            if (book.getCreator().toLowerCase().equals(creator.toLowerCase()) && book.getTitle().toLowerCase().equals(title.toLowerCase())) {
                 return true;
             }
         }
@@ -93,7 +92,7 @@ public class InMemoryBookDao implements BookDao {
     @Override
     public Book findByTitleAndCreator(String title, String creator) {
         for (Book book : books) {
-            if (book.getCreator() == creator && book.getTitle() == creator) {
+            if (book.getTitle().toLowerCase().equals(title.toLowerCase()) && book.getCreator().toLowerCase().equals(creator.toLowerCase())) {
                 return book;
             }
         }
