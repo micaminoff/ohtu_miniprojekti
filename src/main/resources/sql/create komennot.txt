@@ -1,6 +1,16 @@
+CREATE TABLE Vinkki (
+  id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+  type varchar(15) NOT NULL,
+  comment varchar(160),
+  tags varchar(160),
+  related_courses varchar(160),
+  esitietokurssit varchar(160)
+);
+
 CREATE TABLE Book (
-id INTEGER PRIMARY KEY,
-title VARCHAR(50),
-author VARCHAR(30),
-isbn VARCHAR(15)
+  id int NOT NULL,
+  author varchar(100) NOT NULL,
+  title varchar(100) NOT NULL,
+  ISBN varchar(30),
+  FOREIGN KEY (id) REFERENCES Vinkki(id)
 );
