@@ -5,6 +5,7 @@
  */
 package ohtu.data_access;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Book;
@@ -45,6 +46,11 @@ public class InMemorySuggestionDao implements SuggestionDao{
         }
         
         return listRet;
+    }
+
+    @Override
+    public Suggestion findSuggestionById(int id) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

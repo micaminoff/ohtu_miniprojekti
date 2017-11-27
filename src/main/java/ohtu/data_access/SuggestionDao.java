@@ -5,6 +5,7 @@
  */
 package ohtu.data_access;
 
+import java.sql.SQLException;
 import java.util.List;
 import ohtu.domain.Suggestion;
 
@@ -16,4 +17,5 @@ public interface SuggestionDao {
     List<Suggestion> listAll();
     List<Suggestion> findByTitle(String title);
     void add(Suggestion suggestion);
+    Suggestion findSuggestionById(int id) throws SQLException;
 }

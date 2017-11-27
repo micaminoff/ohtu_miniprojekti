@@ -1,5 +1,6 @@
 package ohtu;
 
+import java.sql.SQLException;
 import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class App {
         this.sugg = sugg;
     }
 
-    public void run() {
+    public void run() throws SQLException {
 
         System.out.println("Welcome!");
         while (true) {
@@ -162,7 +163,7 @@ public class App {
         }
     }
 
-    public void find() {
+    public void find() throws SQLException {
 
         List<Suggestable> booksFound = new ArrayList();
         String command;
@@ -224,6 +225,7 @@ public class App {
         if (!command.equals("q")) {
             if (!booksFound.isEmpty()) {
                 for (Suggestable suggestable : booksFound) {
+                    //Nyt tarvitaan vielä suggestionille metodi findSuggestionById()
                     Book book = (Book) suggestable;
                     io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
                 }
@@ -237,6 +239,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         //SQL TESTI
 
+        //Tehtävä: SuggestionDao suggestionDao = new SuggestionDao2();
         SuggestionDao suggestionDao = new InMemorySuggestionDao();
         BookDao bookDao = new InMemoryBookDao();
         BlogDao blogDao = new InMemoryBlogDao();
