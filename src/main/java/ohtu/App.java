@@ -4,6 +4,7 @@ import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.data_access.*;
+import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
@@ -47,6 +48,11 @@ public class App {
         if (command.equals("book")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Author: ");
+            
+            if (title.isEmpty() || creator.isEmpty()) {
+                io.print("Book must have atleast title and author!");
+            }
+            
             Book book = sugg.findBookByTitleAndCreator(title, creator);
                 
             if (book == null) {
@@ -71,6 +77,28 @@ public class App {
 //            } else {
 //                io.print("Adding a new suggestion with book failed!");
 //            }
+        } else if (command.equals("blog")) {
+            String title = io.readLine("Title: ");
+            String creator = io.readLine("Writer: ");
+            String url = io.readLine("URL: ");
+            String blogName = io.readLine("Blogname (optional): ");
+            
+            if (title.isEmpty() || creator.isEmpty() || url.isEmpty()) {
+                io.print("Blog must have atleast title, writer and url!");
+                return;
+            }
+            
+            Blog blog = sugg.findBlogByURL(url);
+            if (blog == null) {
+                blog = (new Blog(title, creator, url, blogName));
+            }
+            
+            if (sugg.addSuggestionWithBlog(blog)) {
+                io.print("New suggestion with blog added!");
+            } else {
+                io.print("Failed to add suggestion with blog!");
+            }
+            
         } else {
             io.print("Unknown command!");
         }

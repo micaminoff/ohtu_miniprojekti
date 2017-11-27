@@ -11,8 +11,8 @@ import ohtu.data_access.BookDao;
 import ohtu.data_access.PodcastDao;
 import ohtu.data_access.SuggestionDao;
 import ohtu.data_access.VideoDao;
+import ohtu.domain.Blog;
 import ohtu.domain.Book;
-import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 
 /**
@@ -79,6 +79,18 @@ public class SuggestionService {
     
     public List<Suggestion> findByTitle(String title) {
         return suggestionDao.findByTitle(title);
+    }
+    
+    public Blog findBlogByURL(String url) {
+        return blogDao.findByUrl(url);
+    }
+    
+    public boolean addSuggestionWithBlog(Blog blog) {
+       if (blog != null) {
+           suggestionDao.add(new Suggestion(blog));
+           return true;
+       }
+       return false;
     }
     
     //vanha kirjan lisäys
