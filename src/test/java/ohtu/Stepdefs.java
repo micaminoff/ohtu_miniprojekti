@@ -17,7 +17,8 @@ public class Stepdefs {
     App app;
     StubIO io;
     BookDao bdao = new InMemoryBookDao();
-    SuggestionService sugg = new SuggestionService(bdao);
+    SuggestionDao sdao = new InMemorySuggestionDao();
+    SuggestionService sugg = new SuggestionService(bdao, sdao);
     List<String> inputLines = new ArrayList<>();
     
     
