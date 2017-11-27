@@ -30,14 +30,14 @@ public class Stepdefs {
     @When("^command \"([^\"]*)\" is entered$")
     public void command_is_entered(String cmd) throws Throwable {
         inputLines.add(cmd);
+        runApp();
     }
     
     @When("^search term \"([^\"]*)\" is entered")
     public void term_entered(String term) throws Throwable {
         inputLines.add(term);
-        io = new StubIO(inputLines); 
-        app = new App(io, sugg);
-        app.run();
+        runApp();
+        
     }
     
     @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
@@ -46,10 +46,8 @@ public class Stepdefs {
        inputLines.add(author);
        inputLines.add(description);
        inputLines.add(ISBN);
-       
-       io = new StubIO(inputLines); 
-       app = new App(io, sugg);
-       app.run();
+
+       runApp();
     }
     
     @Then("^message \"([^\"]*)\" is displayed$")
@@ -61,6 +59,12 @@ public class Stepdefs {
     public void book_is_found() throws Throwable {
         assertTrue(io.getPrints().contains("Author: Robert Martin\nTitle: Clean Code: A Handbook of Agile Software Craftsmanship\nDescription: Good book\nISBN: 978-951-98548-9-2\n"));
         
+    }
+    
+    private void runApp() {
+        io = new StubIO(inputLines); 
+        app = new App(io, sugg);
+        app.run();
     }
 
 }
