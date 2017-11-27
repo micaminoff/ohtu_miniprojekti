@@ -5,6 +5,7 @@
  */
 package ohtu.services;
 
+import java.sql.SQLException;
 import java.util.List;
 import ohtu.data_access.BlogDao;
 import ohtu.data_access.BookDao;
@@ -63,7 +64,7 @@ public class SuggestionService {
     public List<Book> findBookByDescription(String description) {
         return bookDao.findByDescription(description);
     }
-    public List<Book> findBookByTitle(String title) {
+    public List<Book> findBookByTitle(String title) throws SQLException {
         return bookDao.findByTitle(title);
     }
     
@@ -118,6 +119,10 @@ public class SuggestionService {
         }
         return false;
     } 
+    
+    public Suggestion findSuggestionById(int id) throws SQLException {
+        return suggestionDao.findSuggestionById(id);
+    }
     
     //vanha kirjan lisäys
 //    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {

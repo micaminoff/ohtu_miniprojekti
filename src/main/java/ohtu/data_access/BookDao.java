@@ -5,6 +5,7 @@
  */
 package ohtu.data_access;
 
+import java.sql.SQLException;
 import java.util.List;
 import ohtu.domain.Book;
 
@@ -17,7 +18,7 @@ import ohtu.domain.Book;
 public interface BookDao {
     List<Book> listAll();
     List<Book> findByCreator(String creator);
-    List<Book> findByTitle(String title);
+    List<Book> findByTitle(String title) throws SQLException;
     List<Book> findByDescription(String description);
     Book findByISBN(String ISBN);
     boolean containsTitleAndCreator(String title, String creator);
