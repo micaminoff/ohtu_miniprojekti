@@ -8,6 +8,7 @@ import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
 
@@ -44,7 +45,7 @@ public class App {
     }
 
     public void add() {
-        String command = io.readLine("What would you like to add? (types: book)");
+        String command = io.readLine("What would you like to add? (types: book, blog, video)");
         if (command.equals("book")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Author: ");
@@ -82,6 +83,7 @@ public class App {
             String creator = io.readLine("Writer: ");
             String url = io.readLine("URL: ");
             String blogName = io.readLine("Blogname (optional): ");
+            String description = io.readLine("Description (optional): ");
             
             if (title.isEmpty() || creator.isEmpty() || url.isEmpty()) {
                 io.print("Blog must have atleast title, writer and url!");
@@ -90,13 +92,35 @@ public class App {
             
             Blog blog = sugg.findBlogByURL(url);
             if (blog == null) {
-                blog = (new Blog(title, creator, url, blogName));
+                blog = (new Blog(title, creator, url, blogName, description));
             }
             
             if (sugg.addSuggestionWithBlog(blog)) {
                 io.print("New suggestion with blog added!");
             } else {
                 io.print("Failed to add suggestion with blog!");
+            }
+            
+        } else if (command.equals("video")) {
+            String title = io.readLine("Title: ");
+            String creator = io.readLine("Creator (optional): ");
+            String url = io.readLine("URL: ");
+            String description = io.readLine("Description (optional): ");
+            
+            if (title.isEmpty() || url.isEmpty()) {
+                io.print("Video must have atleast title and url!");
+                return;
+            }
+            
+            Video video = sugg.findVideoByURL(url);
+            if (video == null) {
+                video = new Video(title, creator, description, url);
+            }
+            
+            if (sugg.addSuggestionWithVideo(video)) {
+                io.print("New suggestion with video added!");
+            } else {
+                io.print("Failed to add suggestion with video!");
             }
             
         } else {

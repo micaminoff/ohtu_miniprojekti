@@ -18,7 +18,7 @@ public class InMemoryBlogDao implements BlogDao {
     
     public InMemoryBlogDao() {
         blogs = new ArrayList();
-        blogs.add(new Blog("How to Increase Velocity", "David Bernstein", "https://www.agilealliance.org/how-to-increase-velocity/", ""));
+        blogs.add(new Blog("How to Increase Velocity", "David Bernstein", "https://www.agilealliance.org/how-to-increase-velocity/", "", "best blog"));
     }
     
     @Override

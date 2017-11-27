@@ -14,6 +14,7 @@ import ohtu.data_access.VideoDao;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Video;
 
 /**
  *
@@ -91,6 +92,18 @@ public class SuggestionService {
            return true;
        }
        return false;
+    }
+    
+    public Video findVideoByURL(String url) {
+        return videoDao.findByUrl(url);
+    }
+    
+    public boolean addSuggestionWithVideo(Video video) {
+        if (video != null) {
+            suggestionDao.add(new Suggestion(video));
+            return true;
+        }
+        return false;
     }
     
     //vanha kirjan lisäys

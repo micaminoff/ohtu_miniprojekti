@@ -5,13 +5,15 @@ public class Blog implements Suggestable {
     private String creator;
     private String url;
     private String blogName;
+    private String description;
     private static final Type type = Type.BLOG;
     
-    public Blog(String title, String creator, String url, String blogName) {
+    public Blog(String title, String creator, String url, String blogName, String description) {
         this.title = title;
         this.creator = creator;
         this.url = url;
         this.blogName = blogName;
+        this.description = description;
     }
     
     @Override
