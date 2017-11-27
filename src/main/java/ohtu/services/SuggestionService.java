@@ -61,7 +61,7 @@ public class SuggestionService {
     
     public boolean addSuggestionWithBook(Book book) {
         if (book != null) {
-            //suggestionDao.add(book);
+            suggestionDao.add(new Suggestion(book));
             return true;
         }
         return false;

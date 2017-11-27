@@ -36,4 +36,9 @@ public class Suggestion {
         return this.suggestable;
     }
     
+    @Override
+    public String toString() {
+        return suggestable.toString();
+    }
+    
 }

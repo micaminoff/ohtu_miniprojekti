@@ -56,4 +56,9 @@ public class Podcast implements Suggestable {
         this.podcastName = podcastName;
     }
     
+    @Override
+    public String toString() {
+        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nPodcast name: " + podcastName + "\nType: Podcast";
+    }
+    
 }

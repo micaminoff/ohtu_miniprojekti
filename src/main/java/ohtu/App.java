@@ -81,7 +81,7 @@ public class App {
 
     public void list() {
         for (Suggestion s : sugg.listAll()) {
-            //toString tähän
+            System.out.println("\n" + s);
         }
     }
 

@@ -57,4 +57,9 @@ public class Book implements Suggestable {
         this.ISBN = ISBN;
     }
     
+    @Override
+    public String toString() {
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nType: Book";
+    }
+    
 }

@@ -47,4 +47,9 @@ public class Blog implements Suggestable {
         this.blogName = blogName;
     }
     
+    @Override
+    public String toString() {
+        return "Title: " + title + "\nAuthor: " + creator + "\nUrl: " + url + "\nType: Blog";
+    }
+    
 }

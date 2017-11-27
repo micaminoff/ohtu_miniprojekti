@@ -56,4 +56,9 @@ public class Video implements Suggestable {
         this.url = url;
     }
     
+    @Override
+    public String toString() {
+        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nDescription: " + description + "\nType: Video";
+    }
+    
 }
