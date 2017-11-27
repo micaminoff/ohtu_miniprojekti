@@ -3,8 +3,11 @@ package ohtu;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.*;
 import ohtu.io.*;
 import ohtu.data_access.*;
@@ -103,7 +106,11 @@ public class Stepdefs {
     private void runApp() {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
-        app.run();
+        try {
+            app.run();
+        } catch (SQLException ex) {
+            System.out.println("Tietokantaongelma: " + ex.getMessage());
+        }
     }
 
 }
