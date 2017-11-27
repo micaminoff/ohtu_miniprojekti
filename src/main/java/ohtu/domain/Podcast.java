@@ -14,13 +14,15 @@ public class Podcast implements Suggestable {
     private String creator; //vapaaeht
     private String url;
     private String podcastName;
+    private String description;
     private static final Type type = Type.PODCAST;
     
-    public Podcast(String title, String creator, String url, String podcastName) {
+    public Podcast(String title, String creator, String url, String podcastName, String description) {
         this.title = title;
         this.creator = creator;
         this.url = url;
         this.podcastName = podcastName; 
+        this.description = description;
     }
     
     @Override
@@ -60,6 +62,11 @@ public class Podcast implements Suggestable {
     
     public void setPodcastName(String podcastName) {
         this.podcastName = podcastName;
+    }
+    
+    @Override
+    public String getDescription() {
+        return this.description;
     }
     
     @Override

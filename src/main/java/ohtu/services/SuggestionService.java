@@ -13,6 +13,7 @@ import ohtu.data_access.SuggestionDao;
 import ohtu.data_access.VideoDao;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
+import ohtu.domain.Podcast;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Video;
 
@@ -105,6 +106,18 @@ public class SuggestionService {
         }
         return false;
     }
+    
+    public Podcast findPodcastByURL(String url) {
+        return podcastDao.findByUrl(url);
+    }
+    
+    public boolean addSuggestionWithPodcast(Podcast podcast) {
+        if (podcast != null) {
+            suggestionDao.add(new Suggestion(podcast));
+            return true;
+        }
+        return false;
+    } 
     
     //vanha kirjan lisäys
 //    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {

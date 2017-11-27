@@ -9,7 +9,7 @@ public class InMemoryPodcastDao implements PodcastDao {
     
     public InMemoryPodcastDao() {
         podcasts = new ArrayList();
-        podcasts.add(new Podcast("JRE #002 - MMA Show #2", "Joe Rogan" , "http://podcasts.joerogan.net/podcasts/mma-show-2", "The Joe Rogan Experience"));
+        podcasts.add(new Podcast("JRE #002 - MMA Show #2", "Joe Rogan" , "http://podcasts.joerogan.net/podcasts/mma-show-2", "The Joe Rogan Experience", "Eddie Bravo needs help"));
     }
     
     @Override

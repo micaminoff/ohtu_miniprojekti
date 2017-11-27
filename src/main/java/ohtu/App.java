@@ -6,6 +6,7 @@ import java.util.List;
 import ohtu.data_access.*;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
+import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Video;
@@ -45,7 +46,8 @@ public class App {
     }
 
     public void add() {
-        String command = io.readLine("What would you like to add? (types: book, blog, video)");
+        String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
+        // KIRJAN LISÄYS
         if (command.equals("book")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Author: ");
@@ -78,6 +80,7 @@ public class App {
 //            } else {
 //                io.print("Adding a new suggestion with book failed!");
 //            }
+        // BLOGIN LISÄYS
         } else if (command.equals("blog")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Writer: ");
@@ -100,7 +103,7 @@ public class App {
             } else {
                 io.print("Failed to add suggestion with blog!");
             }
-            
+        // VIDEON LISÄYS
         } else if (command.equals("video")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Creator (optional): ");
@@ -121,6 +124,31 @@ public class App {
                 io.print("New suggestion with video added!");
             } else {
                 io.print("Failed to add suggestion with video!");
+            }
+            
+        //PODCASTIN LISÄYS
+        } else if (command.equals("podcast")) {
+            String podcastName = io.readLine("Podcast Name: ");
+            String episodeName = io.readLine("Episode name: ");
+            String url = io.readLine("URL: ");
+            String creator = io.readLine("Writer (optional): ");
+            String description = io.readLine("Description (optional): ");
+            
+            if (podcastName.isEmpty() || episodeName.isEmpty() || url.isEmpty()) {
+                io.print("Podcast must have atleast podcast name, episode name and url!");
+                return;
+            }
+            
+            Podcast podcast = sugg.findPodcastByURL(url);
+            
+            if (podcast == null) {
+                podcast = new Podcast(podcastName, creator, url, episodeName, description);
+            }
+            
+            if (sugg.addSuggestionWithPodcast(podcast)) {
+                io.print("New suggestion with podcast added!");
+            } else {
+                io.print("Failed to add suggestion with podcast!");
             }
             
         } else {

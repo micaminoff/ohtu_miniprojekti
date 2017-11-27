@@ -56,6 +56,11 @@ public class Blog implements Suggestable {
     }
     
     @Override
+    public String getDescription() {
+        return this.description;
+    }
+    
+    @Override
     public String toString() {
         return "Title: " + title + "\nAuthor: " + creator + "\nUrl: " + url;
     }

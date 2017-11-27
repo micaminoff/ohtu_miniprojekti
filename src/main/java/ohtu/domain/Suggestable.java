@@ -13,4 +13,5 @@ public interface Suggestable {
     String getTitle();
     void setTitle(String title);
     Type getType();
+    String getDescription();
 }
