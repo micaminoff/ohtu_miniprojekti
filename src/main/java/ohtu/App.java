@@ -95,6 +95,20 @@ public class App {
 
         List<Suggestable> booksFound = new ArrayList();
         String command;
+        //Tänne tarvitaan nyt kysymys, what would you like to find? (book, blog, podcast, all)(Choose one)
+        //Sit tehdään omat metodit tänne, eli findBook(), findBlog() jne.
+        //Ja toi alempi while true -lause laitetaan sit sinne metodiin
+        //findAll() :ssa on vain Vinkin omia attribuutteja, eli tags, related courses ...HUOM! EI tyyppi, koska 
+        //silloin toi aikasempi kysely olis turha ja esim listaus olis turha metodi silloin. (koska sinne tulee
+        //kuitenkin tulostus kaikista tyypin mukaan)
+        //Toteutetaan siten, että toi Dao rajapinta otetaan vittuun, se on turha. Tehdään vaan esim. luokka
+        //BookDao1 joka toeuttaa rajapinnan BookDao ja muille sama homma. Ja tonne BookDao1 luokkaan laitetaan
+        //kaikki sql-paska. Näin tän ohjelman rakenne ei muutu kauheasti. 
+        //Eli appissa kutsutaan SuggestionServiceä, jossa on sit oltava myös metodit findBlogByTitle() esim.
+        //Eli SuggestionServiceen tulee miljoona metodia. 
+        //Edelleen SuggestionService kutsuu omia dao-luokkiaan ja niiden metodeja. Esim. SuggestionServicen metodi
+        //findBookByTitle() kutsuu BookDao1:n metodia findByTitle() jossa tapahtuu kaikki sql hakeminen.
+   
 
         while (true) {
             command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
