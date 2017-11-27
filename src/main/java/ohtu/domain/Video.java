@@ -11,13 +11,15 @@ package ohtu.domain;
  */
 public class Video implements Suggestable {
     private String title;
-    private String creator;
+    private String creator; //vapaaeht
     private String description;
+    private String url;
     
-    public Video(String title, String creator, String description) {
+    public Video(String title, String creator, String description, String url) {
         this.title = title;
         this.creator = creator;
         this.description = description;
+        this.url = url;
     }
 
     @Override
@@ -34,16 +36,24 @@ public class Video implements Suggestable {
         return creator;
     }
 
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+    
     public String getDescription() {
         return description;
     }
 
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getUrl() {
+        return url;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
     }
     
 }
