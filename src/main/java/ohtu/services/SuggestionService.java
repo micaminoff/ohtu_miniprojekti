@@ -6,8 +6,11 @@
 package ohtu.services;
 
 import java.util.List;
+import ohtu.data_access.BlogDao;
 import ohtu.data_access.BookDao;
+import ohtu.data_access.PodcastDao;
 import ohtu.data_access.SuggestionDao;
+import ohtu.data_access.VideoDao;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
@@ -18,12 +21,19 @@ import ohtu.domain.Suggestion;
  * päivityksiä: mkotola
  */
 public class SuggestionService {
-    private BookDao bookDao;
     private SuggestionDao suggestionDao;
+    private BookDao bookDao;
+    private BlogDao blogDao;
+    private PodcastDao podcastDao;
+    private VideoDao videoDao;
     
-    public SuggestionService(BookDao bookDao, SuggestionDao suggestionDao) {
-        this.bookDao = bookDao;
+    public SuggestionService(SuggestionDao suggestionDao, BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
         this.suggestionDao = suggestionDao;
+        this.bookDao = bookDao;
+        this.blogDao = blogDao;
+        this.podcastDao = podcastDao;
+        this.videoDao = videoDao;
+        
     }
     
     //vanha kirjan lisäys

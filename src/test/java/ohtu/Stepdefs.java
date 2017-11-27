@@ -14,46 +14,50 @@ import ohtu.domain.Suggestable;
 import ohtu.services.*;
 
 public class Stepdefs {
+
     App app;
     StubIO io;
-    BookDao bdao = new InMemoryBookDao();
-    SuggestionDao sdao = new InMemorySuggestionDao();
-    SuggestionService sugg = new SuggestionService(bdao, sdao);
+
+    SuggestionDao suggestionDao = new InMemorySuggestionDao();
+    BookDao bookDao = new InMemoryBookDao();
+    BlogDao blogDao = new InMemoryBlogDao();
+    PodcastDao podcastDao = new InMemoryPodcastDao();
+    VideoDao videoDao = new InMemoryVideoDao();
+    SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
-    
-    
+
     @Given("^command \"([^\"]*)\" is selected$")
     public void g_command_selected(String cmd) throws Throwable {
         inputLines.add(cmd);
-    }    
-    
+    }
+
     @When("^command \"([^\"]*)\" is entered$")
     public void command_is_entered(String cmd) throws Throwable {
         inputLines.add(cmd);
         runApp();
     }
-    
+
     @When("^search term \"([^\"]*)\" is entered")
     public void term_entered(String term) throws Throwable {
         inputLines.add(term);
         runApp();
     }
-    
+
     @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
     public void title_author_descr_isbn_are_entered(String author, String title, String description, String ISBN) throws Throwable {
-       inputLines.add(title);
-       inputLines.add(author);
-       inputLines.add(description);
-       inputLines.add(ISBN);
+        inputLines.add(title);
+        inputLines.add(author);
+        inputLines.add(description);
+        inputLines.add(ISBN);
 
-       runApp();
+        runApp();
     }
-    
+
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {
         assertTrue(io.getPrints().contains(expectedOutput));
     }
-    
+
     @Then("^book is found$")
     public void book_is_found() throws Throwable {
         boolean found = false;
@@ -66,9 +70,9 @@ public class Stepdefs {
         }
         assertTrue(found);
     }
-    
+
     private void runApp() {
-        io = new StubIO(inputLines); 
+        io = new StubIO(inputLines);
         app = new App(io, sugg);
         app.run();
     }

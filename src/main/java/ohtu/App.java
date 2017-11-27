@@ -3,10 +3,16 @@ package ohtu;
 import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.data_access.BlogDao;
 import ohtu.data_access.BookDao;
+import ohtu.data_access.InMemoryBlogDao;
 import ohtu.data_access.InMemoryBookDao;
+import ohtu.data_access.InMemoryPodcastDao;
 import ohtu.data_access.InMemorySuggestionDao;
+import ohtu.data_access.InMemoryVideoDao;
+import ohtu.data_access.PodcastDao;
 import ohtu.data_access.SuggestionDao;
+import ohtu.data_access.VideoDao;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
@@ -146,10 +152,13 @@ public class App {
     public static void main(String[] args) throws Exception {
         //SQL TESTI
 
-        BookDao bookDao = new InMemoryBookDao();
         SuggestionDao suggestionDao = new InMemorySuggestionDao();
+        BookDao bookDao = new InMemoryBookDao();
+        BlogDao blogDao = new InMemoryBlogDao();
+        PodcastDao podcastDao = new InMemoryPodcastDao();
+        VideoDao videoDao = new InMemoryVideoDao();
         IO io = new ConsoleIO();
-        SuggestionService sugg = new SuggestionService(bookDao, suggestionDao);
+        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         new App(io, sugg).run();
 
 //        Class.forName("org.sqlite.JDBC");
