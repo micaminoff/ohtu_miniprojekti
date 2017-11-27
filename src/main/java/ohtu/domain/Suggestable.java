@@ -11,9 +11,6 @@ package ohtu.domain;
  */
 public interface Suggestable {
     String getTitle();
-    
     void setTitle(String title);
-
-    //tyyppi
-    //kurssit (ei sprint 2)
+    Type getType();
 }

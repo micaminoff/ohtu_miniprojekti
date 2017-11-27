@@ -14,5 +14,6 @@ import ohtu.domain.Suggestion;
  */
 public interface SuggestionDao {
     List<Suggestion> listAll();
+    List<Suggestion> findByTitle(String title);
     void add(Suggestion suggestion);
 }

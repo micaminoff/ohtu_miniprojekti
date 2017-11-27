@@ -32,13 +32,13 @@ public class Suggestion {
 //        return tags;
 //    }
     
-    private Suggestable getSuggestable() {
+    public Suggestable getSuggestable() {
         return this.suggestable;
     }
     
     @Override
     public String toString() {
-        return suggestable.toString();
+        return suggestable.toString() + "\nType: " + suggestable.getType();
     }
     
 }

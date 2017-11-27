@@ -14,6 +14,7 @@ public class Podcast implements Suggestable {
     private String creator; //vapaaeht
     private String url;
     private String podcastName;
+    private static final Type type = Type.PODCAST;
     
     public Podcast(String title, String creator, String url, String podcastName) {
         this.title = title;
@@ -30,6 +31,11 @@ public class Podcast implements Suggestable {
     @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
     }
     
     public String getCreator() {
@@ -58,7 +64,7 @@ public class Podcast implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nPodcast name: " + podcastName + "\nType: Podcast";
+        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nPodcast name: " + podcastName;
     }
     
 }

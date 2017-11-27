@@ -5,6 +5,7 @@ public class Blog implements Suggestable {
     private String creator;
     private String url;
     private String blogName;
+    private static final Type type = Type.BLOG;
     
     public Blog(String title, String creator, String url, String blogName) {
         this.title = title;
@@ -21,6 +22,11 @@ public class Blog implements Suggestable {
     @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
     }
     
     public String getCreator() {
@@ -49,7 +55,7 @@ public class Blog implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nUrl: " + url + "\nType: Blog";
+        return "Title: " + title + "\nAuthor: " + creator + "\nUrl: " + url;
     }
     
 }

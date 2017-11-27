@@ -67,6 +67,10 @@ public class SuggestionService {
         return false;
     }
     
+    public List<Suggestion> findByTitle(String title) {
+        return suggestionDao.findByTitle(title);
+    }
+    
     //vanha kirjan lisäys
 //    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {
 //        Book suggestionBook = addBook(title, creator, description, ISBN);

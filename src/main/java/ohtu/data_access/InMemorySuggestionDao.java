@@ -8,7 +8,9 @@ package ohtu.data_access;
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Book;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Type;
 
 /**
  *
@@ -30,6 +32,19 @@ public class InMemorySuggestionDao implements SuggestionDao{
     @Override
     public void add(Suggestion suggestion) {
         suggestions.add(suggestion);
+    }
+    
+    @Override
+    public List<Suggestion> findByTitle(String title) {
+        List<Suggestion> listRet = new ArrayList();
+        
+        for (Suggestion suggestion : suggestions) {
+            Suggestable suggestable = suggestion.getSuggestable();
+            if (suggestable.getTitle().toLowerCase().contains(title.toLowerCase()));
+                listRet.add(suggestion);
+        }
+        
+        return listRet;
     }
     
 }

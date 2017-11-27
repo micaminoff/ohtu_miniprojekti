@@ -15,6 +15,7 @@ public class Book implements Suggestable {
     private String creator;
     private String description;
     private String ISBN;
+    private static final Type type = Type.BOOK;
     
     public Book(String title, String creator, String description, String ISBN) {
         this.title = title;
@@ -31,6 +32,11 @@ public class Book implements Suggestable {
     @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
     }
     
     public String getCreator() {
@@ -59,7 +65,7 @@ public class Book implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nType: Book";
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description;
     }
     
 }
