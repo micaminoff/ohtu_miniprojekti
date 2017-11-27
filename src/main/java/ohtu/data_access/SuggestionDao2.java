@@ -12,12 +12,13 @@ import java.sql.SQLException;
 import java.util.List;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
+import ohtu.domain.Suggestion;
 
 /**
  *
  * @author paavo
  */
-public class SuggestionDao2 implements Dao<Suggestable, Integer> {
+public class SuggestionDao2 implements Dao<Suggestion, Integer> {
     private Database database;
     
     public SuggestionDao2(Database database) {
@@ -25,7 +26,7 @@ public class SuggestionDao2 implements Dao<Suggestable, Integer> {
     }
 
     @Override
-    public Suggestable findOne(Integer key) throws SQLException {
+    public Suggestion findOne(Integer key) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vinkki WHERE id = ?");
         stmt.setObject(1, key);
@@ -42,30 +43,29 @@ public class SuggestionDao2 implements Dao<Suggestable, Integer> {
         String tags = rs.getString("tags");
         String relatedCourses = rs.getString("related_courses");
         String esitietoKurssit = rs.getString("esitietokurssit");
-
+        
         //Nyt kun tyyppi on selvillä, voidaan yhdistää taulut
         if (type.equals("book")) {
             stmt = connection.prepareStatement("SELECT * FROM Vinkki v, Book b WHERE v.id = b.id AND v.id = ?");
             rs = stmt.executeQuery();
             
             //Otetaan talteen kirjan ja vinkin tiedot
-            String comment = rs.getString("comment");
-            String tags = rs.getString("tags");
-            String relatedCourses = rs.getString("related_courses");
-            String esitietoKurssit = rs.getString("esitietokurssit");
+            comment = rs.getString("comment");
+            tags = rs.getString("tags");
+            relatedCourses = rs.getString("related_courses");
+            esitietoKurssit = rs.getString("esitietokurssit");
             
-            return new Book()
         }
 
         rs.close();
         stmt.close();
         connection.close();
-        
-        return new Suggestion(title, creator, description, ISBN);
+        Suggestion s = new Suggestion(new Book("null","null","null","null"));
+        return s;
     }
 
     @Override
-    public List<Suggestable> findAll() throws SQLException {
+    public List<Suggestion> findAll() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
