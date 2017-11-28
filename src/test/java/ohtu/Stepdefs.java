@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import static org.junit.Assert.*;
@@ -71,7 +72,7 @@ public class Stepdefs {
         assertTrue(found);
     }
 
-    private void runApp() {
+    private void runApp() throws SQLException {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
         app.run();

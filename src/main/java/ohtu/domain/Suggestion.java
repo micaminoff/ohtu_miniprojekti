@@ -16,14 +16,24 @@ import java.util.List;
 public class Suggestion {
     
     // private List<Tag> tags;
+    //private List<Comment> comments;
+    //private List<Courses> rcourses;
+    //private List<Courses> esitietoKurssit;
     private Suggestable suggestable;
+    private int id;
+    private String type;
     
-    public Suggestion(Suggestable suggestable) {
-        //this.tags.addAll(Arrays.asList(tags));
+//    public Suggestion(Suggestable suggestable) {
+//        //this.tags.addAll(Arrays.asList(tags));
+//        this.suggestable = suggestable;
+//        
+//    }
+    public Suggestion(Suggestable suggestable, int id, String type) {
         this.suggestable = suggestable;
-        
+        this.id = id;
+        this.type = type;
     }
-    
+    //merkki
 //    public void addTags(Tag... tags) {
 //        this.tags.addAll(Arrays.asList(tags));
 //    }
@@ -31,14 +41,15 @@ public class Suggestion {
 //    public List<Tag> getTags() {
 //        return tags;
 //    }
-    
+    //merkki
     public Suggestable getSuggestable() {
         return this.suggestable;
     }
     
     @Override
     public String toString() {
-        return suggestable.toString() + "\nType: " + suggestable.getType();
+//        return suggestable.toString() + "\nType: " + suggestable.getType();
+        return suggestable.toString() + "\nType: " + this.type;
     }
     
 }

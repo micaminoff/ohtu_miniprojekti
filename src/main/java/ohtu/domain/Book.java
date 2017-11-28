@@ -11,13 +11,15 @@ package ohtu.domain;
  * päivityksiä: mkotola
  */
 public class Book implements Suggestable {
+    private int id;
     private String title;
     private String creator;
     private String description;
     private String ISBN;
     private static final Type type = Type.BOOK;
     
-    public Book(String title, String creator, String description, String ISBN) {
+    public Book(int id, String title, String creator, String description, String ISBN) {
+        this.id = id;
         this.title = title;
         this.creator = creator;
         this.description = description;

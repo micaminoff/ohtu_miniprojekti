@@ -20,7 +20,7 @@ public class InMemoryBookDao implements BookDao {
     
     public InMemoryBookDao() {
         books = new ArrayList<>();
-        books.add(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", "978-951-98548-9-2"));
+        books.add(new Book(1, "Clean Code: A Handbook of Agile Software Craftsmanship", "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", "978-951-98548-9-2"));
     }
 
     @Override

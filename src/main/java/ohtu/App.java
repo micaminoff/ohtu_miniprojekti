@@ -49,6 +49,7 @@ public class App {
     public void add() {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         // KIRJAN LISÄYS
+        //Ensimmäisenä on lisättävä vinkki, että saadaan id selville. Sen jälkeen voidaan lisätä samalla id:llä Book
         if (command.equals("book")) {
             String title = io.readLine("Title: ");
             String creator = io.readLine("Author: ");
@@ -62,7 +63,8 @@ public class App {
             if (book == null) {
                 String description = io.readLine("Description: ");
                 String ISBN = io.readLine("ISBN: ");
-                book = new Book(title, creator, description, ISBN);
+                //HUOMATKAA TÄÄLLÄ OHJELMAN KANNALTA TÄRKEÄ MUUTOS TUO ID
+                book = new Book(1, title, creator, description, ISBN);
             }
             
             if (sugg.addSuggestionWithBook(book)) {
@@ -157,7 +159,7 @@ public class App {
         }
     }
 
-    public void list() {
+    public void list() throws SQLException {
         for (Suggestion s : sugg.listAll()) {
             System.out.println("\n" + s);
         }
@@ -239,7 +241,7 @@ public class App {
     public static void main(String[] args) throws Exception {
         //SQL TESTI
 
-        //Tehtävä: SuggestionDao suggestionDao = new SuggestionDao2();
+        //Tehtävä: SuggestionDao suggestionDao = new SuggestionDao2(database);
         SuggestionDao suggestionDao = new InMemorySuggestionDao();
         BookDao bookDao = new InMemoryBookDao();
         BlogDao blogDao = new InMemoryBlogDao();

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
@@ -74,9 +75,52 @@ public class SuggestionDao2 implements SuggestionDao {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
 
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
+
     @Override
-    public List<Suggestion> listAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Suggestion> listAll() throws SQLException {
+        List<Suggestion> list = new ArrayList<>();
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vinkki");
+
+        ResultSet rs = stmt.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+        
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String type = rs.getString("type");
+            //Kommnetit pitää kerätä listalle
+            //Tagit pitää kerätä listalle
+            //Samoin kurssit listalle
+            if (type.equals("book")) {
+                stmt = connection.prepareStatement("SELECT * FROM Book WHERE id = ?");
+                stmt.setObject(1, id);
+                ResultSet rs2 = stmt.executeQuery();
+
+                String author = rs2.getString("author");
+                String title = rs2.getString("title");
+                String description = rs2.getString("description");
+                String ISBN = rs2.getString("ISBN");
+                
+                list.add(new Suggestion(new Book(id, author, title, description, ISBN), id, type));
+                
+                rs2.close();
+            } //Tähän sit else haaroja
+            
+        }
+        rs.close();
+        stmt.close();
+        connection.close();
+        
+        return list;
     }
 
     @Override

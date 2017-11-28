@@ -104,12 +104,13 @@ public class BookDao2 implements BookDao {
         }
         
         while (rs.next()) {
+            int id = rs.getInt("id");
             String author = rs.getString("author");
             String title1 = rs.getString("title");
             String description = rs.getString("description");
             String ISBN = rs.getString("ISBN");
             
-            list.add(new Book(title1, author, description, ISBN));
+            list.add(new Book(id, title1, author, description, ISBN));
         }
         
         
