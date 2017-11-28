@@ -103,7 +103,7 @@ public class Stepdefs {
         assertTrue(found);
     }
 
-    private void runApp() throws SQLException {
+    private void runApp() {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
         try {
