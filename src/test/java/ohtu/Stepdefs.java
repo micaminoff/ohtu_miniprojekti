@@ -54,7 +54,7 @@ public class Stepdefs {
     }
     
     @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void blog_info_is_entered(String title, String creator, String url, String blogname, String description) {
+    public void blog_info_is_entered(String title, String creator, String url, String blogname, String description) throws SQLException {
         inputLines.add(title);
         inputLines.add(creator);
         inputLines.add(url);
@@ -65,7 +65,7 @@ public class Stepdefs {
     }
     
     @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void video_info_is_entered(String title, String creator, String url, String description) {
+    public void video_info_is_entered(String title, String creator, String url, String description) throws SQLException{
         inputLines.add(title);
         inputLines.add(creator);
         inputLines.add(url);
@@ -75,7 +75,7 @@ public class Stepdefs {
     }
     
     @When("^podcastName \"([^\"]*)\" and episodeName \"([^\"]*)\" and url \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void pod_info_is_entered(String podcastName, String episodeName, String url, String creator, String description) {
+    public void pod_info_is_entered(String podcastName, String episodeName, String url, String creator, String description) throws SQLException{
         inputLines.add(podcastName);
         inputLines.add(episodeName);
         inputLines.add(url);
