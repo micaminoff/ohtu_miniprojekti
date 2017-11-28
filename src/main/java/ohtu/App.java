@@ -10,6 +10,7 @@ import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -46,7 +47,7 @@ public class App {
 
     }
 
-    public void add() {
+    public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         // KIRJAN LISÄYS
         //Ensimmäisenä on lisättävä vinkki, että saadaan id selville. Sen jälkeen voidaan lisätä samalla id:llä Book
@@ -63,11 +64,10 @@ public class App {
             if (book == null) {
                 String description = io.readLine("Description: ");
                 String ISBN = io.readLine("ISBN: ");
-                //HUOMATKAA TÄÄLLÄ OHJELMAN KANNALTA TÄRKEÄ MUUTOS TUO ID
-                book = new Book(1, title, creator, description, ISBN);
+                book = new Book(title, creator, description, ISBN);
             }
             
-            if (sugg.addSuggestionWithBook(book)) {
+            if (sugg.addSuggestionWithBook(book, "book")) {
                 io.print("New suggestion with book added!");
             } else {
                 io.print("Adding a new suggestion with book failed!");
@@ -85,6 +85,7 @@ public class App {
 //            }
         // BLOGIN LISÄYS
         } else if (command.equals("blog")) {
+            
             String title = io.readLine("Title: ");
             String creator = io.readLine("Writer: ");
             String url = io.readLine("URL: ");
@@ -101,7 +102,7 @@ public class App {
                 io.print("Failed to add suggestion with blog!");
             } else {
                 blog = (new Blog(title, creator, url, blogName, description));
-                if (sugg.addSuggestionWithBlog(blog)) {
+                if (sugg.addSuggestionWithBlog(blog, "blog")) {
                     io.print("New suggestion with blog added!");
                 } else {
                     io.print("Failed to add suggestion with blog!");
@@ -126,7 +127,7 @@ public class App {
                 io.print("Failed to add suggestion with video!");
             } else {
                 video = new Video(title, creator, description, url);
-                if (sugg.addSuggestionWithVideo(video)) {
+                if (sugg.addSuggestionWithVideo(video, "video")) {
                     io.print("New suggestion with video added!");
                 } else {
                     io.print("Failed to add suggestion with video!");
@@ -153,7 +154,7 @@ public class App {
                 io.print("Failed to add suggestion with podcast!");
             } else {
                 podcast = new Podcast(podcastName, creator, url, episodeName, description);
-                if (sugg.addSuggestionWithPodcast(podcast)) {
+                if (sugg.addSuggestionWithPodcast(podcast, "podcast")) {
                     io.print("New suggestion with podcast added!");
                 } else {
                     io.print("Failed to add suggestion with podcast!");

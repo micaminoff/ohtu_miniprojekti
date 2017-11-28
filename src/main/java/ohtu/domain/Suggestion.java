@@ -28,7 +28,7 @@ public class Suggestion {
 //        this.suggestable = suggestable;
 //        
 //    }
-    public Suggestion(Suggestable suggestable, int id, String type) {
+    public Suggestion(Suggestable suggestable, String type) {
         this.suggestable = suggestable;
         this.id = id;
         this.type = type;
@@ -44,6 +44,10 @@ public class Suggestion {
     //merkki
     public Suggestable getSuggestable() {
         return this.suggestable;
+    }
+    
+    public String getType() {
+        return this.type;
     }
     
     @Override

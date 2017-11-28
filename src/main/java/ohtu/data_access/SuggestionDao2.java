@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
@@ -110,7 +111,7 @@ public class SuggestionDao2 implements SuggestionDao {
                 String description = rs2.getString("description");
                 String ISBN = rs2.getString("ISBN");
                 
-                list.add(new Suggestion(new Book(id, author, title, description, ISBN), id, type));
+                list.add(new Suggestion(new Book(author, title, description, ISBN), type));
                 
                 rs2.close();
             } //Tähän sit else haaroja
@@ -129,7 +130,35 @@ public class SuggestionDao2 implements SuggestionDao {
     }
 
     @Override
-    public void add(Suggestion suggestion) {
+    public void add(Suggestion suggestion) throws SQLException {
+        //tyyppi = suggestion.getType()
+        //INSERT INTO Vinkki(type) VALUES (?)
+        //
+        
+        String type = suggestion.getType();
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Vinkki(type) VALUES (?)");
+        stmt.setObject(1, type);
+
+        ResultSet rs = stmt.executeQuery();
+        
+        //id:n selvittäminen bookille
+//        stmt = connection.prepareStatement("")
+        
+        Suggestable suggestable = null;
+        if (type.equals("book")) {
+            Book book = (Book) suggestion.getSuggestable();
+            
+            String title = book.getTitle();
+            String creator = book.getCreator();
+            String description = book.getDescription();
+            String ISBN = book.getISBN();
+        } else if (type.equals("blog")) {
+            suggestable = (Blog) suggestion.getSuggestable();
+        } else {
+            
+        }
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

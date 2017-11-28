@@ -24,7 +24,7 @@ public class BookTest {
     
     @Before
     public void setUp() {
-        b = new Book(1, "Lama 101", "Jorma", "Tosi jees", "978-951-98548-9-2");
+        b = new Book("Lama 101", "Jorma", "Tosi jees", "978-951-98548-9-2");
     }
     
     @Test

@@ -18,7 +18,7 @@ public class Book implements Suggestable {
     private String ISBN;
     private static final Type type = Type.BOOK;
     
-    public Book(int id, String title, String creator, String description, String ISBN) {
+    public Book(String title, String creator, String description, String ISBN) {
         this.id = id;
         this.title = title;
         this.creator = creator;

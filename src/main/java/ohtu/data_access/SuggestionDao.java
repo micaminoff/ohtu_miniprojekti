@@ -16,6 +16,6 @@ import ohtu.domain.Suggestion;
 public interface SuggestionDao {
     List<Suggestion> listAll() throws SQLException;
     List<Suggestion> findByTitle(String title);
-    void add(Suggestion suggestion);
+    void add(Suggestion suggestion) throws SQLException;
     Suggestion findSuggestionById(int id) throws SQLException;
 }

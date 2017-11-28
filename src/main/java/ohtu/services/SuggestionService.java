@@ -16,6 +16,7 @@ import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 
 /**
@@ -72,13 +73,13 @@ public class SuggestionService {
         return bookDao.findByTitleAndCreator(title, creator);
     }
     
-//    public boolean addSuggestionWithBook(Book book) {
-//        if (book != null) {
-//            suggestionDao.add(new Suggestion(book));
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean addSuggestionWithBook(Book book, String type) throws SQLException {
+        if (book != null) {
+            suggestionDao.add(new Suggestion(book, type));
+            return true;
+        }
+        return false;
+    }
     
     public List<Suggestion> findByTitle(String title) {
         return suggestionDao.findByTitle(title);
@@ -88,37 +89,37 @@ public class SuggestionService {
         return blogDao.findByUrl(url);
     }
     
-//    public boolean addSuggestionWithBlog(Blog blog) {
-//       if (blog != null) {
-//           suggestionDao.add(new Suggestion(blog));
-//           return true;
-//       }
-//       return false;
-//    }
+    public boolean addSuggestionWithBlog(Blog blog, String type) throws SQLException {
+       if (blog != null) {
+           suggestionDao.add(new Suggestion(blog, type));
+           return true;
+       }
+       return false;
+    }
     
     public Video findVideoByURL(String url) {
         return videoDao.findByUrl(url);
     }
     
-//    public boolean addSuggestionWithVideo(Video video) {
-//        if (video != null) {
-//            suggestionDao.add(new Suggestion(video));
-//            return true;
-//        }
-//        return false;
-//    }
+    public boolean addSuggestionWithVideo(Video video, String type) throws SQLException {
+        if (video != null) {
+            suggestionDao.add(new Suggestion(video, type));
+            return true;
+        }
+        return false;
+    }
     
     public Podcast findPodcastByURL(String url) {
         return podcastDao.findByUrl(url);
     }
     
-//    public boolean addSuggestionWithPodcast(Podcast podcast) {
-//        if (podcast != null) {
-//            suggestionDao.add(new Suggestion(podcast));
-//            return true;
-//        }
-//        return false;
-//    } 
+    public boolean addSuggestionWithPodcast(Podcast podcast, String type) throws SQLException {
+        if (podcast != null) {
+            suggestionDao.add(new Suggestion(podcast, type));
+            return true;
+        }
+        return false;
+    } 
     
     public Suggestion findSuggestionById(int id) throws SQLException {
         return suggestionDao.findSuggestionById(id);
