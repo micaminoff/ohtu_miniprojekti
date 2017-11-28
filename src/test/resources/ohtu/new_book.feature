@@ -1,4 +1,3 @@
-
 Feature: User can add a new book, so new suggestions for it can be added
 
 # POISTETTU KÄYTÖSTÄ: sovelluksen logiikka muuttunut suggestion lisäämiseen (ei tällä hetkellä pelkän kirjan lisäämistä). Tämä scenario siirretty featureen new_suggestion_feature.

@@ -1,17 +1,16 @@
 package ohtu;
 
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.*;
 import ohtu.io.*;
 import ohtu.data_access.*;
-import ohtu.domain.Book;
-import ohtu.domain.Suggestable;
 import ohtu.services.*;
 
 public class Stepdefs {
@@ -53,6 +52,38 @@ public class Stepdefs {
 
         runApp();
     }
+    
+    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered")
+    public void blog_info_is_entered(String title, String creator, String url, String blogname, String description) {
+        inputLines.add(title);
+        inputLines.add(creator);
+        inputLines.add(url);
+        inputLines.add(blogname);
+        inputLines.add(description);
+        
+        runApp();
+    }
+    
+    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and description \"([^\"]*)\" are entered")
+    public void video_info_is_entered(String title, String creator, String url, String description) {
+        inputLines.add(title);
+        inputLines.add(creator);
+        inputLines.add(url);
+        inputLines.add(description);
+        
+        runApp();
+    }
+    
+    @When("^podcastName \"([^\"]*)\" and episodeName \"([^\"]*)\" and url \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered")
+    public void pod_info_is_entered(String podcastName, String episodeName, String url, String creator, String description) {
+        inputLines.add(podcastName);
+        inputLines.add(episodeName);
+        inputLines.add(url);
+        inputLines.add(creator);
+        inputLines.add(description);
+        
+        runApp();
+    }
 
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {
@@ -65,7 +96,7 @@ public class Stepdefs {
         ArrayList<String> prints = io.getPrints();
         for (int i = 0; i < prints.size(); i++) {
             String print = prints.get(i);
-            if (print.contains("ISBN: 978-951-98548-9-2")) {
+            if (print.contains("Title: Clean Code: A Handbook of Agile Software Craftsmanship")) {
                 found = true;
             }
         }
@@ -75,7 +106,11 @@ public class Stepdefs {
     private void runApp() throws SQLException {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
-        app.run();
+        try {
+            app.run();
+        } catch (SQLException ex) {
+            System.out.println("Tietokantaongelma: " + ex.getMessage());
+        }
     }
 
 }
