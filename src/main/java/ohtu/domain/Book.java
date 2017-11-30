@@ -11,7 +11,6 @@ package ohtu.domain;
  * päivityksiä: mkotola
  */
 public class Book implements Suggestable {
-    private int id;
     private String title;
     private String creator;
     private String description;
@@ -19,7 +18,6 @@ public class Book implements Suggestable {
     private static final Type type = Type.BOOK;
     
     public Book(String title, String creator, String description, String ISBN) {
-        this.id = id;
         this.title = title;
         this.creator = creator;
         this.description = description;
@@ -37,22 +35,30 @@ public class Book implements Suggestable {
     }
     
     @Override
-    public Type getType() {
-        return type;
-    }
-    
     public String getCreator() {
         return creator;
     }
 
+    @Override
     public void setCreator(String creator) {
         this.creator = creator;
     }
-
+    
+    @Override
     public String getDescription() {
         return description;
     }
 
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
+    }
+    
     public String getISBN() {
         return ISBN;
     }
@@ -63,7 +69,7 @@ public class Book implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description;
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nISBN: " + ISBN;
     }
     
 }

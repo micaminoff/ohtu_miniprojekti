@@ -9,7 +9,7 @@ public class InMemoryVideoDao implements VideoDao {
     
     public InMemoryVideoDao() {
         videos = new ArrayList();
-        videos.add(new Video("Turing Machine - Introduction (Part 1)", "Neso Academy", "", "https://www.youtube.com/watch?v=PvLaPKPzq2I"));
+        videos.add(new Video("Turing Machine - Introduction (Part 1)", "Neso Academy", "TOC: Introduction to Turing Machine", "https://www.youtube.com/watch?v=PvLaPKPzq2I"));
     }
     
     @Override

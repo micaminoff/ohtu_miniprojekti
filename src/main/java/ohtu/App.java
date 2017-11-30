@@ -76,6 +76,9 @@ public class App {
             String description = io.readLine("Description:");
             String ISBN = io.readLine("ISBN:");
             book = new Book(title, creator, description, ISBN);
+        } else {
+            io.print("\nFound the following book:");
+            io.print(book.toString());
         }
         
         if (sugg.addSuggestion(book)) {
@@ -106,8 +109,9 @@ public class App {
             
             String blogName = io.readLine("Blogname (optional):");
             String description = io.readLine("Description (optional):");
-            blog = new Blog(title, creator, url, blogName, description);
+            blog = new Blog(title, creator, description, url, blogName);
         } else {
+            io.print("\n");
             io.print("Found the following blog:");
             io.print(blog.toString());
         } 
@@ -141,6 +145,7 @@ public class App {
             String description = io.readLine("Description (optional):");
             video = new Video(title, creator, description, url);
         } else {
+            io.print("\n");
             io.print("Found the following video:");
             io.print(video.toString());
         } 
@@ -174,8 +179,9 @@ public class App {
             String creator = io.readLine("Creator (optional):");
             String description = io.readLine("Description (optional):");
             
-            podcast = new Podcast(title, creator, url, podcastName, description);
+            podcast = new Podcast(title, creator, description, url, podcastName);
         } else {
+            io.print("\n");
             io.print("Found the following podcast:");
             io.print(podcast.toString());
         } 

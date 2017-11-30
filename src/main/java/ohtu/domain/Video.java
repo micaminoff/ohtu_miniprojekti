@@ -33,25 +33,29 @@ public class Video implements Suggestable {
         this.title = title;
     }
     
-    @Override
-    public Type getType() {
-        return type;
-    }
-    
+   @Override
     public String getCreator() {
         return creator;
     }
 
+    @Override
     public void setCreator(String creator) {
         this.creator = creator;
     }
     
+    @Override
     public String getDescription() {
         return description;
     }
 
+     @Override
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
     }
     
     public String getUrl() {
@@ -64,7 +68,7 @@ public class Video implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nDescription: " + description;
+        return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url;
     }
     
 }

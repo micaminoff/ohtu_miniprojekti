@@ -1,24 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
 
-/**
- *
- * @author tuomasse
- */
 public class InMemoryBlogDao implements BlogDao {
     private List<Blog> blogs;
     
     public InMemoryBlogDao() {
         blogs = new ArrayList();
-        blogs.add(new Blog("How to Increase Velocity", "David Bernstein", "https://www.agilealliance.org/how-to-increase-velocity/", "", "best blog"));
+        blogs.add(new Blog("How to Increase Velocity", "David Bernstein", "Increase code quality today to increase your velocity tomorrow.", "https://www.agilealliance.org/how-to-increase-velocity/", "Agile Alliance Blog"));
     }
     
     @Override

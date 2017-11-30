@@ -1,23 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.domain;
 
-/**
- *
- * @author otsepp
- */
 public class Podcast implements Suggestable {
     private String title;
-    private String creator; //vapaaeht
+    private String creator;
+    private String description;
     private String url;
     private String podcastName;
-    private String description;
     private static final Type type = Type.PODCAST;
     
-    public Podcast(String title, String creator, String url, String podcastName, String description) {
+    public Podcast(String title, String creator, String description, String url, String podcastName) {
         this.title = title;
         this.creator = creator;
         this.url = url;
@@ -36,16 +27,28 @@ public class Podcast implements Suggestable {
     }
     
     @Override
-    public Type getType() {
-        return type;
-    }
-    
     public String getCreator() {
         return creator;
     }
     
+    @Override
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+    
+    @Override
+    public String getDescription() {
+        return this.description;
+    }
+    
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    @Override
+    public Type getType() {
+        return type;
     }
     
     public String getUrl() {
@@ -65,13 +68,8 @@ public class Podcast implements Suggestable {
     }
     
     @Override
-    public String getDescription() {
-        return this.description;
-    }
-    
-    @Override
     public String toString() {
-        return "Title: " + title + "\nAuthor: " + creator + "\nurl: " + url + "\nPodcast name: " + podcastName;
+        return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url + "\nPodcast name: " + podcastName;
     }
     
 }

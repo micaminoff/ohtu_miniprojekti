@@ -65,12 +65,12 @@ public class SuggestionService {
         return blogDao.findByUrl(url);
     }
     
-    public Podcast findPodcastByURL(String url) {
-        return podcastDao.findByUrl(url);
+    public Video findVideoByURL(String url) {
+        return videoDao.findByUrl(url);
     }
     
-     public Video findVideoByURL(String url) {
-        return videoDao.findByUrl(url);
+    public Podcast findPodcastByURL(String url) {
+        return podcastDao.findByUrl(url);
     }
     
     public List<Suggestion> findByTitle(String title) {
