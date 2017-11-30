@@ -10,7 +10,6 @@ import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
-import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -49,125 +48,146 @@ public class App {
 
     public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
-        // KIRJAN LISÄYS
-        //Ensimmäisenä on lisättävä vinkki, että saadaan id selville. Sen jälkeen voidaan lisätä samalla id:llä Book
         if (command.equals("book")) {
-            String title = io.readLine("Title: ");
-            String creator = io.readLine("Author: ");
-            
-            if (title.isEmpty() || creator.isEmpty()) {
-                io.print("Book must have atleast title and author!");
-            }
-            
-            Book book = sugg.findBookByTitleAndCreator(title, creator);
-                
-            if (book == null) {
-                String description = io.readLine("Description: ");
-                String ISBN = io.readLine("ISBN: ");
-                book = new Book(title, creator, description, ISBN);
-            }
-            
-            if (sugg.addSuggestionWithBook(book, "book")) {
-                io.print("New suggestion with book added!");
-            } else {
-                io.print("Adding a new suggestion with book failed!");
-            }
-            
-            //vanha kirjan lisäys
-//            String creator = io.readLine("Author: ");
-//            String title = io.readLine("Title: ");
-//            String description = io.readLine("Description: ");
-//            String ISBN = io.readLine("ISBN: ");
-//            if (sugg.addSuggestionWithBook(title, creator, description, ISBN)) {
-//                io.print("New suggestion with book added!");
-//            } else {
-//                io.print("Adding a new suggestion with book failed!");
-//            }
-        // BLOGIN LISÄYS
+            addBook();
         } else if (command.equals("blog")) {
-            
-            String title = io.readLine("Title: ");
-            String creator = io.readLine("Writer: ");
-            String url = io.readLine("URL: ");
-            String blogName = io.readLine("Blogname (optional): ");
-            String description = io.readLine("Description (optional): ");
-            
-            if (title.isEmpty() || creator.isEmpty() || url.isEmpty()) {
-                io.print("Blog must have atleast title, writer and url!");
-                return;
-            }
-            
-            Blog blog = sugg.findBlogByURL(url);
-            if (blog != null) {
-                io.print("Failed to add suggestion with blog!");
-            } else {
-                blog = (new Blog(title, creator, url, blogName, description));
-                if (sugg.addSuggestionWithBlog(blog, "blog")) {
-                    io.print("New suggestion with blog added!");
-                } else {
-                    io.print("Failed to add suggestion with blog!");
-                }
-            }
-            
-            
-        // VIDEON LISÄYS
+            addBlog();
         } else if (command.equals("video")) {
-            String title = io.readLine("Title: ");
-            String creator = io.readLine("Creator (optional): ");
-            String url = io.readLine("URL: ");
-            String description = io.readLine("Description (optional): ");
-            
-            if (title.isEmpty() || url.isEmpty()) {
-                io.print("Video must have atleast title and url!");
-                return;
-            }
-            
-            Video video = sugg.findVideoByURL(url);
-            if (video != null) {
-                io.print("Failed to add suggestion with video!");
-            } else {
-                video = new Video(title, creator, description, url);
-                if (sugg.addSuggestionWithVideo(video, "video")) {
-                    io.print("New suggestion with video added!");
-                } else {
-                    io.print("Failed to add suggestion with video!");
-                }
-            }
-            
-            
-        //PODCASTIN LISÄYS
+            addVideo();
         } else if (command.equals("podcast")) {
-            String podcastName = io.readLine("Podcast Name: ");
-            String episodeName = io.readLine("Episode name: ");
-            String url = io.readLine("URL: ");
-            String creator = io.readLine("Writer (optional): ");
-            String description = io.readLine("Description (optional): ");
-            
-            if (podcastName.isEmpty() || episodeName.isEmpty() || url.isEmpty()) {
-                io.print("Podcast must have atleast podcast name, episode name and url!");
-                return;
-            }
-            
-            Podcast podcast = sugg.findPodcastByURL(url);
-            
-            if (podcast != null) {
-                io.print("Failed to add suggestion with podcast!");
-            } else {
-                podcast = new Podcast(podcastName, creator, url, episodeName, description);
-                if (sugg.addSuggestionWithPodcast(podcast, "podcast")) {
-                    io.print("New suggestion with podcast added!");
-                } else {
-                    io.print("Failed to add suggestion with podcast!");
-                }
-            }
-            
-            
-            
+            addPodcast();
         } else {
             io.print("Unknown command!");
         }
     }
 
+    private void addBook() throws SQLException {
+        String title = io.readLine("Title:");
+        String creator = io.readLine("Author:");
+        
+        if (title.isEmpty() || creator.isEmpty()) {
+            io.print("Book must have atleast title and author!");
+            return;
+        }
+        
+        Book book = sugg.findBookByTitleAndCreator(title, creator);
+        
+        if (book == null) {
+            String description = io.readLine("Description:");
+            String ISBN = io.readLine("ISBN:");
+            book = new Book(title, creator, description, ISBN);
+        }
+        
+        if (sugg.addSuggestion(book)) {
+            io.print("New suggestion with book added!");
+        } else {
+            io.print("Adding a new suggestion with book failed!");
+        }
+    }
+    
+    private void addBlog() throws SQLException {
+        String url = io.readLine("URL:");
+        
+        if (url.isEmpty()) {
+            io.print("Blog must have url!");
+            return;
+        }
+
+        Blog blog = sugg.findBlogByURL(url);
+        
+        if (blog == null) {
+            String title = io.readLine("Title:");
+            String creator = io.readLine("Writer:");
+            
+            if (title.isEmpty() || creator.isEmpty() || url.isEmpty()) {
+                io.print("Blog must have title and writer!");
+                return;
+            }
+            
+            String blogName = io.readLine("Blogname (optional):");
+            String description = io.readLine("Description (optional):");
+            blog = new Blog(title, creator, url, blogName, description);
+        } else {
+            io.print("Found the following blog:");
+            io.print(blog.toString());
+        } 
+        
+        if (sugg.addSuggestion(blog)) {
+            io.print("New suggestion with blog added!");
+        } else {
+            io.print("Failed to add suggestion with blog!");
+        }
+    }
+    
+    private void addVideo() throws SQLException {
+        String url = io.readLine("URL: ");
+        
+        if (url.isEmpty()) {
+            io.print("Video must have url!");
+            return;
+        }
+
+        Video video = sugg.findVideoByURL(url);
+        
+        if (video == null) {
+            String title = io.readLine("Title:");
+           
+             if (title.isEmpty()) {
+                io.print("Video must have title!");
+                return;
+            }
+            
+            String creator = io.readLine("Creator (optional):");
+            String description = io.readLine("Description (optional):");
+            video = new Video(title, creator, description, url);
+        } else {
+            io.print("Found the following video:");
+            io.print(video.toString());
+        } 
+        
+        if (sugg.addSuggestion(video)) {
+            io.print("New suggestion with video added!");
+        } else {
+            io.print("Failed to add suggestion with video!");
+        }
+    }
+    
+    private void addPodcast() throws SQLException {
+        String url = io.readLine("URL: ");
+        
+        if (url.isEmpty()) {
+            io.print("Podcast must have url!");
+            return;
+        }
+
+        Podcast podcast = sugg.findPodcastByURL(url);
+        
+        if (podcast == null) {
+            String title = io.readLine("Title:");
+            String podcastName = io.readLine("Podcast name:");
+            
+            if (title.isEmpty() || podcastName.isEmpty()) {
+                io.print("Podcast must have title and podcast name!");
+                return;
+            }
+            
+            String creator = io.readLine("Creator (optional):");
+            String description = io.readLine("Description (optional):");
+            
+            podcast = new Podcast(title, creator, url, podcastName, description);
+        } else {
+            io.print("Found the following podcast:");
+            io.print(podcast.toString());
+        } 
+        
+        if (sugg.addSuggestion(podcast)) {
+            io.print("New suggestion with podcast added!");
+        } else {
+            io.print("Failed to add suggestion with podcast!");
+        }
+        
+    }
+    
     public void list() throws SQLException {
         for (Suggestion s : sugg.listAll()) {
             io.print("\n" + s);
@@ -175,24 +195,8 @@ public class App {
     }
 
     public void find() throws SQLException {
-
         List<Suggestable> booksFound = new ArrayList();
         String command;
-        //Tänne tarvitaan nyt kysymys, what would you like to find? (book, blog, podcast, all)(Choose one)
-        //Sit tehdään omat metodit tänne, eli findBook(), findBlog() jne.
-        //Ja toi alempi while true -lause laitetaan sit sinne metodiin
-        //findAll() :ssa on vain Vinkin omia attribuutteja, eli tags, related courses ...HUOM! EI tyyppi, koska 
-        //silloin toi aikasempi kysely olis turha ja esim listaus olis turha metodi silloin. (koska sinne tulee
-        //kuitenkin tulostus kaikista tyypin mukaan)
-        //Toteutetaan siten, että toi Dao rajapinta otetaan vittuun, se on turha. Tehdään vaan esim. luokka
-        //BookDao1 joka toeuttaa rajapinnan BookDao ja muille sama homma. Ja tonne BookDao1 luokkaan laitetaan
-        //kaikki sql-paska. Näin tän ohjelman rakenne ei muutu kauheasti. 
-        //Eli appissa kutsutaan SuggestionServiceä, jossa on sit oltava myös metodit findBlogByTitle() esim.
-        //Eli SuggestionServiceen tulee miljoona metodia. 
-        //Edelleen SuggestionService kutsuu omia dao-luokkiaan ja niiden metodeja. Esim. SuggestionServicen metodi
-        //findBookByTitle() kutsuu BookDao1:n metodia findByTitle() jossa tapahtuu kaikki sql hakeminen.
-   
-
         while (true) {
             command = io.readLine("Find by (title, description, creator, isbn, q = back): ");
             if (command.equals("title")) {
@@ -249,9 +253,6 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        //SQL TESTI
-
-        //Tehtävä: SuggestionDao suggestionDao = new SuggestionDao2(database);
         SuggestionDao suggestionDao = new InMemorySuggestionDao();
         BookDao bookDao = new InMemoryBookDao();
         BlogDao blogDao = new InMemoryBlogDao();
@@ -260,26 +261,6 @@ public class App {
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         new App(io, sugg).run();
-
-//        Class.forName("org.sqlite.JDBC");
-//        Connection c = DriverManager.getConnection("jdbc:sqlite:sql/database.db");
-//        Statement s = c.createStatement();
-//        
-//        ResultSet rs = s.executeQuery("SELECT * FROM Book");
-//
-//        System.out.println("\nTietokannassa olevat kirjat:\n");
-//        
-//        while (rs.next()) {
-//            System.out.println(
-//                    "id: " + rs.getString("id") + "\n" +
-//                    "title: " + rs.getString("title") + "\n" + 
-//                    "author: " + rs.getString("author") + "\n" + 
-//                    "ISBN: " + rs.getString("isbn") + "\n");
-//        }
-//        UserDao dao = new InMemoryUserDao();
-//        IO io = new ConsoleIO();
-//        AuthenticationService auth = new AuthenticationService(dao);
-//        new App(io, auth).run();
     }
 
 }

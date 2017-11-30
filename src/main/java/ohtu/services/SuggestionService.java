@@ -40,18 +40,6 @@ public class SuggestionService {
         
     }
     
-    //vanha kirjan lisäys
-//    public Book addBook(String title, String creator, String description, String ISBN) {
-//        Book newBook = null;
-//        if (bookDao.containsTitleAndCreator(title, creator)) {
-//            newBook = bookDao.findByTitleAndCreator(title, creator);
-//            return newBook;
-//        }
-//        newBook = new Book(title, creator, description, ISBN);
-//        bookDao.add(newBook);
-//        return newBook;
-//    }
-    
     public List<Suggestion> listAll() throws SQLException {
         return suggestionDao.listAll();
     }
@@ -73,49 +61,49 @@ public class SuggestionService {
         return bookDao.findByTitleAndCreator(title, creator);
     }
     
-    public boolean addSuggestionWithBook(Book book, String type) throws SQLException {
-        if (book != null) {
-            suggestionDao.add(new Suggestion(book, type));
-            return true;
-        }
-        return false;
-    }
-    
-    public List<Suggestion> findByTitle(String title) {
-        return suggestionDao.findByTitle(title);
-    }
-    
     public Blog findBlogByURL(String url) {
         return blogDao.findByUrl(url);
-    }
-    
-    public boolean addSuggestionWithBlog(Blog blog, String type) throws SQLException {
-       if (blog != null) {
-           suggestionDao.add(new Suggestion(blog, type));
-           return true;
-       }
-       return false;
-    }
-    
-    public Video findVideoByURL(String url) {
-        return videoDao.findByUrl(url);
-    }
-    
-    public boolean addSuggestionWithVideo(Video video, String type) throws SQLException {
-        if (video != null) {
-            suggestionDao.add(new Suggestion(video, type));
-            return true;
-        }
-        return false;
     }
     
     public Podcast findPodcastByURL(String url) {
         return podcastDao.findByUrl(url);
     }
     
-    public boolean addSuggestionWithPodcast(Podcast podcast, String type) throws SQLException {
+     public Video findVideoByURL(String url) {
+        return videoDao.findByUrl(url);
+    }
+    
+    public List<Suggestion> findByTitle(String title) {
+        return suggestionDao.findByTitle(title);
+    }
+    
+    public boolean addSuggestion(Book book) throws SQLException {
+        if (book != null) {
+            suggestionDao.add(new Suggestion(book));
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean addSuggestion(Blog blog) throws SQLException {
+       if (blog != null) {
+           suggestionDao.add(new Suggestion(blog));
+           return true;
+       }
+       return false;
+    }
+    
+    public boolean addSuggestion(Video video) throws SQLException {
+        if (video != null) {
+            suggestionDao.add(new Suggestion(video));
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean addSuggestion(Podcast podcast) throws SQLException {
         if (podcast != null) {
-            suggestionDao.add(new Suggestion(podcast, type));
+            suggestionDao.add(new Suggestion(podcast));
             return true;
         }
         return false;
@@ -125,13 +113,4 @@ public class SuggestionService {
         return suggestionDao.findSuggestionById(id);
     }
     
-    //vanha kirjan lisäys
-//    public boolean addSuggestionWithBook(String title, String creator, String description, String ISBN) {
-//        Book suggestionBook = addBook(title, creator, description, ISBN);
-//        if (suggestionBook != null) {
-//            //suggestionDao.add(suggestionBook);
-//            return true;
-//        }
-//        return false;
-//    }
 }

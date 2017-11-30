@@ -49,41 +49,40 @@ public class Stepdefs {
         inputLines.add(author);
         inputLines.add(description);
         inputLines.add(ISBN);
+        runApp();
+    }
+    
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void url_and_title_and_creator_and_blogname_and_description_are_entered(String url, String title, String creator, String blogName, String description) throws Throwable {
+        inputLines.add(url);
+        inputLines.add(title);
+        inputLines.add(creator);
+        inputLines.add(blogName);
+        inputLines.add(description);
+        runApp();
+    }
 
-        runApp();
-    }
     
-    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void blog_info_is_entered(String title, String creator, String url, String blogname, String description) {
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void url_and_title_and_creator_and_description_are_entered(String url, String title, String creator, String description) throws Throwable {
+        inputLines.add(url);
         inputLines.add(title);
         inputLines.add(creator);
-        inputLines.add(url);
-        inputLines.add(blogname);
         inputLines.add(description);
-        
         runApp();
     }
+
     
-    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and url \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void video_info_is_entered(String title, String creator, String url, String description) {
+     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and podcast name \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\"$")
+    public void url_and_title_and_podcast_name_and_creator_and_description(String url, String title, String podcastName, String creator, String description) throws Throwable {
+        inputLines.add(url);
         inputLines.add(title);
-        inputLines.add(creator);
-        inputLines.add(url);
-        inputLines.add(description);
-        
-        runApp();
-    }
-    
-    @When("^podcastName \"([^\"]*)\" and episodeName \"([^\"]*)\" and url \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered")
-    public void pod_info_is_entered(String podcastName, String episodeName, String url, String creator, String description) {
         inputLines.add(podcastName);
-        inputLines.add(episodeName);
-        inputLines.add(url);
         inputLines.add(creator);
         inputLines.add(description);
-        
         runApp();
     }
+
 
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {

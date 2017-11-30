@@ -53,10 +53,6 @@ public class Book implements Suggestable {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getISBN() {
         return ISBN;
     }
