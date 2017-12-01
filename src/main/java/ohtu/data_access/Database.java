@@ -5,15 +5,13 @@
  */
 package ohtu.data_access;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
  * @author hcpaavo
  */
-class Database {
+public class Database {
 
     private String databaseAddress;
 

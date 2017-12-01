@@ -64,11 +64,11 @@ public class SuggestionService {
         return blogDao.findByUrl(url);
     }
     
-    public Video findVideoByURL(String url) {
+    public Video findVideoByURL(String url) throws SQLException {
         return videoDao.findByUrl(url);
     }
     
-    public Podcast findPodcastByURL(String url) {
+    public Podcast findPodcastByURL(String url) throws SQLException {
         return podcastDao.findByUrl(url);
     }
     

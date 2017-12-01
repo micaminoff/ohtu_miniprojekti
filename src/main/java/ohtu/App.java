@@ -226,7 +226,7 @@ public class App {
     public void list() throws SQLException {
         List<Suggestion> suggestions = sugg.listAllSuggestions();
         if (suggestions == null) {
-            io.print("There are no suggestions yet! Type 'add' to add a new one");
+            io.print("\nThere are no suggestions yet! Type 'add' to add a new one");
         } else {
             for (Suggestion s : suggestions) {
                 io.print("\n" + s);
@@ -302,6 +302,17 @@ public class App {
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         new App(io, sugg).run();
+
+        //Tästä kommentti pois niin toimii tietokannalla
+//        Database database = new Database("jdbc:sqlite:src/main/resources/sql/database.db");
+//        BookDao bookDao = new BookDao2(database);
+//        BlogDao blogDao = new BlogDao2(database);
+//        VideoDao videoDao = new VideoDao2(database);
+//        PodcastDao podcastDao = new PodcastDao2(database);
+//        SuggestionDao suggestionDao = new SuggestionDao2(database, bookDao, blogDao, podcastDao, videoDao);
+//        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao); 
+//        IO io = new ConsoleIO();
+//        new App(io, sugg).run();
     }
 
 }

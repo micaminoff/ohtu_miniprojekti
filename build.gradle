@@ -3,6 +3,7 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 
 
+
 project.ext {
     cucumberVersion = '1.2.5'
     junitVersion = '4.12'
@@ -13,6 +14,7 @@ repositories {
     mavenCentral()
 }
 
+
 dependencies {
     testCompile 'info.cukes:cucumber-java:' + cucumberVersion
     testCompile 'info.cukes:cucumber-junit:' + cucumberVersion
@@ -21,9 +23,9 @@ dependencies {
     compile 'org.springframework:spring-core:'+ springVersion
     compile 'org.springframework:spring-context:'+ springVersion
     compile 'org.springframework:spring-context-support:'+ springVersion
-    compile 'org.springframework:spring-beans:'+ springVersion    
-	
-	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.7.2'
+    compile 'org.springframework:spring-beans:'+ springVersion
+
+	compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.2'
 }
 
 test {
