@@ -6,8 +6,6 @@ import cucumber.api.java.en.When;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.*;
 import ohtu.io.*;
 import ohtu.data_access.*;
@@ -41,6 +39,31 @@ public class Stepdefs {
     public void term_entered(String term) throws Throwable {
         inputLines.add(term);
         runApp();
+    }
+    
+    @When("^title \"([^\"]*)\" is entered")
+    public void title_is_entered(String title) {
+        inputLines.add(title);
+    }
+    
+    @When("^creator \"([^\"]*)\" is entered")
+    public void creator_is_entered(String creator) {
+        inputLines.add(creator);
+    }
+    
+    @When("^ISBN \"([^\"]*)\" is entered")
+    public void ISBN_is_entered(String isbn) {
+        inputLines.add(isbn);
+    }
+    
+    @When("^url \"([^\"]*)\" is entered")
+    public void url_is_entered(String url) {
+        inputLines.add(url);
+    }
+    
+    @When("^podcast name \"([^\"]*)\" is entered")
+    public void pod_name_is_entered(String name) {
+        inputLines.add(name);
     }
 
     @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
@@ -88,6 +111,8 @@ public class Stepdefs {
 
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {
+        // Cucumber on outo olento
+        expectedOutput = expectedOutput.replace("\\n", "\n");
         assertTrue(io.getPrints().contains(expectedOutput));
     }
 
