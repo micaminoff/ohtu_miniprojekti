@@ -72,4 +72,21 @@ public class Podcast implements Suggestable {
         return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url + "\nPodcast name: " + podcastName;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Podcast)) {
+            return false;
+        }
+        Podcast p = (Podcast) o;
+        if (this.title.equals(p.title) &&
+                this.creator.equals(p.creator) &&
+                this.description.equals(p.description) &&
+                this.url.equals(p.url) &&
+                this.podcastName.equals(p.podcastName)) {
+            
+            return true;
+        }
+        return false;
+    }
+    
 }

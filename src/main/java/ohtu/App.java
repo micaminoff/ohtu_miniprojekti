@@ -48,7 +48,7 @@ public class App {
 
     //ei toimi vielä suggestionservicessä
     public void remove() throws SQLException {
-        List<Suggestion> suggestions = sugg.listAll();
+        List<Suggestion> suggestions = sugg.listAllSuggestions();
         for (int i = 0; i < suggestions.size(); i++) {
             io.print("\n" + i + ".:\n" + suggestions.get(i));
         }
@@ -94,11 +94,14 @@ public class App {
         while (creator.isEmpty()) {
             creator = io.readLine("Author is required\nTitle: ");
         }
+        String ISBN = io.readLine("(*)ISBN:");
+        while (ISBN.isEmpty()) {
+            ISBN = io.readLine("ISBN is required\nISBN: ");
+        }
         Book book = sugg.findBookByTitleAndCreator(title, creator);
         
         if (book == null) {
             String description = io.readLine("Description (optional):");
-            String ISBN = io.readLine("ISBN (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
         } else {
@@ -221,7 +224,7 @@ public class App {
     }
     
     public void list() throws SQLException {
-        for (Suggestion s : sugg.listAll()) {
+        for (Suggestion s : sugg.listAllSuggestions()) {
             io.print("\n" + s);
         }
     }

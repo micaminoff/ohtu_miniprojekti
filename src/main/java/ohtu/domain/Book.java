@@ -72,4 +72,20 @@ public class Book implements Suggestable {
         return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nISBN: " + ISBN;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Book)) {
+            return false;
+        }
+        Book b = (Book) o;
+        if (this.title.equals(b.title) &&
+                this.creator.equals(b.creator) &&
+                this.description.equals(b.description) &&
+                this.ISBN.equals(b.ISBN)) {
+            
+            return true;
+        }
+        return false;
+    }
+    
 }

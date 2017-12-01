@@ -34,3 +34,4 @@ Koodin ylläpidettävyyden tulee olla mahdollisimman hyvä:
 - luokkien nimet isolla, metodien pienellä, yleisesti camelCase
 - noudatetaan yhdessä katsottua arkkitehtuuria
 
+Testmuutos / Mikko

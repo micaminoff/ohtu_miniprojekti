@@ -72,4 +72,21 @@ public class Blog implements Suggestable {
         return "Title: " + title + "\nWriter: " + creator + "\nDescription: " + description +"\nUrl: " + url + "\nBlog name: " + blogName;
     }
     
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Blog)) {
+            return false;
+        }
+        Blog b = (Blog) o;
+        if (this.title.equals(b.title) &&
+                this.creator.equals(b.creator) &&
+                this.description.equals(b.description) &&
+                this.url.equals(b.url) &&
+                this.blogName.equals(b.blogName)) {
+            
+            return true;
+        }
+        return false;
+    }
+    
 }
