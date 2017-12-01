@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
+import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Video;
 
 /**
  *
@@ -65,9 +67,12 @@ public class SuggestionDao2 implements SuggestionDao {
                 Blog blog = blogDao.findByUrl(suggestableId);
                 list.add(new Suggestion(blog));
             } else if (type.equals("video")) {
-                
+                Video video = videoDao.findByUrl(suggestableId);
+                list.add(new Suggestion(video));
+            } else if (type.equals("podcast")) {
+                Podcast podcast = podcastDao.findByUrl(suggestableId);
+                list.add(new Suggestion(podcast));
             }
-            
         }
         rs.close();
         stmt.close();

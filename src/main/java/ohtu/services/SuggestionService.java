@@ -60,7 +60,7 @@ public class SuggestionService {
         return bookDao.findByTitleAndCreator(title, creator);
     }
     
-    public Blog findBlogByURL(String url) {
+    public Blog findBlogByURL(String url) throws SQLException {
         return blogDao.findByUrl(url);
     }
     

@@ -85,13 +85,12 @@ public class BookDao2 implements BookDao {
         String author = rs.getString("author");
         String title = rs.getString("title");
         String description = rs.getString("description");
-        String bookISBN = rs.getString("ISBN");
         
         rs.close();
         stmt.close();
         connection.close();
         
-        return new Book(title, author, description, bookISBN);
+        return new Book(title, author, description, ISBN);
     }
 
     @Override
