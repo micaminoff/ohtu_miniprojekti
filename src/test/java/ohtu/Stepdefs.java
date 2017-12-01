@@ -43,14 +43,16 @@ public class Stepdefs {
         runApp();
     }
 
-    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
-    public void title_author_descr_isbn_are_entered(String author, String title, String description, String ISBN) throws Throwable {
+    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
         inputLines.add(title);
-        inputLines.add(author);
-        inputLines.add(description);
+        inputLines.add(creator);
         inputLines.add(ISBN);
+        inputLines.add(description);
         runApp();
     }
+
+
     
     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void url_and_title_and_creator_and_blogname_and_description_are_entered(String url, String title, String creator, String blogName, String description) throws Throwable {
