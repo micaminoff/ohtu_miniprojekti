@@ -22,9 +22,17 @@ import ohtu.domain.Suggestion;
  */
 public class SuggestionDao2 implements SuggestionDao {
     private Database database;
+    private BookDao bookDao;
+    private BlogDao blogDao;
+    private PodcastDao podcastDao;
+    private VideoDao videoDao;
     
-    public SuggestionDao2(Database database) {
+    public SuggestionDao2(Database database, BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
         this.database = database;
+        this.bookDao = bookDao;
+        this.blogDao = blogDao;
+        this.podcastDao = podcastDao;
+        this.videoDao = videoDao;
     }
 
 //    @Override
@@ -87,7 +95,7 @@ public class SuggestionDao2 implements SuggestionDao {
         List<Suggestion> list = new ArrayList<>();
         
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vinkki");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
 
         ResultSet rs = stmt.executeQuery();
 
