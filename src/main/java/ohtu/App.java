@@ -25,27 +25,51 @@ public class App {
     }
 
     public void run() throws SQLException {
-
-        System.out.println("Welcome!");
-        while (true) {
-            String command = io.readLine("\nCommand (list, find or add, empty command exits program)");
-
-            if (command.isEmpty()) {
-                break;
-            }
-            if (command.equals("list")) {
-                list();
-            } else if (command.equals("add")) {
-                add();
-            } else if (command.equals("find")) {
-                find();
-            } else {
-                io.print("Unknown command!");
-            }
-        }
+            remove();
+//        System.out.println("Welcome!");
+//        while (true) {
+//            String command = io.readLine("\nCommand (list, find, remove or add, empty command exits program):");
+//            if (command.isEmpty()) {
+//                break;
+//            }
+//            if (command.equals("list")) {
+//                list();
+//            } else if (command.equals("add")) {
+//                add();
+//            } else if (command.equals("find")) {
+//                find();
+//            } else if (command.equals("remove")) {
+//                remove();
+//            } else {
+//                io.print("Unknown command!");
+//            }
+//        }
 
     }
 
+    public void remove() throws SQLException {
+        List<Suggestion> suggestions = sugg.listAll();
+        for (int i = 0; i < suggestions.size(); i++) {
+            io.print("\n" + i + ".:\n" + suggestions.get(i));
+        }
+        io.print("\nChoose suggestion to remove:");
+        String input = io.readLine("");
+        
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input);
+            
+            if (index >= 0 && index < suggestions.size()) {
+                String confirm = io.readLine("Are you sure? (type y)");
+                if (confirm.equals("y")) {
+                    sugg.removeSuggestion(index);
+                    io.print("Suggestion removed!");
+                } 
+                return;
+            }
+        }
+        io.print("Incorrect index given!");
+    }
+    
     public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         if (command.equals("book")) {

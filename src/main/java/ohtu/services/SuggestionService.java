@@ -109,8 +109,8 @@ public class SuggestionService {
         return false;
     } 
     
-    public Suggestion findSuggestionById(int id) throws SQLException {
-        return suggestionDao.findSuggestionById(id);
+    public void removeSuggestion(int index) {
+        //TODO
     }
     
 }

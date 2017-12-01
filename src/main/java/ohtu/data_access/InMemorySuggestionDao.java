@@ -8,10 +8,10 @@ package ohtu.data_access;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
-import ohtu.domain.Type;
 
 /**
  *
@@ -23,6 +23,7 @@ public class InMemorySuggestionDao implements SuggestionDao{
     public InMemorySuggestionDao() {
         suggestions = new ArrayList();
         suggestions.add(new Suggestion(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", "978-951-98548-9-2")));
+        suggestions.add(new Suggestion(new Blog("JRE #002 - MMA Show #2", "Joe Rogan" , "Eddie Bravo needs help" ,"http://podcasts.joerogan.net/podcasts/mma-show-2", "The Joe Rogan Experience")));
     }
     
     @Override
