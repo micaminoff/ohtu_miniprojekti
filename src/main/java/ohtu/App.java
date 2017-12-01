@@ -100,6 +100,7 @@ public class App {
             String description = io.readLine("Description:");
             String ISBN = io.readLine("ISBN:");
             book = new Book(title, creator, description, ISBN);
+            sugg.addBook(book);
         } else {
             io.print("\nFound the following book:");
             io.print(book.toString());
@@ -134,6 +135,7 @@ public class App {
             String blogName = io.readLine("Blogname (optional):");
             String description = io.readLine("Description (optional):");
             blog = new Blog(title, creator, description, url, blogName);
+            sugg.addBlog(blog);
         } else {
             io.print("\n");
             io.print("Found the following blog:");
@@ -168,6 +170,7 @@ public class App {
             String creator = io.readLine("Creator (optional):");
             String description = io.readLine("Description (optional):");
             video = new Video(title, creator, description, url);
+            sugg.addVideo(video);
         } else {
             io.print("\n");
             io.print("Found the following video:");
@@ -204,6 +207,7 @@ public class App {
             String description = io.readLine("Description (optional):");
             
             podcast = new Podcast(title, creator, description, url, podcastName);
+            sugg.addPodcast(podcast);
         } else {
             io.print("\n");
             io.print("Found the following podcast:");

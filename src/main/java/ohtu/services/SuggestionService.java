@@ -56,7 +56,6 @@ public class SuggestionService {
     public List<Book> findBookByTitle(String title) throws SQLException {
         return bookDao.findByTitle(title);
     }
-    
     public Book findBookByTitleAndCreator(String title, String creator) {
         return bookDao.findByTitleAndCreator(title, creator);
     }
@@ -77,6 +76,19 @@ public class SuggestionService {
         return suggestionDao.findByTitle(title);
     }
     
+    public void addBook(Book b) {
+        bookDao.add(b);
+    }
+    public void addBlog(Blog b) {
+        blogDao.add(b);
+    }
+    public void addVideo(Video v) {
+        videoDao.add(v);
+    }
+    public void addPodcast(Podcast p) {
+        podcastDao.add(p);
+    }
+    
     public boolean addSuggestion(Book book) throws SQLException {
         if (book != null) {
             suggestionDao.add(new Suggestion(book));
@@ -84,7 +96,6 @@ public class SuggestionService {
         }
         return false;
     }
-    
     public boolean addSuggestion(Blog blog) throws SQLException {
        if (blog != null) {
            suggestionDao.add(new Suggestion(blog));
@@ -92,7 +103,6 @@ public class SuggestionService {
        }
        return false;
     }
-    
     public boolean addSuggestion(Video video) throws SQLException {
         if (video != null) {
             suggestionDao.add(new Suggestion(video));
@@ -100,7 +110,6 @@ public class SuggestionService {
         }
         return false;
     }
-    
     public boolean addSuggestion(Podcast podcast) throws SQLException {
         if (podcast != null) {
             suggestionDao.add(new Suggestion(podcast));
