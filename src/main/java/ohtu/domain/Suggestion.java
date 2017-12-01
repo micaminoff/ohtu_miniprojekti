@@ -21,18 +21,18 @@ public class Suggestion {
     //private List<Courses> esitietoKurssit;
     private Suggestable suggestable;
     private int id;
-    
-    public Suggestion(Suggestable suggestable) {
-        //this.tags.addAll(Arrays.asList(tags));
-        this.suggestable = suggestable;
-        
-    }
+//    private String type;
     
 //    public Suggestion(Suggestable suggestable, String type) {
+//        //this.tags.addAll(Arrays.asList(tags));
 //        this.suggestable = suggestable;
-//        this.id = id;
-//        this.type = type;
+//        
 //    }
+    
+    public Suggestion(Suggestable suggestable) {
+        this.suggestable = suggestable;
+        this.id = id;
+    }
     //merkki
 //    public void addTags(Tag... tags) {
 //        this.tags.addAll(Arrays.asList(tags));

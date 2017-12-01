@@ -1,17 +1,35 @@
 Feature: User can add a new suggestion
 
-# BOOKS
-
-  Scenario: User can add a suggestion with a new book
-    Given command "add" is selected
-    Given command "book" is selected
-    When title "Book1" and author "Matti" and description "good book" and ISBN "123" are entered
-    Then message "New suggestion with book added!" is displayed
-
-  Scenario: User cannot add a suggestion for an invalid type of suggestable
+Scenario: User cannot add a suggestion for an invalid type of suggestable
     Given command "add" is selected
     When command "bool" is entered
     Then message "Unknown command!" is displayed
+
+# BOOKS
+
+#title
+#creator
+#isbn
+
+#desc
+
+  Scenario: User can add a suggestion with a new book with full information
+    Given command "add" is selected
+    Given command "book" is selected
+    When title "Book name" and creator "Matti" and ISBN "78-100-98548-9-2" and description "Book description" are entered
+    Then message "New suggestion with book added!" is displayed
+ 
+  Scenario: User can add suggestion with new book without description
+	Given command "add" is selected
+    	Given command "book" is selected
+	When title "Book name" and creator "Matti" and ISBN "78-100-98548-9-2" and description "" are entered
+	Then message "New suggestion with book added!" is displayed
+
+ #Scenario: User cannot add suggestion with new book without title
+#Given command "add" is selected
+  #  	Given command "book" is selected
+	#When title "" and creator "Matti" and ISBN "78-100-98548-9-2" and description "" are entered
+	#Then message "Title is required!" is displayed
 
 # BLOGS
 

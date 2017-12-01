@@ -24,61 +24,6 @@ public class BookDao2 implements BookDao {
         this.database = database;
     }
 
-//    @Override
-//    public Book findOne(Integer key) throws SQLException {
-//        Connection connection = database.getConnection();
-//        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM book WHERE id = ?");
-//        stmt.setObject(1, key);
-//
-//        ResultSet rs = stmt.executeQuery();
-//
-//        if (!rs.next()) {
-//            return null;
-//        }
-//
-//        int id = rs.getInt("id");
-//        String title = rs.getString("title");
-//        String creator = rs.getString("creator");
-//        String description = rs.getString("description");
-//        String ISBN = rs.getString("ISBN");
-//
-//        rs.close();
-//        stmt.close();
-//        connection.close();
-//        
-//        return new Book(title, creator, description, ISBN);
-//
-//    }
-//
-//    @Override
-//    public List<Book> findAll() throws SQLException {
-//        Connection connection = database.getConnection();
-//        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM book");
-//
-//        ResultSet rs = stmt.executeQuery();
-//        List<Book> books = new ArrayList<>();
-//        while (rs.next()) {
-//            Integer id = rs.getInt("id");
-//            String title = rs.getString("title");
-//            String creator = rs.getString("creator");
-//            String description = rs.getString("description");
-//            String ISBN = rs.getString("ISBN");
-//
-//            books.add(new Book(title, creator, description, ISBN));
-//        }
-//
-//        rs.close();
-//        stmt.close();
-//        connection.close();
-//        
-//        return books;
-//    }
-//
-//    @Override
-//    public void delete(Integer key) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-
     @Override
     public List<Book> listAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
