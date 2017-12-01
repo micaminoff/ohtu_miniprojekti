@@ -20,7 +20,7 @@ public interface BookDao {
     List<Book> findByCreator(String creator);
     List<Book> findByTitle(String title) throws SQLException;
     List<Book> findByDescription(String description);
-    Book findByISBN(String ISBN);
+    Book findByISBN(String ISBN) throws SQLException;
     boolean containsTitleAndCreator(String title, String creator);
     Book findByTitleAndCreator(String title, String creator);
     void add(Book book);

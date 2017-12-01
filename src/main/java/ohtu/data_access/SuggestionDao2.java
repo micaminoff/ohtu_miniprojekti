@@ -34,62 +34,6 @@ public class SuggestionDao2 implements SuggestionDao {
         this.podcastDao = podcastDao;
         this.videoDao = videoDao;
     }
-
-//    @Override
-//    public Suggestion findOne(Integer key) throws SQLException {
-//        Connection connection = database.getConnection();
-//        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vinkki WHERE id = ?");
-//        stmt.setObject(1, key);
-//
-//        ResultSet rs = stmt.executeQuery();
-//
-//        if (!rs.next()) {
-//            return null;
-//        }
-//        
-//        //Otetaan talteen vinkin tiedot
-//        String type = rs.getString("type");
-//        String comment = rs.getString("comment");
-//        String tags = rs.getString("tags");
-//        String relatedCourses = rs.getString("related_courses");
-//        String esitietoKurssit = rs.getString("esitietokurssit");
-//        
-//        //Nyt kun tyyppi on selvillä, voidaan yhdistää taulut
-//        if (type.equals("book")) {
-//            stmt = connection.prepareStatement("SELECT * FROM Vinkki v, Book b WHERE v.id = b.id AND v.id = ?");
-//            rs = stmt.executeQuery();
-//            
-//            //Otetaan talteen kirjan ja vinkin tiedot
-//            comment = rs.getString("comment");
-//            tags = rs.getString("tags");
-//            relatedCourses = rs.getString("related_courses");
-//            esitietoKurssit = rs.getString("esitietokurssit");
-//            
-//        }
-//
-//        rs.close();
-//        stmt.close();
-//        connection.close();
-//        Suggestion s = new Suggestion(new Book("null","null","null","null"));
-//        return s;
-//    }
-//
-//    @Override
-//    public List<Suggestion> findAll() throws SQLException {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-//
-//    @Override
-//    public void delete(Integer key) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
-
-    /**
-     *
-     * @return
-     * @throws SQLException
-     */
-
     @Override
     public List<Suggestion> listAll() throws SQLException {
         List<Suggestion> list = new ArrayList<>();
@@ -110,21 +54,17 @@ public class SuggestionDao2 implements SuggestionDao {
             //Kommnetit pitää kerätä listalle
             //Tagit pitää kerätä listalle
             //Samoin kurssit listalle
+            //bookin osalta listaus PITÄISI TOIMIA jA SAMI ON HOMOSEKSUAALI
             if (type.equals("book")) {
+                //Voidaan tehdä Dao-rajapintaan metodi findById(String string)
+                //Muuutetaan siis findByISBN() ja findByURL()
                 Book book = bookDao.findByISBN(suggestableId);
-//                stmt = connection.prepareStatement("SELECT * FROM Book WHERE id = ?");
-//                stmt.setObject(1, id);
-//                ResultSet rs2 = stmt.executeQuery();
-//
-//                String author = rs2.getString("author");
-//                String title = rs2.getString("title");
-//                String description = rs2.getString("description");
-//                String ISBN = rs2.getString("ISBN");
-//                
+                //tulevaisuudessa lisätään parametreina myös kommentti olio
                 list.add(new Suggestion(book));
-//                
-//                rs2.close();
-            } //Tähän sit else haaroja
+            } else if (type.equals("blog")) {
+                Blog blog = blogDao.findByUrl(suggestableId);
+                list.add(new Suggestion(blog));
+            }
             
         }
         rs.close();

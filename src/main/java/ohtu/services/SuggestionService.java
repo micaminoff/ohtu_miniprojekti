@@ -47,7 +47,7 @@ public class SuggestionService {
     public List<Book> findBookByCreator(String creator) {
         return bookDao.findByCreator(creator);
     }
-    public Book findBookByISBN(String ISBN) {
+    public Book findBookByISBN(String ISBN) throws SQLException {
         return bookDao.findByISBN(ISBN);
     }
     public List<Book> findBookByDescription(String description) {

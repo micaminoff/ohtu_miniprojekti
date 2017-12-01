@@ -58,8 +58,6 @@ public class BookDao2 implements BookDao {
             list.add(new Book(title1, author, description, ISBN));
         }
         
-        
-        
         rs.close();
         stmt.close();
         connection.close();
@@ -73,8 +71,27 @@ public class BookDao2 implements BookDao {
     }
 
     @Override
-    public Book findByISBN(String ISBN) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Book findByISBN(String ISBN) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Book WHERE isbn = ?");
+        stmt.setObject(1, ISBN);
+
+        ResultSet rs = stmt.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+        
+        String author = rs.getString("author");
+        String title = rs.getString("title");
+        String description = rs.getString("description");
+        String bookISBN = rs.getString("ISBN");
+        
+        rs.close();
+        stmt.close();
+        connection.close();
+        
+        return new Book(title, author, description, bookISBN);
     }
 
     @Override
