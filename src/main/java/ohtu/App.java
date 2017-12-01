@@ -25,28 +25,28 @@ public class App {
     }
 
     public void run() throws SQLException {
-            remove();
-//        System.out.println("Welcome!");
-//        while (true) {
-//            String command = io.readLine("\nCommand (list, find, remove or add, empty command exits program):");
-//            if (command.isEmpty()) {
-//                break;
-//            }
-//            if (command.equals("list")) {
-//                list();
-//            } else if (command.equals("add")) {
-//                add();
-//            } else if (command.equals("find")) {
-//                find();
-//            } else if (command.equals("remove")) {
-//                remove();
-//            } else {
-//                io.print("Unknown command!");
-//            }
-//        }
+        System.out.println("Welcome!");
+        while (true) {
+            String command = io.readLine("\nCommand (list, find, remove or add, empty command exits program):");
+            if (command.isEmpty()) {
+                break;
+            }
+            if (command.equals("list")) {
+                list();
+            } else if (command.equals("add")) {
+                add();
+            } else if (command.equals("find")) {
+                find();
+            } else if (command.equals("remove")) {
+                remove();
+            } else {
+                io.print("Unknown command!");
+            }
+        }
 
     }
 
+    //ei toimi vielä suggestionservicessä
     public void remove() throws SQLException {
         List<Suggestion> suggestions = sugg.listAll();
         for (int i = 0; i < suggestions.size(); i++) {
