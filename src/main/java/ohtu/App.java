@@ -88,17 +88,17 @@ public class App {
     private void addBook() throws SQLException {
         String title = io.readLine("Title:");
         String creator = io.readLine("Author:");
+        String ISBN = io.readLine("ISBN:");
         
-        if (title.isEmpty() || creator.isEmpty()) {
-            io.print("Book must have atleast title and author!");
+        if (title.isEmpty() || creator.isEmpty() || ISBN.isEmpty()) {
+            io.print("Book must have title, author and ISBN!");
             return;
         }
         
-        Book book = sugg.findBookByTitleAndCreator(title, creator);
+        Book book = sugg.findBookByISBN(ISBN);
         
         if (book == null) {
             String description = io.readLine("Description:");
-            String ISBN = io.readLine("ISBN:");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
         } else {
