@@ -106,22 +106,24 @@ public class SuggestionDao2 implements SuggestionDao {
         while (rs.next()) {
             int id = rs.getInt("id");
             String type = rs.getString("type");
+            String suggestableId = rs.getString("suggestable_id");
             //Kommnetit pitää kerätä listalle
             //Tagit pitää kerätä listalle
             //Samoin kurssit listalle
             if (type.equals("book")) {
-                stmt = connection.prepareStatement("SELECT * FROM Book WHERE id = ?");
-                stmt.setObject(1, id);
-                ResultSet rs2 = stmt.executeQuery();
-
-                String author = rs2.getString("author");
-                String title = rs2.getString("title");
-                String description = rs2.getString("description");
-                String ISBN = rs2.getString("ISBN");
-                
-//                list.add(new Suggestion(new Book(author, title, description, ISBN), type));
-                
-                rs2.close();
+                Book book = bookDao.findByISBN(suggestableId);
+//                stmt = connection.prepareStatement("SELECT * FROM Book WHERE id = ?");
+//                stmt.setObject(1, id);
+//                ResultSet rs2 = stmt.executeQuery();
+//
+//                String author = rs2.getString("author");
+//                String title = rs2.getString("title");
+//                String description = rs2.getString("description");
+//                String ISBN = rs2.getString("ISBN");
+//                
+                list.add(new Suggestion(book));
+//                
+//                rs2.close();
             } //Tähän sit else haaroja
             
         }
