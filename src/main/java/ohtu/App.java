@@ -288,11 +288,12 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-        SuggestionDao suggestionDao = new InMemorySuggestionDao();
+        
         BookDao bookDao = new InMemoryBookDao();
         BlogDao blogDao = new InMemoryBlogDao();
         PodcastDao podcastDao = new InMemoryPodcastDao();
         VideoDao videoDao = new InMemoryVideoDao();
+        SuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
         IO io = new ConsoleIO();
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         new App(io, sugg).run();

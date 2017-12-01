@@ -20,11 +20,21 @@ import static ohtu.domain.Type.*;
  */
 public class InMemorySuggestionDao implements SuggestionDao{
     private List<Suggestion> suggestions;
+    private BookDao bookDao;
+    private BlogDao blogDao;
+    private PodcastDao podcastDao;
+    private VideoDao videoDao;
     
-    public InMemorySuggestionDao() {
+    public InMemorySuggestionDao(BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
         suggestions = new ArrayList();
+        this.bookDao = bookDao;
+        this.blogDao = blogDao;
+        this.podcastDao = podcastDao;
+        this.videoDao = videoDao;
+        
         suggestions.add(new Suggestion(new Book("Clean Code: A Handbook of Agile Software Craftsmanship", "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", "978-951-98548-9-2")));
         suggestions.add(new Suggestion(new Blog("JRE #002 - MMA Show #2", "Joe Rogan" , "Eddie Bravo needs help" ,"http://podcasts.joerogan.net/podcasts/mma-show-2", "The Joe Rogan Experience")));
+        
     }
     
     @Override
