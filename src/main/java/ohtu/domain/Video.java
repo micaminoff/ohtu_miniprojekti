@@ -70,5 +70,21 @@ public class Video implements Suggestable {
     public String toString() {
         return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url;
     }
+ 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Video)) {
+            return false;
+        }
+        Video v = (Video) o;
+        if (this.title.equals(v.title) &&
+                this.creator.equals(v.creator) &&
+                this.description.equals(v.description) &&
+                this.url.equals(v.url)) {
+            
+            return true;
+        }
+        return false;
+    }
     
 }
