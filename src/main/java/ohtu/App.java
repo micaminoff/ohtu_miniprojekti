@@ -85,20 +85,23 @@ public class App {
         }
     }
 
-    private void addBook() throws SQLException {
-        String title = io.readLine("Title:");
-        String creator = io.readLine("Author:");
-        String ISBN = io.readLine("ISBN:");
-        
-        if (title.isEmpty() || creator.isEmpty() || ISBN.isEmpty()) {
-            io.print("Book must have title, author and ISBN!");
-            return;
+    private void addBook() throws SQLException {        
+        String title = io.readLine("(*)Title: ");
+        while (title.isEmpty()) {
+            title = io.readLine("Title is required\nTitle: ");
         }
-        
-        Book book = sugg.findBookByISBN(ISBN);
+        String creator = io.readLine("(*)Author: ");
+        while (creator.isEmpty()) {
+            creator = io.readLine("Author is required\nTitle: ");
+        }
+        String ISBN = io.readLine("(*)ISBN:");
+        while (ISBN.isEmpty()) {
+            ISBN = io.readLine("ISBN is required\nISBN: ");
+        }
+        Book book = sugg.findBookByTitleAndCreator(title, creator);
         
         if (book == null) {
-            String description = io.readLine("Description:");
+            String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
         } else {
@@ -114,22 +117,22 @@ public class App {
     }
     
     private void addBlog() throws SQLException {
-        String url = io.readLine("URL:");
+        String url = io.readLine("(*)URL:");
         
-        if (url.isEmpty()) {
-            io.print("Blog must have url!");
-            return;
+        while (url.isEmpty()) {
+            url = io.readLine("URL is required!\nUrl:");
         }
 
         Blog blog = sugg.findBlogByURL(url);
         
         if (blog == null) {
-            String title = io.readLine("Title:");
-            String creator = io.readLine("Writer:");
-            
-            if (title.isEmpty() || creator.isEmpty() || url.isEmpty()) {
-                io.print("Blog must have title and writer!");
-                return;
+            String title = io.readLine("(*)Title:");
+            while (title.isEmpty()) {
+                title = io.readLine("Title is required!\nTitle:");
+            }
+            String creator = io.readLine("(*)Author:");
+            while (creator.isEmpty()) {
+                creator = io.readLine("Author is required!\nAuthor:");
             }
             
             String blogName = io.readLine("Blogname (optional):");
@@ -150,21 +153,19 @@ public class App {
     }
     
     private void addVideo() throws SQLException {
-        String url = io.readLine("URL: ");
+        String url = io.readLine("(*)URL: ");
         
-        if (url.isEmpty()) {
-            io.print("Video must have url!");
-            return;
+        while (url.isEmpty()) {
+            url = io.readLine("URL is required!\nURL:");
         }
 
         Video video = sugg.findVideoByURL(url);
         
         if (video == null) {
-            String title = io.readLine("Title:");
+            String title = io.readLine("(*)Title:");
            
-             if (title.isEmpty()) {
-                io.print("Video must have title!");
-                return;
+             while (title.isEmpty()) {
+                title = io.readLine("Title is required!\nTitle:");
             }
             
             String creator = io.readLine("Creator (optional):");
@@ -185,22 +186,22 @@ public class App {
     }
     
     private void addPodcast() throws SQLException {
-        String url = io.readLine("URL: ");
+        String url = io.readLine("(*)URL: ");
         
-        if (url.isEmpty()) {
-            io.print("Podcast must have url!");
-            return;
+        while (url.isEmpty()) {
+            url = io.readLine("URL is required!\nURL:");
         }
 
         Podcast podcast = sugg.findPodcastByURL(url);
         
         if (podcast == null) {
-            String title = io.readLine("Title:");
-            String podcastName = io.readLine("Podcast name:");
-            
-            if (title.isEmpty() || podcastName.isEmpty()) {
-                io.print("Podcast must have title and podcast name!");
-                return;
+            String title = io.readLine("(*)Title:");
+            while (title.isEmpty()) {
+                title = io.readLine("Title is required!\nTitle:");
+            }
+            String podcastName = io.readLine("(*)Podcast name:");
+            while (podcastName.isEmpty()) {
+                podcastName = io.readLine("Podcast name is required!\nPodcast name:");
             }
             
             String creator = io.readLine("Creator (optional):");
