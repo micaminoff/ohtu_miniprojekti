@@ -224,8 +224,13 @@ public class App {
     }
     
     public void list() throws SQLException {
-        for (Suggestion s : sugg.listAllSuggestions()) {
-            io.print("\n" + s);
+        List<Suggestion> suggestions = sugg.listAllSuggestions();
+        if (suggestions == null) {
+            io.print("There are no suggestions yet! Type 'add' to add a new one");
+        } else {
+            for (Suggestion s : suggestions) {
+                io.print("\n" + s);
+            }
         }
     }
 

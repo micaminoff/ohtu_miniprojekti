@@ -64,6 +64,8 @@ public class SuggestionDao2 implements SuggestionDao {
             } else if (type.equals("blog")) {
                 Blog blog = blogDao.findByUrl(suggestableId);
                 list.add(new Suggestion(blog));
+            } else if (type.equals("video")) {
+                
             }
             
         }
