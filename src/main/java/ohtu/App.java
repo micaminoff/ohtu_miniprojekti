@@ -86,17 +86,17 @@ public class App {
     }
 
     private void addBook() throws SQLException {        
-        String title = io.readLine("(*)Title: ");
+        String title = io.readLine("(*)Title:");
         while (title.isEmpty()) {
-            title = io.readLine("Title is required\nTitle: ");
+            title = io.readLine("Title is required\nTitle:");
         }
-        String creator = io.readLine("(*)Author: ");
+        String creator = io.readLine("(*)Author:");
         while (creator.isEmpty()) {
-            creator = io.readLine("Author is required\nTitle: ");
+            creator = io.readLine("Author is required\nAuthor:");
         }
         String ISBN = io.readLine("(*)ISBN:");
         while (ISBN.isEmpty()) {
-            ISBN = io.readLine("ISBN is required\nISBN: ");
+            ISBN = io.readLine("ISBN is required\nISBN:");
         }
         Book book = sugg.findBookByTitleAndCreator(title, creator);
         
@@ -153,7 +153,7 @@ public class App {
     }
     
     private void addVideo() throws SQLException {
-        String url = io.readLine("(*)URL: ");
+        String url = io.readLine("(*)URL:");
         
         while (url.isEmpty()) {
             url = io.readLine("URL is required!\nURL:");
@@ -186,7 +186,7 @@ public class App {
     }
     
     private void addPodcast() throws SQLException {
-        String url = io.readLine("(*)URL: ");
+        String url = io.readLine("(*)URL:");
         
         while (url.isEmpty()) {
             url = io.readLine("URL is required!\nURL:");
