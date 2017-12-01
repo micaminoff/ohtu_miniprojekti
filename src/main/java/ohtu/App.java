@@ -48,7 +48,7 @@ public class App {
 
     //ei toimi vielä suggestionservicessä
     public void remove() throws SQLException {
-        List<Suggestion> suggestions = sugg.listAll();
+        List<Suggestion> suggestions = sugg.listAllSuggestions();
         for (int i = 0; i < suggestions.size(); i++) {
             io.print("\n" + i + ".:\n" + suggestions.get(i));
         }
