@@ -18,11 +18,11 @@ public class Stepdefs {
     App app;
     StubIO io;
 
-    SuggestionDao suggestionDao = new InMemorySuggestionDao();
     BookDao bookDao = new InMemoryBookDao();
     BlogDao blogDao = new InMemoryBlogDao();
     PodcastDao podcastDao = new InMemoryPodcastDao();
     VideoDao videoDao = new InMemoryVideoDao();
+    SuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
     SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
 
