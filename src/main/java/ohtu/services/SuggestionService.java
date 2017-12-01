@@ -40,7 +40,7 @@ public class SuggestionService {
         
     }
     
-    public List<Suggestion> listAll() throws SQLException {
+    public List<Suggestion> listAllSuggestions() throws SQLException {
         return suggestionDao.listAll();
     }
     
@@ -116,7 +116,11 @@ public class SuggestionService {
             return true;
         }
         return false;
-    } 
+    }
+    
+    public boolean findSuggestionBy(String title) {
+        return false;
+    }
     
     public void removeSuggestion(Suggestion s) {
         suggestionDao.remove(s);

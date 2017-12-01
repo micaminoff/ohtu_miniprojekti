@@ -223,7 +223,7 @@ public class App {
     }
     
     public void list() throws SQLException {
-        for (Suggestion s : sugg.listAll()) {
+        for (Suggestion s : sugg.listAllSuggestions()) {
             io.print("\n" + s);
         }
     }
