@@ -12,6 +12,6 @@ public interface PodcastDao {
     List<Podcast> findByPodcastName(String podcastName);
     //etsimismetodi avaimella
     void add(Podcast podcast);
-    //void delete(Podcast pocast);
+    void remove(Podcast pocast);
     
 }

@@ -29,11 +29,8 @@ public class InMemoryBookDao implements BookDao {
     }
 
 
-    @Override
-    public void add(Book book) {
-        books.add(book);    // Tämä lienee turha? Ei ainakaan ole käytössä 27.11
-    }
-
+    
+    
     @Override
     public List<Book> findByCreator(String creator) {
         ArrayList<Book> booksReturn = new ArrayList();
@@ -98,4 +95,15 @@ public class InMemoryBookDao implements BookDao {
         }
         return null;
     } 
+    
+    @Override
+    public void add(Book book) {
+        books.add(book);
+    }
+
+    @Override
+    public void remove(Book book) {
+        books.remove(book);
+    }
+    
 }

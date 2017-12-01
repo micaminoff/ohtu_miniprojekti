@@ -5,13 +5,14 @@
  */
 package ohtu.data_access;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Type;
+import static ohtu.domain.Type.*;
 
 /**
  *
@@ -37,6 +38,11 @@ public class InMemorySuggestionDao implements SuggestionDao{
     }
     
     @Override
+    public void remove(Suggestion s) {
+        suggestions.remove(s);
+    }
+    
+    @Override
     public List<Suggestion> findByTitle(String title) {
         List<Suggestion> listRet = new ArrayList();
         
@@ -49,9 +55,18 @@ public class InMemorySuggestionDao implements SuggestionDao{
         return listRet;
     }
 
+    //huom equals metodit pitää tehdä
     @Override
-    public Suggestion findSuggestionById(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean containsSuggestionForSuggestable(Suggestable suggestable) {
+        for (Suggestion suggestion : suggestions) {
+            if (suggestion.getSuggestable().equals(suggestable))
+                return true;
+        }
+        return false;
     }
+    
+    
+    
+    
     
 }

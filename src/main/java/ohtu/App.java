@@ -61,7 +61,7 @@ public class App {
             if (index >= 0 && index < suggestions.size()) {
                 String confirm = io.readLine("Are you sure? (type y)");
                 if (confirm.equals("y")) {
-                    sugg.removeSuggestion(index);
+                    sugg.removeSuggestion(suggestions.get(index));
                     io.print("Suggestion removed!");
                 } 
                 return;

@@ -109,8 +109,27 @@ public class SuggestionService {
         return false;
     } 
     
-    public void removeSuggestion(int index) {
-        //TODO
+    public void removeSuggestion(Suggestion s) {
+        suggestionDao.remove(s);
+
+        if (!suggestionDao.containsSuggestionForSuggestable(s.getSuggestable())) {
+            Type t = s .getType();
+            switch (t) {
+                case BOOK:
+                    bookDao.remove((Book) s.getSuggestable());
+                    break;
+                case BLOG:
+                    blogDao.remove((Blog) s.getSuggestable());
+                    break;
+                case PODCAST:
+                    podcastDao.remove((Podcast) s.getSuggestable());
+                    break;
+                case VIDEO:
+                    videoDao.remove((Video) s.getSuggestable());
+                    break;
+            }
+        }
+        
     }
     
 }

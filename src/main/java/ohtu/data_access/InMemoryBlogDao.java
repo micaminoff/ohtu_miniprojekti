@@ -62,7 +62,12 @@ public class InMemoryBlogDao implements BlogDao {
     
     @Override
     public void add(Blog blog) {
-        this.blogs.add(blog);
+        blogs.add(blog);
+    }
+    
+    @Override
+    public void remove(Blog blog) {
+        blogs.remove(blog);
     }
     
 }

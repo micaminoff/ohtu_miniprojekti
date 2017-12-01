@@ -65,4 +65,9 @@ public class InMemoryPodcastDao implements PodcastDao {
         podcasts.add(podcast);
     }
     
+    @Override
+    public void remove(Podcast podcast) {
+        podcasts.remove(podcast);
+    }
+    
 }

@@ -162,23 +162,14 @@ public class SuggestionDao2 implements SuggestionDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Suggestion findSuggestionById(int id) throws SQLException {
-
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Vinkki WHERE id = ?");
-        stmt.setObject(1, id);
-
-        ResultSet rs = stmt.executeQuery();
-
-        if (!rs.next()) {
-            return null;
-        }
-        
-        
-        String type = rs.getString("type");
-        
-        return null;
+  @Override
+  public void remove(Suggestion s) {
+      
+  }
+  
+  @Override
+    public boolean containsSuggestionForSuggestable(Suggestable suggestable) {
+        return false;
     }
     
 }

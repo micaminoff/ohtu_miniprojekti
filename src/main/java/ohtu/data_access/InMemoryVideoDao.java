@@ -65,4 +65,9 @@ public class InMemoryVideoDao implements VideoDao {
         videos.add(video);
     }
     
+    @Override
+    public void remove(Video video) {
+        videos.remove(video);
+    }
+    
 }

@@ -24,5 +24,5 @@ public interface BookDao {
     boolean containsTitleAndCreator(String title, String creator);
     Book findByTitleAndCreator(String title, String creator);
     void add(Book book);
-    //void delete(Book book);
+    void remove(Book book);
 }

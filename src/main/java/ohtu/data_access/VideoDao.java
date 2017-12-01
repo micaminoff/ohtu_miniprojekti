@@ -12,5 +12,5 @@ public interface VideoDao {
     Video findByUrl(String url);
     //etsimismetodi avaimella
     void add(Video video);
-    //void delete(Video video);
+    void remove(Video video);
 }

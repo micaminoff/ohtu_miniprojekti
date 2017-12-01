@@ -12,6 +12,6 @@ public interface BlogDao {
     List<Blog> findByBlogName(String blogName);
     //etsimismetodi avaimella
     void add(Blog blog);
-    //void delete(Blog blog);
+    void remove(Blog blog);
     
 }
