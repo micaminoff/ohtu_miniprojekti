@@ -45,9 +45,10 @@ public class SuggestionDao2 implements SuggestionDao {
 
         ResultSet rs = stmt.executeQuery();
 
-        if (!rs.next()) {
-            return null;
-        }
+        //Tämä pilasi alunperin listauksen. Jostain syystä palautti null ???
+//        if (!rs.next()) {
+//            return null;
+//        }
         
         while (rs.next()) {
             int id = rs.getInt("id");
