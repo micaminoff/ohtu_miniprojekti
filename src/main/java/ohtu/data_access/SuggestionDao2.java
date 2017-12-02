@@ -51,7 +51,6 @@ public class SuggestionDao2 implements SuggestionDao {
 //        }
         
         while (rs.next()) {
-            int id = rs.getInt("id");
             String type = rs.getString("type");
             String suggestableId = rs.getString("suggestable_id");
             //Kommnetit pitää kerätä listalle

@@ -225,7 +225,7 @@ public class App {
     
     public void list() throws SQLException {
         List<Suggestion> suggestions = sugg.listAllSuggestions();
-        if (suggestions == null) {
+        if (suggestions.isEmpty()) {
             io.print("\nThere are no suggestions yet! Type 'add' to add a new one");
         } else {
             for (Suggestion s : suggestions) {
