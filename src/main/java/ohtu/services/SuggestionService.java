@@ -7,17 +7,17 @@ package ohtu.services;
 
 import java.sql.SQLException;
 import java.util.List;
-import ohtu.data_access.BlogDao;
-import ohtu.data_access.BookDao;
-import ohtu.data_access.PodcastDao;
-import ohtu.data_access.SuggestionDao;
-import ohtu.data_access.VideoDao;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Type;
 import ohtu.domain.Video;
+import ohtu.data_access.InterfaceBlogDao;
+import ohtu.data_access.InterfaceBookDao;
+import ohtu.data_access.InterfaceVideoDao;
+import ohtu.data_access.InterfacePodcastDao;
+import ohtu.data_access.InterfaceSuggestionDao;
 
 /**
  *
@@ -25,13 +25,13 @@ import ohtu.domain.Video;
  * päivityksiä: mkotola
  */
 public class SuggestionService {
-    private SuggestionDao suggestionDao;
-    private BookDao bookDao;
-    private BlogDao blogDao;
-    private PodcastDao podcastDao;
-    private VideoDao videoDao;
+    private InterfaceSuggestionDao suggestionDao;
+    private InterfaceBookDao bookDao;
+    private InterfaceBlogDao blogDao;
+    private InterfacePodcastDao podcastDao;
+    private InterfaceVideoDao videoDao;
     
-    public SuggestionService(SuggestionDao suggestionDao, BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
+    public SuggestionService(InterfaceSuggestionDao suggestionDao, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         this.suggestionDao = suggestionDao;
         this.bookDao = bookDao;
         this.blogDao = blogDao;

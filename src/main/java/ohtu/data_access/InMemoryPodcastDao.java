@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Podcast;
 
-public class InMemoryPodcastDao implements PodcastDao {
+public class InMemoryPodcastDao implements InterfacePodcastDao {
     private List<Podcast> podcasts;
     
     public InMemoryPodcastDao() {

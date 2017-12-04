@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import ohtu.domain.Video;
 
-public interface VideoDao {
+public interface InterfaceVideoDao {
     
     List<Video> listAll();
     List<Video> findByTitle(String title);

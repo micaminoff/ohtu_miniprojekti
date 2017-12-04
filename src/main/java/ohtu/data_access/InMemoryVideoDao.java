@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Video;
 
-public class InMemoryVideoDao implements VideoDao {
+public class InMemoryVideoDao implements InterfaceVideoDao {
     private List<Video> videos;
     
     public InMemoryVideoDao() {

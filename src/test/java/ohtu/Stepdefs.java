@@ -16,11 +16,11 @@ public class Stepdefs {
     App app;
     StubIO io;
 
-    BookDao bookDao = new InMemoryBookDao();
-    BlogDao blogDao = new InMemoryBlogDao();
-    PodcastDao podcastDao = new InMemoryPodcastDao();
-    VideoDao videoDao = new InMemoryVideoDao();
-    SuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
+    InterfaceBookDao bookDao = new InMemoryBookDao();
+    InterfaceBlogDao blogDao = new InMemoryBlogDao();
+    InterfacePodcastDao podcastDao = new InMemoryPodcastDao();
+    InterfaceVideoDao videoDao = new InMemoryVideoDao();
+    InterfaceSuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
     SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
 

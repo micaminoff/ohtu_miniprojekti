@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
 
-public class InMemoryBlogDao implements BlogDao {
+public class InMemoryBlogDao implements InterfaceBlogDao {
     private List<Blog> blogs;
     
     public InMemoryBlogDao() {
@@ -19,6 +19,11 @@ public class InMemoryBlogDao implements BlogDao {
     @Override
     public List<Blog> listAll() {
         return blogs;
+    }
+    
+    @Override
+    public List<Blog> findByAll(String arg) {
+        return null;
     }
     
     @Override 

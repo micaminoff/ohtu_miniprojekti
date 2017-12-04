@@ -10,43 +10,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import ohtu.domain.Video;
+import ohtu.domain.Podcast;
 
 /**
  *
- * @author hcpaavo
+ * @author paavo
  */
-public class VideoDao2 implements VideoDao {
+public class SQLPodcastDao implements InterfacePodcastDao {
     private Database database;
     
-    public VideoDao2(Database database) {
+    public SQLPodcastDao(Database database) {
         this.database = database;
     }
 
     @Override
-    public List<Video> listAll() {
+    public List<Podcast> listAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Video> findByTitle(String title) {
+    public List<Podcast> findByTitle(String podcast) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Video> findByCreator(String creator) {
+    public List<Podcast> findByCreator(String podcast) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<Video> findByDescription(String description) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Video findByUrl(String url) throws SQLException {
+    public Podcast findByUrl(String url) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Video WHERE url = ?");
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Podcast WHERE url = ?");
         stmt.setObject(1, url);
 
         ResultSet rs = stmt.executeQuery();
@@ -58,24 +53,31 @@ public class VideoDao2 implements VideoDao {
         String title = rs.getString("title");
         String creator = rs.getString("creator");
         String description = rs.getString("description");
+        String podcastName = rs.getString("podcastName");
         
         rs.close();
         stmt.close();
         connection.close();
         
-        return new Video(title, creator, description, url);
+        return new Podcast(title, creator, description, url, podcastName);
     }
 
     @Override
-    public void add(Video video) {
-          try {
+    public List<Podcast> findByPodcastName(String podcastName) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void add(Podcast podcast) {
+        try {
           Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Video (url, title, creator, description) VALUES (?, ?, ?, ?)");
+          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Podcast (url, title, creator, podcastName, description) VALUES (?, ?, ?, ?, ?)");
           
-          stmt.setString(1, video.getUrl());
-          stmt.setString(2, video.getTitle());
-          stmt.setString(3, video.getCreator());
-          stmt.setString(4, video.getDescription());
+          stmt.setString(1, podcast.getUrl());
+          stmt.setString(2, podcast.getTitle());
+          stmt.setString(3, podcast.getCreator());
+          stmt.setString(4, podcast.getPodcastName());
+          stmt.setString(5, podcast.getDescription());
           
           stmt.executeUpdate();
           
@@ -87,11 +89,11 @@ public class VideoDao2 implements VideoDao {
     }
 
     @Override
-    public void remove(Video video) {
+    public void remove(Podcast podcast) {
         try {
           Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Video WHERE url = ?");
-          stmt.setString(1, video.getUrl());
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Podcast WHERE url = ?");
+          stmt.setString(1, podcast.getUrl());
           stmt.executeUpdate();
           
           stmt.close();

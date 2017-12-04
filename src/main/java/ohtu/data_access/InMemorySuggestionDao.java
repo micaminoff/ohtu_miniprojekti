@@ -19,15 +19,15 @@ import ohtu.domain.Type;
 import static ohtu.domain.Type.*;
 import ohtu.domain.Video;
 
-public class InMemorySuggestionDao implements SuggestionDao {
+public class InMemorySuggestionDao implements InterfaceSuggestionDao {
 
     private List<Suggestion> suggestions;
-    private BookDao bookDao;
-    private BlogDao blogDao;
-    private PodcastDao podcastDao;
-    private VideoDao videoDao;
+    private InterfaceBookDao bookDao;
+    private InterfaceBlogDao blogDao;
+    private InterfacePodcastDao podcastDao;
+    private InterfaceVideoDao videoDao;
 
-    public InMemorySuggestionDao(BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
+    public InMemorySuggestionDao(InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         suggestions = new ArrayList();
         this.bookDao = bookDao;
         this.blogDao = blogDao;

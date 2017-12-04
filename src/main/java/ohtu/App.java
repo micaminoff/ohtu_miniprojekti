@@ -306,14 +306,20 @@ public class App {
 
         //Tästä kommentti pois niin toimii tietokannalla
         Database database = new Database("jdbc:sqlite:src/main/resources/sql/database.db");
-        BookDao bookDao = new BookDao2(database);
-        BlogDao blogDao = new BlogDao2(database);
-        VideoDao videoDao = new VideoDao2(database);
-        PodcastDao podcastDao = new PodcastDao2(database);
-        SuggestionDao suggestionDao = new SuggestionDao2(database, bookDao, blogDao, podcastDao, videoDao);
-        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao); 
-        IO io = new ConsoleIO();
-        new App(io, sugg).run();
+        InterfaceBlogDao blogDao = new SQLBlogDao(database);
+        List<Blog> blogs = blogDao.findByAll("Agile");
+        
+        for (Blog blog : blogs) {
+            System.out.println(blog.toString());
+        }
+        
+//        BlogDao blogDao = new BlogDao2(database);
+//        VideoDao videoDao = new VideoDao2(database);
+//        PodcastDao podcastDao = new PodcastDao2(database);
+//        SuggestionDao suggestionDao = new SuggestionDao2(database, bookDao, blogDao, podcastDao, videoDao);
+//        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao); 
+//        IO io = new ConsoleIO();
+//        new App(io, sugg).run();
     }
 
 }

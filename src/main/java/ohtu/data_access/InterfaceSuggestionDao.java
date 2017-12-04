@@ -14,7 +14,7 @@ import ohtu.domain.Suggestion;
  *
  * @author hasasami
  */
-public interface SuggestionDao {
+public interface InterfaceSuggestionDao {
     List<Suggestion> listAll() throws SQLException;
     List<Suggestion> findByTitle(String title);
     void add(Suggestion suggestion) throws SQLException;

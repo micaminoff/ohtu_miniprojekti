@@ -14,14 +14,14 @@ import ohtu.domain.Suggestion;
 import ohtu.domain.Type;
 import ohtu.domain.Video;
 
-public class SuggestionDao2 implements SuggestionDao {
+public class SQLSuggestionDao implements InterfaceSuggestionDao {
     private Database database;
-    private BookDao bookDao;
-    private BlogDao blogDao;
-    private PodcastDao podcastDao;
-    private VideoDao videoDao;
+    private InterfaceBookDao bookDao;
+    private InterfaceBlogDao blogDao;
+    private InterfacePodcastDao podcastDao;
+    private InterfaceVideoDao videoDao;
     
-    public SuggestionDao2(Database database, BookDao bookDao, BlogDao blogDao, PodcastDao podcastDao, VideoDao videoDao) {
+    public SQLSuggestionDao(Database database, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         this.database = database;
         this.bookDao = bookDao;
         this.blogDao = blogDao;

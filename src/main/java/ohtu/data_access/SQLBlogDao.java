@@ -9,23 +9,54 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
+import ohtu.domain.Book;
 
 /**
  *
  * @author paavo
  */
-public class BlogDao2 implements BlogDao {
+public class SQLBlogDao implements InterfaceBlogDao {
     private Database database;
     
-    public BlogDao2(Database database) {
+    public SQLBlogDao(Database database) {
         this.database = database;
     }
 
     @Override
     public List<Blog> listAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public List<Blog> findByAll(String arg) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Blog WHERE url LIKE ? OR title LIKE ? OR creator LIKE ? OR blogName LIKE ? OR description LIKE ?");
+        statement.setObject(1, "%" + arg + "%");
+        statement.setObject(2, "%" + arg + "%");
+        statement.setObject(3, "%" + arg + "%");
+        statement.setObject(4, "%" + arg + "%");
+
+        ResultSet rs = statement.executeQuery();
+
+        ArrayList<Blog> blogs = new ArrayList();
+        while (rs.next()) {
+            String url = rs.getString("url");
+            String title = rs.getString("title");
+            String creator = rs.getString("creator");
+            String blogName = rs.getString("blogName");
+            String description = rs.getString("description");
+
+            blogs.add(new Blog(url, title, creator, blogName, description));
+        }
+        
+        rs.close();
+        statement.close();
+        connection.close();
+
+        return blogs;
     }
 
     @Override

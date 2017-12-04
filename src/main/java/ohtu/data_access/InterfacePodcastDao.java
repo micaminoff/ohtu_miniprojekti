@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import ohtu.domain.Podcast;
 
-public interface PodcastDao {
+public interface InterfacePodcastDao {
     
     List<Podcast> listAll();
     List<Podcast> findByTitle(String podcast);
