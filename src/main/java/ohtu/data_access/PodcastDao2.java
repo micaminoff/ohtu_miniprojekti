@@ -69,7 +69,23 @@ public class PodcastDao2 implements PodcastDao {
 
     @Override
     public void add(Podcast podcast) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Podcast (url, title, creator, podcastName, description) VALUES (?, ?, ?, ?, ?)");
+          
+          stmt.setString(1, podcast.getUrl());
+          stmt.setString(2, podcast.getTitle());
+          stmt.setString(3, podcast.getCreator());
+          stmt.setString(4, podcast.getPodcastName());
+          stmt.setString(5, podcast.getDescription());
+          
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
 
     @Override

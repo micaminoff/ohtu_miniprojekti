@@ -106,7 +106,22 @@ public class BookDao2 implements BookDao {
 
     @Override
     public void add(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Book (isbn, title, creator, description) VALUES (?, ?, ?, ?)");
+          
+          stmt.setString(1, book.getISBN());
+          stmt.setString(2, book.getTitle());
+          stmt.setString(3, book.getCreator());
+          stmt.setString(4, book.getDescription());
+          
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
     
     @Override

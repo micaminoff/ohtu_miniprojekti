@@ -98,8 +98,9 @@ public class App {
         while (ISBN.isEmpty()) {
             ISBN = io.readLine("ISBN is required\nISBN:");
         }
-        Book book = sugg.findBookByTitleAndCreator(title, creator);
-        
+//        Book book = sugg.findBookByTitleAndCreator(title, creator);
+        Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
+
         if (book == null) {
             String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);

@@ -68,7 +68,22 @@ public class VideoDao2 implements VideoDao {
 
     @Override
     public void add(Video video) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+          try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Video (url, title, creator, description) VALUES (?, ?, ?, ?)");
+          
+          stmt.setString(1, video.getUrl());
+          stmt.setString(2, video.getTitle());
+          stmt.setString(3, video.getCreator());
+          stmt.setString(4, video.getDescription());
+          
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
 
     @Override

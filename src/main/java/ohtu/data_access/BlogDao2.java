@@ -69,7 +69,23 @@ public class BlogDao2 implements BlogDao {
 
     @Override
     public void add(Blog blog) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Blog (url, title, creator, blogName, description) VALUES (?, ?, ?, ?, ?)");
+          
+          stmt.setString(1, blog.getUrl());
+          stmt.setString(2, blog.getTitle());
+          stmt.setString(3, blog.getCreator());
+          stmt.setString(4, blog.getBlogName());
+          stmt.setString(5, blog.getDescription());
+          
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
 
     @Override

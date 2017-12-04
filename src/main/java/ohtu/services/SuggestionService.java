@@ -89,6 +89,8 @@ public class SuggestionService {
         podcastDao.add(p);
     }
     
+    
+    //Nää vois yhdistää yhdeksi
     public boolean addSuggestion(Book book) throws SQLException {
         if (book != null) {
             suggestionDao.add(new Suggestion(book));
