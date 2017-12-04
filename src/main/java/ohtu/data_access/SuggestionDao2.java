@@ -39,18 +39,18 @@ public class SuggestionDao2 implements SuggestionDao {
 
         while (rs.next()) {
             String type = rs.getString("type");
-            String suggestableId = rs.getString("suggestable_id");
+            String suggestableKey = rs.getString("suggestableKey");
             if (type.equals(Type.BOOK.toString())) {
-                Book book = bookDao.findByISBN(suggestableId);
+                Book book = bookDao.findByISBN(suggestableKey);
                 list.add(new Suggestion(book));
             } else if (type.equals(Type.BLOG.toString())) {
-                Blog blog = blogDao.findByUrl(suggestableId);
+                Blog blog = blogDao.findByUrl(suggestableKey);
                 list.add(new Suggestion(blog));
             } else if (type.equals(Type.VIDEO.toString())) {
-                Video video = videoDao.findByUrl(suggestableId);
+                Video video = videoDao.findByUrl(suggestableKey);
                 list.add(new Suggestion(video));
             } else if (type.equals(Type.PODCAST.toString())) {
-                Podcast podcast = podcastDao.findByUrl(suggestableId);
+                Podcast podcast = podcastDao.findByUrl(suggestableKey);
                 list.add(new Suggestion(podcast));
             }
         }
@@ -67,35 +67,9 @@ public class SuggestionDao2 implements SuggestionDao {
 
     @Override
     public void add(Suggestion suggestion) throws SQLException {
-        //tyyppi = suggestion.getType()
-        //INSERT INTO Vinkki(type) VALUES (?)
-        //
-        
-//        String type = suggestion.getType();
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Vinkki(type) VALUES (?)");
-//        stmt.setObject(1, type);
-
-        ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = connection.prepareStatement("");
         
-        //id:n selvittäminen bookille
-//        stmt = connection.prepareStatement("")
-        
-        Suggestable suggestable = null;
-//        if (type.equals("book")) {
-//            Book book = (Book) suggestion.getSuggestable();
-//            
-//            String title = book.getTitle();
-//            String creator = book.getCreator();
-//            String description = book.getDescription();
-//            String ISBN = book.getISBN();
-//        } else if (type.equals("blog")) {
-//            suggestable = (Blog) suggestion.getSuggestable();
-//        } else {
-//            
-//        }
-//        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
   @Override

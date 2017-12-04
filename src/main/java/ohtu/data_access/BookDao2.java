@@ -50,7 +50,7 @@ public class BookDao2 implements BookDao {
         
         while (rs.next()) {
             int id = rs.getInt("id");
-            String author = rs.getString("author");
+            String author = rs.getString("creator");
             String title1 = rs.getString("title");
             String description = rs.getString("description");
             String ISBN = rs.getString("ISBN");
@@ -83,7 +83,7 @@ public class BookDao2 implements BookDao {
             return null;
         }
         
-        String author = rs.getString("author");
+        String author = rs.getString("creator");
         String title = rs.getString("title");
         String description = rs.getString("description");
         

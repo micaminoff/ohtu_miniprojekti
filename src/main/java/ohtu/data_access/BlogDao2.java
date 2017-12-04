@@ -51,9 +51,9 @@ public class BlogDao2 implements BlogDao {
         }
         
         String title = rs.getString("title");
-        String writer = rs.getString("writer");
+        String writer = rs.getString("creator");
         String description = rs.getString("description");
-        String blogName = rs.getString("blog_name");
+        String blogName = rs.getString("blogName");
         
         rs.close();
         stmt.close();

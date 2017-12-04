@@ -53,7 +53,7 @@ public class PodcastDao2 implements PodcastDao {
         String title = rs.getString("title");
         String creator = rs.getString("creator");
         String description = rs.getString("description");
-        String podcastName = rs.getString("name");
+        String podcastName = rs.getString("podcastName");
         
         rs.close();
         stmt.close();
