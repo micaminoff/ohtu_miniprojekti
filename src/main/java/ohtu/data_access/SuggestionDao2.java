@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.sql.Connection;
@@ -16,12 +11,9 @@ import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 
-/**
- *
- * @author paavo
- */
 public class SuggestionDao2 implements SuggestionDao {
     private Database database;
     private BookDao bookDao;
@@ -45,31 +37,19 @@ public class SuggestionDao2 implements SuggestionDao {
 
         ResultSet rs = stmt.executeQuery();
 
-        //Tämä pilasi alunperin listauksen. Jostain syystä palautti null ???
-//        if (!rs.next()) {
-//            return null;
-//        }
-        
         while (rs.next()) {
             String type = rs.getString("type");
             String suggestableId = rs.getString("suggestable_id");
-            //Kommnetit pitää kerätä listalle
-            //Tagit pitää kerätä listalle
-            //Samoin kurssit listalle
-            //bookin osalta listaus PITÄISI TOIMIA jA SAMI ON HOMOSEKSUAALI
-            if (type.equals("book")) {
-                //Voidaan tehdä Dao-rajapintaan metodi findById(String string)
-                //Muuutetaan siis findByISBN() ja findByURL()
+            if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableId);
-                //tulevaisuudessa lisätään parametreina myös kommentti olio
                 list.add(new Suggestion(book));
-            } else if (type.equals("blog")) {
+            } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableId);
                 list.add(new Suggestion(blog));
-            } else if (type.equals("video")) {
+            } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableId);
                 list.add(new Suggestion(video));
-            } else if (type.equals("podcast")) {
+            } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableId);
                 list.add(new Suggestion(podcast));
             }
@@ -77,7 +57,6 @@ public class SuggestionDao2 implements SuggestionDao {
         rs.close();
         stmt.close();
         connection.close();
-        
         return list;
     }
 
