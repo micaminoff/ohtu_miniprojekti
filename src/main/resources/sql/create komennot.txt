@@ -1,9 +1,8 @@
 CREATE TABLE Suggestion (
 id integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 type varchar(15) NOT NULL,
-suggestable_key varchar(100)
+suggestableKey varchar(100)
 );
-
 
 CREATE TABLE Video (
 url varchar(100) NOT NULL PRIMARY KEY,
@@ -11,6 +10,7 @@ title varchar(60) NOT NULL,
 creator varchar(40),
 description varchar(200)
 );
+
 CREATE TABLE Podcast (
 url varchar(100) NOT NULL PRIMARY KEY,
 title varchar(60) NOT NULL,
@@ -18,12 +18,14 @@ podcastName varchar(60) NOT NULL,
 creator varchar(40),
 description varchar(200)
 );
+
 CREATE TABLE Book (
 isbn varchar(100) NOT NULL PRIMARY KEY,
 title varchar(60) NOT NULL,
 creator varchar(40) NOT NULL,
 description varchar(200)
 );
+
 CREATE TABLE Blog (
 url varchar(100) NOT NULL PRIMARY KEY,
 title varchar(60) NOT NULL,
