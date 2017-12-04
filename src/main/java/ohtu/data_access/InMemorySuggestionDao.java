@@ -44,6 +44,11 @@ public class InMemorySuggestionDao implements InterfaceSuggestionDao {
     public List<Suggestion> listAll() {
         return suggestions;
     }
+    
+    @Override
+    public List<Suggestion> findByAll(String arg) {
+        return null;
+    }
 
     @Override
     public void add(Suggestion suggestion) {

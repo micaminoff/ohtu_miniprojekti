@@ -118,4 +118,29 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
        
        return ret;
     }
+    
+    public List<Suggestion> findByAll(String arg) throws SQLException {
+        List<Book> books = bookDao.findByAll(arg);
+        List<Blog> blogs = blogDao.findByAll(arg);
+        List<Podcast> podcasts = podcastDao.findByAll(arg);
+        List<Video> videos = videoDao.findByAll(arg);
+        
+        List<Suggestion> matching_suggestions = new ArrayList();
+        
+        List<Suggestion> suggestions_from_database = new ArrayList<>();
+        
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
+
+        ResultSet rs = stmt.executeQuery();
+        
+        while(rs.next()) {
+            String id = rs.getString("id");
+            String suggestable_id = rs.getString("suggestablekey");
+            
+            //... fore suggestableille, ja katsotaan matchaako books, blogs... jne. listoihin
+        }
+        
+        return null;
+    }
 }
