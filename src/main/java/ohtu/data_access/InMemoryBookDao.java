@@ -6,9 +6,9 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
-import ohtu.domain.Suggestable;
 
 /**
  *
@@ -29,7 +29,7 @@ public class InMemoryBookDao implements InterfaceBookDao {
     }
 
     @Override
-    public List<Book> findByAll(String args) {
+    public HashMap<String, Book> findByAll(String args) {
         return null;
     }
     

@@ -5,8 +5,8 @@
  */
 package ohtu.data_access;
 
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
 
@@ -21,7 +21,7 @@ public interface InterfaceBookDao {
     List<Book> findByCreator(String creator);
     List<Book> findByTitle(String title) throws SQLException;
     List<Book> findByDescription(String description);
-    List<Book> findByAll(String arg) throws SQLException;
+    HashMap<String, Book> findByAll(String arg) throws SQLException;
     Book findByISBN(String ISBN) throws SQLException;
     boolean containsTitleAndCreator(String title, String creator);
     Book findByTitleAndCreator(String title, String creator);

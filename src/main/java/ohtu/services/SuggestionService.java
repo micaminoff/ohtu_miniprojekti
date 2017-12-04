@@ -120,8 +120,8 @@ public class SuggestionService {
         return false;
     }
     
-    public boolean findSuggestionBy(String title) {
-        return false;
+    public List<Suggestion> findByAll(String arg) throws SQLException {
+        return suggestionDao.findByAll(arg);
     }
     
     public void removeSuggestion(Suggestion s) {

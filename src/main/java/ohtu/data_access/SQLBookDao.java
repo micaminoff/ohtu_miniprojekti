@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
 
@@ -36,7 +37,7 @@ public class SQLBookDao implements InterfaceBookDao {
 
     }
 
-    public List<Book> findByAll(String arg) throws SQLException {
+    public HashMap<String, Book> findByAll(String arg) throws SQLException {
 
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR creator LIKE ? OR description LIKE ?");
@@ -47,14 +48,14 @@ public class SQLBookDao implements InterfaceBookDao {
 
         ResultSet rs = statement.executeQuery();
 
-        ArrayList<Book> books = new ArrayList();
+        HashMap<String, Book> books = new HashMap();
         while (rs.next()) {
             String isbn = rs.getString("isbn");
             String title = rs.getString("title");
             String creator = rs.getString("creator");
             String description = rs.getString("description");
 
-            books.add(new Book(title, creator, description, isbn));
+            books.put(isbn ,new Book(title, creator, description, isbn));
         }
         
         rs.close();

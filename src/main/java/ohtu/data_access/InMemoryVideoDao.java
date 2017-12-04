@@ -1,6 +1,7 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Video;
 
@@ -20,7 +21,7 @@ public class InMemoryVideoDao implements InterfaceVideoDao {
     }
     
     @Override
-    public List<Video> findByAll(String arg) {
+    public HashMap<String, Video> findByAll(String arg) {
         return null;
     }
     

@@ -10,9 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Blog;
-import ohtu.domain.Book;
 
 /**
  *
@@ -31,7 +31,7 @@ public class SQLBlogDao implements InterfaceBlogDao {
     }
     
     @Override
-    public List<Blog> findByAll(String arg) throws SQLException {
+    public HashMap<String,Blog> findByAll(String arg) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Blog WHERE url LIKE ? OR title LIKE ? OR creator LIKE ? OR blogName LIKE ? OR description LIKE ?");
         statement.setObject(1, "%" + arg + "%");
@@ -42,15 +42,16 @@ public class SQLBlogDao implements InterfaceBlogDao {
         
         ResultSet rs = statement.executeQuery();
 
-        ArrayList<Blog> blogs = new ArrayList();
+        HashMap<String, Blog> blogs = new HashMap();
+        
         while (rs.next()) {
             String url = rs.getString("url");
             String title = rs.getString("title");
             String creator = rs.getString("creator");
             String blogName = rs.getString("blogName");
             String description = rs.getString("description");
-
-            blogs.add(new Blog(url, title, creator, blogName, description));
+            
+            blogs.put(url, new Blog(url, title, creator, blogName, description));
         }
         
         rs.close();

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
@@ -15,12 +16,13 @@ import ohtu.domain.Type;
 import ohtu.domain.Video;
 
 public class SQLSuggestionDao implements InterfaceSuggestionDao {
+
     private Database database;
     private InterfaceBookDao bookDao;
     private InterfaceBlogDao blogDao;
     private InterfacePodcastDao podcastDao;
     private InterfaceVideoDao videoDao;
-    
+
     public SQLSuggestionDao(Database database, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         this.database = database;
         this.bookDao = bookDao;
@@ -28,10 +30,11 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         this.podcastDao = podcastDao;
         this.videoDao = videoDao;
     }
+
     @Override
     public List<Suggestion> listAll() throws SQLException {
         List<Suggestion> list = new ArrayList<>();
-        
+
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
 
@@ -70,77 +73,98 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
     public void add(Suggestion suggestion) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Suggestion (type, suggestableKey) VALUES (?, ?)");
-        
+
         stmt.setString(1, suggestion.getType().toString());
         stmt.setString(2, suggestion.getSuggestableKey());
-        
+
         stmt.executeUpdate();
-        
+
         stmt.close();
         connection.close();
     }
 
-  @Override
-  public void remove(Suggestion s){
-      try {
-          Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Suggestion WHERE id = ?");
-          stmt.setInt(1, s.getId());
-          stmt.executeUpdate();
-          
-          stmt.close();
-          connection.close();
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-  }
-  
-  @Override
+    @Override
+    public void remove(Suggestion s) {
+        try {
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM Suggestion WHERE id = ?");
+            stmt.setInt(1, s.getId());
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean containsSuggestionForSuggestable(Suggestable suggestable) {
         boolean ret = false;
-        
-       try {
-          Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE suggestableKey = ? LIMIT 1");
-          stmt.setString(1, suggestable.getKey());
-          ResultSet rs = stmt.executeQuery();
-          
-          if (rs.next()) {
-              ret = true;
-          }
-          
-          rs.close();
-          stmt.close();
-          connection.close();
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
-       
-       return ret;
+
+        try {
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE suggestableKey = ? LIMIT 1");
+            stmt.setString(1, suggestable.getKey());
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                ret = true;
+            }
+
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ret;
     }
-    
+
     public List<Suggestion> findByAll(String arg) throws SQLException {
-        List<Book> books = bookDao.findByAll(arg);
-        List<Blog> blogs = blogDao.findByAll(arg);
-        List<Podcast> podcasts = podcastDao.findByAll(arg);
-        List<Video> videos = videoDao.findByAll(arg);
-        
+
+        HashMap<String, Book> books = bookDao.findByAll(arg);
+        HashMap<String, Blog> blogs = blogDao.findByAll(arg);
+        HashMap<String, Podcast> podcasts = podcastDao.findByAll(arg);
+        HashMap<String, Video> videos = videoDao.findByAll(arg);
+
         List<Suggestion> matching_suggestions = new ArrayList();
-        
-        List<Suggestion> suggestions_from_database = new ArrayList<>();
-        
+
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
 
         ResultSet rs = stmt.executeQuery();
-        
-        while(rs.next()) {
-            String id = rs.getString("id");
+
+        while (rs.next()) {
+            int id = rs.getInt("id");
             String suggestable_id = rs.getString("suggestablekey");
-            
-            //... fore suggestableille, ja katsotaan matchaako books, blogs... jne. listoihin
+            String type = rs.getString("type");
+
+            if (type.equals(Type.BOOK.toString())) {
+                if (books.get(suggestable_id) != null) {
+                    matching_suggestions.add(new Suggestion(id, books.get(suggestable_id)));
+                }
+
+            } else if (type.equals(Type.BLOG.toString())) {
+                if (blogs.get(suggestable_id) != null) {
+                    matching_suggestions.add(new Suggestion(id, blogs.get(suggestable_id)));
+                }
+
+            } else if (type.equals(Type.PODCAST.toString())) {
+                if (podcasts.get(suggestable_id) != null) {
+                    matching_suggestions.add(new Suggestion(id, podcasts.get(suggestable_id)));
+                }
+
+            } else if (type.equals(Type.VIDEO.toString())) {
+                if (videos.get(suggestable_id) != null) {
+                    matching_suggestions.add(new Suggestion(id, videos.get(suggestable_id)));
+                }
+            }
         }
-        
-        return null;
+        rs.close();
+        stmt.close();
+        connection.close();
+        return matching_suggestions;
     }
 }

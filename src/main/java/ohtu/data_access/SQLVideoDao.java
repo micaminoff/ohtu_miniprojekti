@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Video;
 
@@ -103,7 +104,7 @@ public class SQLVideoDao implements InterfaceVideoDao {
     }
     
     @Override
-    public List<Video> findByAll(String arg) throws SQLException {
+    public HashMap<String, Video> findByAll(String arg) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Video WHERE url LIKE ? OR title LIKE ? OR creator LIKE ? OR description LIKE ?");
         statement.setObject(1, "%" + arg + "%");
@@ -113,14 +114,14 @@ public class SQLVideoDao implements InterfaceVideoDao {
 
         ResultSet rs = statement.executeQuery();
 
-        ArrayList<Video> videos = new ArrayList();
+        HashMap<String, Video> videos = new HashMap();
         while (rs.next()) {
             String url = rs.getString("url");
             String title = rs.getString("title");
             String creator = rs.getString("creator");
             String description = rs.getString("description");
 
-            videos.add(new Video(title, creator, description, url));
+            videos.put(url ,new Video(title, creator, description, url));
         }
         
         rs.close();

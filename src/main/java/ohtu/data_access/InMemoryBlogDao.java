@@ -1,6 +1,7 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Blog;
 
@@ -22,7 +23,7 @@ public class InMemoryBlogDao implements InterfaceBlogDao {
     }
     
     @Override
-    public List<Blog> findByAll(String arg) {
+    public HashMap<String, Blog> findByAll(String arg) {
         return null;
     }
     
