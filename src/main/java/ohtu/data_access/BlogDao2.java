@@ -74,7 +74,17 @@ public class BlogDao2 implements BlogDao {
 
     @Override
     public void remove(Blog blog) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Blog WHERE url = ?");
+          stmt.setString(1, blog.getUrl());
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
     
 }

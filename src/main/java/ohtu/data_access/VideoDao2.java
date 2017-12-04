@@ -73,7 +73,17 @@ public class VideoDao2 implements VideoDao {
 
     @Override
     public void remove(Video video) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Video WHERE url = ?");
+          stmt.setString(1, video.getUrl());
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
     
 }

@@ -73,8 +73,18 @@ public class PodcastDao2 implements PodcastDao {
     }
 
     @Override
-    public void remove(Podcast pocast) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void remove(Podcast podcast) {
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Podcast WHERE url = ?");
+          stmt.setString(1, podcast.getUrl());
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
     
 }

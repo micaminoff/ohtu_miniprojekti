@@ -59,6 +59,11 @@ public class Book implements Suggestable {
         return type;
     }
     
+    @Override
+    public String getKey() {
+        return ISBN;
+    }
+    
     public String getISBN() {
         return ISBN;
     }

@@ -19,8 +19,8 @@ public class Suggestion {
     //private List<Comment> comments;
     //private List<Courses> rcourses;
     //private List<Courses> esitietoKurssit;
-    private Suggestable suggestable;
     private int id;
+    private Suggestable suggestable;
 //    private String type;
     
 //    public Suggestion(Suggestable suggestable, String type) {
@@ -31,8 +31,13 @@ public class Suggestion {
     
     public Suggestion(Suggestable suggestable) {
         this.suggestable = suggestable;
-        this.id = id;
     }
+    
+    public Suggestion(int id, Suggestable suggestable) {
+        this.id = id;
+        this.suggestable = suggestable;
+    }
+    
     //merkki
 //    public void addTags(Tag... tags) {
 //        this.tags.addAll(Arrays.asList(tags));
@@ -46,13 +51,20 @@ public class Suggestion {
         return suggestable;
     }
     
+    public int getId() {
+        return id;
+    }
+    
     public Type getType() {
         return suggestable.getType();
     }
     
+    public String getSuggestableKey() {
+        return suggestable.getKey();
+    }
+    
     @Override
     public String toString() {
-//        return suggestable.toString() + "\nType: " + suggestable.getType();
         return suggestable.toString() + "\nType: " + getType();
     }
     

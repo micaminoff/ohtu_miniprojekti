@@ -49,6 +49,11 @@ public class Video implements Suggestable {
         return type;
     }
     
+    @Override
+    public String getKey() {
+        return url;
+    }
+    
     public String getUrl() {
         return url;
     }

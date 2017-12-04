@@ -38,20 +38,21 @@ public class SuggestionDao2 implements SuggestionDao {
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
+            int id = rs.getInt("id");
             String type = rs.getString("type");
             String suggestableKey = rs.getString("suggestableKey");
             if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableKey);
-                list.add(new Suggestion(book));
+                list.add(new Suggestion(id, book));
             } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(blog));
+                list.add(new Suggestion(id, blog));
             } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(video));
+                list.add(new Suggestion(id, video));
             } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(podcast));
+                list.add(new Suggestion(id, podcast));
             }
         }
         rs.close();
@@ -68,18 +69,53 @@ public class SuggestionDao2 implements SuggestionDao {
     @Override
     public void add(Suggestion suggestion) throws SQLException {
         Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("");
+        PreparedStatement stmt = connection.prepareStatement("INSERT INTO Suggestion (type, suggestableKey) VALUES (?, ?)");
         
+        stmt.setString(1, suggestion.getType().toString());
+        stmt.setString(2, suggestion.getSuggestableKey());
+        
+        stmt.executeUpdate();
+        
+        stmt.close();
+        connection.close();
     }
 
   @Override
-  public void remove(Suggestion s) {
-      
+  public void remove(Suggestion s){
+      try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Suggestion WHERE id = ?");
+          stmt.setInt(1, s.getId());
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
   }
   
   @Override
     public boolean containsSuggestionForSuggestable(Suggestable suggestable) {
-        return false;
+        boolean ret = false;
+        
+       try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE suggestableKey = ? LIMIT 1");
+          stmt.setString(1, suggestable.getKey());
+          ResultSet rs = stmt.executeQuery();
+          
+          if (rs.next()) {
+              ret = true;
+          }
+          
+          rs.close();
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
+       
+       return ret;
     }
-    
 }

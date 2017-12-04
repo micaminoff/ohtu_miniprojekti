@@ -111,7 +111,17 @@ public class BookDao2 implements BookDao {
     
     @Override
     public void remove(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+          Connection connection = database.getConnection();
+          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Book WHERE isbn = ?");
+          stmt.setString(1, book.getISBN());
+          stmt.executeUpdate();
+          
+          stmt.close();
+          connection.close();
+      } catch (SQLException e) {
+          e.printStackTrace();
+      }
     }
     
 }

@@ -17,4 +17,5 @@ public interface Suggestable {
     void setCreator(String creator);
     String getDescription();
     void setDescription(String description);
+    String getKey();
 }
