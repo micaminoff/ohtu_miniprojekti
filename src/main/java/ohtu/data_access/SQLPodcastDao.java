@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import ohtu.domain.Blog;
 import ohtu.domain.Podcast;
 
 /**
@@ -36,6 +38,36 @@ public class SQLPodcastDao implements InterfacePodcastDao {
     @Override
     public List<Podcast> findByCreator(String podcast) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public List<Podcast> findByAll(String arg) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Podcast WHERE url LIKE ? OR title LIKE ? OR podcastName LIKE ? OR creator LIKE ? OR description LIKE ?");
+        statement.setObject(1, "%" + arg + "%");
+        statement.setObject(2, "%" + arg + "%");
+        statement.setObject(3, "%" + arg + "%");
+        statement.setObject(4, "%" + arg + "%");
+        statement.setObject(5, "%" + arg + "%");
+
+        ResultSet rs = statement.executeQuery();
+
+        ArrayList<Podcast> podcasts = new ArrayList();
+        while (rs.next()) {
+            String url = rs.getString("url");
+            String title = rs.getString("title");
+            String podcastName = rs.getString("podcastName");
+            String creator = rs.getString("creator");
+            String description = rs.getString("description");
+
+            podcasts.add(new Podcast(title, creator, description, url, podcastName));
+        }
+        
+        rs.close();
+        statement.close();
+        connection.close();
+
+        return podcasts;
     }
 
     @Override

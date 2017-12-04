@@ -18,6 +18,11 @@ public class InMemoryPodcastDao implements InterfacePodcastDao {
     }
     
     @Override
+    public List<Podcast> findByAll(String arg) {
+        return null;
+    }
+    
+    @Override
     public List<Podcast> findByTitle(String title) {
         ArrayList<Podcast> podcastsReturn = new ArrayList();
         for (Podcast podcast : podcasts) {

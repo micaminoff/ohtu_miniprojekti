@@ -20,6 +20,11 @@ public class InMemoryVideoDao implements InterfaceVideoDao {
     }
     
     @Override
+    public List<Video> findByAll(String arg) {
+        return null;
+    }
+    
+    @Override
     public List<Video> findByTitle(String title) {
         ArrayList<Video> videosReturn = new ArrayList();
         for (Video video : videos) {

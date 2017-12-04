@@ -9,6 +9,7 @@ public interface InterfacePodcastDao {
     List<Podcast> listAll();
     List<Podcast> findByTitle(String podcast);
     List<Podcast> findByCreator(String podcast);
+    List<Podcast> findByAll(String arg) throws SQLException;
     Podcast findByUrl(String url) throws SQLException;
     List<Podcast> findByPodcastName(String podcastName);
     //etsimismetodi avaimella

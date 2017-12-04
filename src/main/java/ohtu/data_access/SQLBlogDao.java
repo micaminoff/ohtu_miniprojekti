@@ -38,7 +38,8 @@ public class SQLBlogDao implements InterfaceBlogDao {
         statement.setObject(2, "%" + arg + "%");
         statement.setObject(3, "%" + arg + "%");
         statement.setObject(4, "%" + arg + "%");
-
+        statement.setObject(5, "%" + arg + "%");
+        
         ResultSet rs = statement.executeQuery();
 
         ArrayList<Blog> blogs = new ArrayList();
