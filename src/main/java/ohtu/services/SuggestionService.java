@@ -147,4 +147,64 @@ public class SuggestionService {
         
     }
     
+    public void fillWithExampleData() throws SQLException {
+        Blog blog = new Blog("How to Increase Velocity",
+                "David Bernstein", 
+                "Increase code quality today to increase your velocity tomorrow.", 
+                "https://www.agilealliance.org/how-to-increase-velocity/",
+                "Agile Alliance Blog");
+        addBlog(blog);
+        addSuggestion(blog);
+        blog = new Blog("Joulun käyttölahjoja",
+                "Johanna", 
+                "Increase code quality today to increase your velocity tomorrow.", 
+                "https://www.menaiset.fi/blogit/kalastajan-vaimo/joulun-kayttolahjoja",
+                "Kalastajan vaimo");
+        addBlog(blog);
+        addSuggestion(blog);
+        
+        Book book = new Book("Clean Code: A Handbook of Agile Software Craftsmanship", 
+                "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", 
+                "978-951-98548-9-2");
+        addBook(book);
+        addSuggestion(book);
+        book = new Book("Introduction to Algorithms", 
+                "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein", "The bible of algorithms. Widely used as a coursebook in CS curriculums.", 
+                "978-026-20338-4-8");
+        addBook(book);
+        addSuggestion(book);
+        
+        
+        Podcast podcast = new Podcast("JRE #002 - MMA Show #2", 
+                "Joe Rogan" , 
+                "Eddie Bravo needs help",
+                "http://podcasts.joerogan.net/podcasts/mma-show-2", 
+                "The Joe Rogan Experience");
+        addPodcast(podcast);
+        addSuggestion(podcast);
+        
+        podcast = new Podcast("#038 Revolution In The Age Of Anger (with Pankaj Mishra)", 
+                "Russell Brand" , 
+                "Historian and novelist Pankaj Mishra joins me to talk about what he calls the ‘age of anger’ - a global pandemic of rage - and how the pursuit of progress and individualism has created a demoralised world.",
+                "https://art19.com/shows/under-the-skin/episodes/ef646cc4-c1dd-486e-ab33-6da8d88a8c13", 
+                "Under The Skin");
+        addPodcast(podcast);
+        addSuggestion(podcast);
+        
+        Video video = new Video("Turing Machine - Introduction (Part 1)",
+                "Neso Academy", 
+                "TOC: Introduction to Turing Machine",
+                "https://www.youtube.com/watch?v=PvLaPKPzq2I");
+        addVideo(video);
+        addSuggestion(video);
+              
+        video = new Video("Mitä tietojenkäsittely on?",
+                "Helsingin yliopisto", 
+                "Tietojenkäsittelytieteen laitoksen opettajat kertovat mitä tietojenkäsittely on, ja mihin olemme menossa.",
+                "https://www.youtube.com/watch?v=q44xFlrKCTE");
+        addVideo(video);
+        addSuggestion(video);
+        
+    }
+    
 }
