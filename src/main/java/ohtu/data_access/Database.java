@@ -20,6 +20,15 @@ public class Database {
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(databaseAddress);
+        Connection conn = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(databaseAddress);
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } 
+        return conn;
+        
     }
 }
