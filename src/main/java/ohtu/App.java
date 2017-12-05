@@ -359,7 +359,7 @@ public class App {
 //        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
 //        new App(io, sugg).run();
         //Tästä kommentti pois niin toimii tietokannalla
-        Database database = new Database("jdbc:sqlite:src/main/resources/sql/database.db");
+        Database database = new Database("jdbc:sqlite:database/database.db");
 
         InterfaceBookDao bookDao = new SQLBookDao(database);
         InterfaceBlogDao blogDao = new SQLBlogDao(database);
