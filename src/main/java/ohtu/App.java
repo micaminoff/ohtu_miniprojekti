@@ -101,7 +101,7 @@ public class App {
         Matcher m = p.matcher(ISBN);
         while (ISBN.isEmpty() || !m.find()) {
             if (!m.find()) {
-                io.print("ISBN must consist of only numbers and dashes and contain at least one of each!");
+                io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
             }
             ISBN = io.readLine("ISBN is required\nISBN:");
             m = p.matcher(ISBN);
