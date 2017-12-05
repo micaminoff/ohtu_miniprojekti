@@ -157,7 +157,7 @@ public class SuggestionService {
         addSuggestion(blog);
         blog = new Blog("Joulun käyttölahjoja",
                 "Johanna", 
-                "Increase code quality today to increase your velocity tomorrow.", 
+                "Johanna kirjoittaa elämästään norjalaisen kalastajan vaimona ja kahden söpöliinin äitinä. Blogissa pohditaan, miten arki voi olla kaunista, esitellään päivän asuja ja ihania sisustusasioita – sekä välillä pohditaan syvällisiä.", 
                 "https://www.menaiset.fi/blogit/kalastajan-vaimo/joulun-kayttolahjoja",
                 "Kalastajan vaimo");
         addBlog(blog);
