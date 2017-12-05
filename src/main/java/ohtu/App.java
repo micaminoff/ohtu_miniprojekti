@@ -308,17 +308,17 @@ public class App {
             } else if (command.equals("q")) {
                 break;
             } else {
-                System.out.println("Unknown command!");
+                io.print("Unknown command!");
             }
         }
         
         if (!command.equals("q")) {
             if (!suggestions_found.isEmpty()) {
                 for (Suggestion suggestion : suggestions_found) {
-                    System.out.println(suggestion.getSuggestable().toString());
+                    io.print(suggestion.getSuggestable().toString());
                 }
             } else {
-                System.out.println("No suggestions found.");
+                io.print("No suggestions found.");
             }
         }
     }
