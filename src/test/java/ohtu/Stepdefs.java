@@ -135,7 +135,13 @@ public class Stepdefs {
     public void message_is_displayed(String expectedOutput) throws Throwable {
         // Cucumber on outo olento
         expectedOutput = expectedOutput.replace("\\n", "\n");
-        assertTrue(io.getPrints().contains(expectedOutput));
+        boolean found = false;
+        for (String print : io.getPrints()) {
+            if (print.contains(expectedOutput)) {
+                found = true;
+            }
+        }
+        assertTrue(found);
     }
 
     @Then("^book is found$")
@@ -144,9 +150,7 @@ public class Stepdefs {
         ArrayList<String> prints = io.getPrints();
         for (int i = 0; i < prints.size(); i++) {
             String print = prints.get(i);
-            if (print.contains("Title: Clean Code: A Handbook of Agile Software Craftsmanship")) {
-                found = true;
-            }
+            message_is_displayed("Title: Clean Code: A Handbook of Agile Software Craftsmanship");
         }
         assertTrue(found);
     }
