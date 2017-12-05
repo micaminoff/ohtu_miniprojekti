@@ -29,22 +29,22 @@ Feature: User can search for suggestions
 	Given command "find" is selected
 	Given command "any" is selected
 	When search term "Nonexistant book" is entered
-	Then message "No books found." is displayed
+	Then message "No suggestions found." is displayed
 
     Scenario: search by nonexistant title
         Given command "find" is selected
 	Given command "any" is selected
 	When search term "Michael Aminoff" is entered
-	Then message "No books found." is displayed
+	Then message "No suggestions found." is displayed
 
     Scenario: search by nonexistant description
         Given command "find" is selected
 	Given command "any" is selected
 	When search term "Nonexistant desc" is entered
-	Then message "No books found." is displayed
+	Then message "No suggestions found." is displayed
 
     Scenario: search by nonexistant ISBN
         Given command "find" is selected
-	Given command "isbn" is selected
-	When search term "any" is entered
-	Then message "No books found." is displayed
+	Given command "any" is selected
+        When search term "123466121225124723785078" is entered
+	Then message "No suggestions found." is displayed
