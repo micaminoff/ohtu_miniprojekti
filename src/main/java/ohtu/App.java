@@ -25,7 +25,7 @@ public class App {
     }
 
     public void run() throws SQLException {
-        System.out.println("Welcome!");
+        io.print("Welcome!");
         while (true) {
             String command = io.readLine("\nCommand (list, find, remove or add, empty command exits program):");
             if (command.isEmpty()) {
