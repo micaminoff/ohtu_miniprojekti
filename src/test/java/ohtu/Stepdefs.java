@@ -1,5 +1,6 @@
 package ohtu;
 
+import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -15,14 +16,35 @@ public class Stepdefs {
 
     App app;
     StubIO io;
+    Database test_data = create_db();
 
-    InterfaceBookDao bookDao = new InMemoryBookDao();
-    InterfaceBlogDao blogDao = new InMemoryBlogDao();
-    InterfacePodcastDao podcastDao = new InMemoryPodcastDao();
-    InterfaceVideoDao videoDao = new InMemoryVideoDao();
-    InterfaceSuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
+    InterfaceBookDao bookDao = new SQLBookDao(test_data);
+    InterfaceBlogDao blogDao = new SQLBlogDao(test_data);
+    InterfacePodcastDao podcastDao = new SQLPodcastDao(test_data);
+    InterfaceVideoDao videoDao = new SQLVideoDao(test_data);
+    InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(test_data, bookDao, blogDao, podcastDao, videoDao);
     SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
+    
+    private Database create_db() {
+        Database db;
+        try {
+            db = new Database("jdbc:sqlite:src/test/resources/sql/testi.db");
+            return db;
+        } catch (Exception ex) {
+            System.out.println("Couldn't create database. " + ex.getMessage());
+        }
+        return null;
+    }
+
+    @After
+    public void tear_down_db() throws SQLException {
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Suggestion");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Video");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Podcast");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Book");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Blog");
+    }
 
     @Given("^command \"([^\"]*)\" is selected$")
     public void g_command_selected(String cmd) throws Throwable {
@@ -135,7 +157,7 @@ public class Stepdefs {
         try {
             app.run();
         } catch (SQLException ex) {
-            System.out.println("Tietokantaongelma: " + ex.getMessage());
+            System.out.println("Database error: " + ex.getMessage());
         }
     }
 
