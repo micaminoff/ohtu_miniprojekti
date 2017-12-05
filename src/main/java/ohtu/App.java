@@ -344,9 +344,10 @@ public class App {
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
-//        if (sugg.listAllSuggestions().isEmpty()) {
-//            sugg.fillWithExampleData();
-//        }
+        if (sugg.listAllSuggestions().isEmpty()) {
+            sugg.fillWithExampleData();
+        }
+
         IO io = new ConsoleIO();
         new App(io, sugg).run();
     }
