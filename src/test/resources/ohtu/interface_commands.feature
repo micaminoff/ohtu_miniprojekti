@@ -6,7 +6,8 @@ Feature: User Interface works as intended
 
   Scenario: User is informed when giving incorrect command
     Given command "find" is selected
-    When command "lol, testaus" is entered
+    And command "lol, testaus" is selected
+    When command "q" is entered
     Then message "Unknown command!" is displayed
 
   Scenario: User can go back a step in the program when searching

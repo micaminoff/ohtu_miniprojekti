@@ -14,9 +14,10 @@ import ohtu.domain.Suggestion;
  *
  * @author hasasami
  */
-public interface SuggestionDao {
+public interface InterfaceSuggestionDao {
     List<Suggestion> listAll() throws SQLException;
     List<Suggestion> findByTitle(String title);
+    List<Suggestion> findByAll(String arg) throws SQLException;
     void add(Suggestion suggestion) throws SQLException;
     void remove(Suggestion suggestion);
     boolean containsSuggestionForSuggestable(Suggestable suggestable);

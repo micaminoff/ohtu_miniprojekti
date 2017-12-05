@@ -6,6 +6,7 @@
 package ohtu.data_access;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
 
@@ -15,12 +16,13 @@ import ohtu.domain.Book;
  * @author paavo
  * päivityksiä: mkotola
  */
-public interface BookDao {
+public interface InterfaceBookDao {
     List<Book> listAll();
     List<Book> findByCreator(String creator);
     List<Book> findByTitle(String title) throws SQLException;
     List<Book> findByDescription(String description);
-    Book findByISBN(String ISBN);
+    HashMap<String, Book> findByAll(String arg) throws SQLException;
+    Book findByISBN(String ISBN) throws SQLException;
     boolean containsTitleAndCreator(String title, String creator);
     Book findByTitleAndCreator(String title, String creator);
     void add(Book book);

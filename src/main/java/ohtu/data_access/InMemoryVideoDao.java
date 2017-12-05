@@ -1,20 +1,28 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Video;
 
-public class InMemoryVideoDao implements VideoDao {
+public class InMemoryVideoDao implements InterfaceVideoDao {
     private List<Video> videos;
     
     public InMemoryVideoDao() {
         videos = new ArrayList();
-        videos.add(new Video("Turing Machine - Introduction (Part 1)", "Neso Academy", "TOC: Introduction to Turing Machine", "https://www.youtube.com/watch?v=PvLaPKPzq2I"));
+        videos.add(new Video("Turing Machine - Introduction (Part 1)",
+                "Neso Academy", "TOC: Introduction to Turing Machine",
+                "https://www.youtube.com/watch?v=PvLaPKPzq2I"));
     }
     
     @Override
     public List<Video> listAll() {
         return videos;
+    }
+    
+    @Override
+    public HashMap<String, Video> findByAll(String arg) {
+        return null;
     }
     
     @Override

@@ -5,15 +5,13 @@
  */
 package ohtu.data_access;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
  * @author hcpaavo
  */
-class Database {
+public class Database {
 
     private String databaseAddress;
 
@@ -22,6 +20,15 @@ class Database {
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(databaseAddress);
+        Connection conn = null;
+        try {
+            // create a connection to the database
+            conn = DriverManager.getConnection(databaseAddress);
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } 
+        return conn;
+        
     }
 }

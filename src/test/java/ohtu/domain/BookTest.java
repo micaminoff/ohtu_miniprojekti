@@ -35,4 +35,14 @@ public class BookTest {
         assertEquals("978-951-98548-9-2", b.getISBN());
     }
     
+    @Test
+    public void equalsTest() {
+        Book b2 = new Book("Lama 101", "Jorma", "Tosi jees", "978-951-98548-9-2");
+        Book b3 = new Book("Puurokirja", "Pekka Puuro", "opi tekemään puuroa", "78-951-98548-9-3");
+        
+        assertTrue(b.equals(b2));
+        assertFalse(b.equals(b3));
+        
+    }
+    
 }

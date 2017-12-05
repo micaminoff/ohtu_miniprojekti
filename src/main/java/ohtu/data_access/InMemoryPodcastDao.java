@@ -1,10 +1,11 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Podcast;
 
-public class InMemoryPodcastDao implements PodcastDao {
+public class InMemoryPodcastDao implements InterfacePodcastDao {
     private List<Podcast> podcasts;
     
     public InMemoryPodcastDao() {
@@ -15,6 +16,11 @@ public class InMemoryPodcastDao implements PodcastDao {
     @Override
     public List<Podcast> listAll() {
         return podcasts;
+    }
+    
+    @Override
+    public HashMap<String,Podcast> findByAll(String arg) {
+        return null;
     }
     
     @Override

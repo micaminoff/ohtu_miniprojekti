@@ -6,16 +6,16 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
-import ohtu.domain.Suggestable;
 
 /**
  *
  * @author paavo
  * päivityksiä: mkotola
  */
-public class InMemoryBookDao implements BookDao {
+public class InMemoryBookDao implements InterfaceBookDao {
     private List<Book> books;
     
     public InMemoryBookDao() {
@@ -28,7 +28,10 @@ public class InMemoryBookDao implements BookDao {
         return books;
     }
 
-
+    @Override
+    public HashMap<String, Book> findByAll(String args) {
+        return null;
+    }
     
     
     @Override

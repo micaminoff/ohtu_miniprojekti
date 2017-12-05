@@ -1,13 +1,13 @@
 package ohtu;
 
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.*;
 import ohtu.io.*;
 import ohtu.data_access.*;
@@ -17,14 +17,40 @@ public class Stepdefs {
 
     App app;
     StubIO io;
+    Database test_data = create_db();
 
-    SuggestionDao suggestionDao = new InMemorySuggestionDao();
-    BookDao bookDao = new InMemoryBookDao();
-    BlogDao blogDao = new InMemoryBlogDao();
-    PodcastDao podcastDao = new InMemoryPodcastDao();
-    VideoDao videoDao = new InMemoryVideoDao();
+    InterfaceBookDao bookDao = new SQLBookDao(test_data);
+    InterfaceBlogDao blogDao = new SQLBlogDao(test_data);
+    InterfacePodcastDao podcastDao = new SQLPodcastDao(test_data);
+    InterfaceVideoDao videoDao = new SQLVideoDao(test_data);
+    InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(test_data, bookDao, blogDao, podcastDao, videoDao);
     SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
+    
+    private Database create_db() {
+        Database db;
+        try {
+            db = new Database("jdbc:sqlite:src/test/resources/sql/testi.db");
+            return db;
+        } catch (Exception ex) {
+            System.out.println("Couldn't create database. " + ex.getMessage());
+        }
+        return null;
+    }
+    
+    @Before
+    public void populate() throws SQLException {
+        sugg.fillWithExampleData();
+    }
+
+    @After
+    public void tear_down_db() throws SQLException {
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Suggestion");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Video");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Podcast");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Book");
+        this.test_data.getConnection().createStatement().executeUpdate("delete from Blog");
+    }
 
     @Given("^command \"([^\"]*)\" is selected$")
     public void g_command_selected(String cmd) throws Throwable {
@@ -42,15 +68,42 @@ public class Stepdefs {
         inputLines.add(term);
         runApp();
     }
-
-    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" and ISBN \"([^\"]*)\" are entered$")
-    public void title_author_descr_isbn_are_entered(String author, String title, String description, String ISBN) throws Throwable {
+    
+    @When("^title \"([^\"]*)\" is entered")
+    public void title_is_entered(String title) {
         inputLines.add(title);
-        inputLines.add(author);
-        inputLines.add(description);
+    }
+    
+    @When("^creator \"([^\"]*)\" is entered")
+    public void creator_is_entered(String creator) {
+        inputLines.add(creator);
+    }
+    
+    @When("^ISBN \"([^\"]*)\" is entered")
+    public void ISBN_is_entered(String isbn) {
+        inputLines.add(isbn);
+    }
+    
+    @When("^url \"([^\"]*)\" is entered")
+    public void url_is_entered(String url) {
+        inputLines.add(url);
+    }
+    
+    @When("^podcast name \"([^\"]*)\" is entered")
+    public void pod_name_is_entered(String name) {
+        inputLines.add(name);
+    }
+
+    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
+        inputLines.add(title);
+        inputLines.add(creator);
         inputLines.add(ISBN);
+        inputLines.add(description);
         runApp();
     }
+
+
     
     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void url_and_title_and_creator_and_blogname_and_description_are_entered(String url, String title, String creator, String blogName, String description) throws Throwable {
@@ -86,20 +139,22 @@ public class Stepdefs {
 
     @Then("^message \"([^\"]*)\" is displayed$")
     public void message_is_displayed(String expectedOutput) throws Throwable {
-        assertTrue(io.getPrints().contains(expectedOutput));
+        // Cucumber on outo olento
+        expectedOutput = expectedOutput.replace("\\n", "\n");
+        boolean found = false;
+        for (String print : io.getPrints()) {
+            if (print.contains(expectedOutput)) {
+                found = true;
+            }
+        }
+        assertTrue(found);
     }
 
     @Then("^book is found$")
     public void book_is_found() throws Throwable {
         boolean found = false;
         ArrayList<String> prints = io.getPrints();
-        for (int i = 0; i < prints.size(); i++) {
-            String print = prints.get(i);
-            if (print.contains("Title: Clean Code: A Handbook of Agile Software Craftsmanship")) {
-                found = true;
-            }
-        }
-        assertTrue(found);
+        message_is_displayed("Title: Clean Code: A Handbook of Agile Software Craftsmanship");
     }
 
     private void runApp() {
@@ -108,7 +163,7 @@ public class Stepdefs {
         try {
             app.run();
         } catch (SQLException ex) {
-            System.out.println("Tietokantaongelma: " + ex.getMessage());
+            System.out.println("Database error: " + ex.getMessage());
         }
     }
 

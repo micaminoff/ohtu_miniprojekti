@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.domain;
 
-/**
- *
- * @author hcpaavo
- */
 public class Video implements Suggestable {
     private String title;
     private String creator; //vapaaeht
@@ -58,6 +49,11 @@ public class Video implements Suggestable {
         return type;
     }
     
+    @Override
+    public String getKey() {
+        return url;
+    }
+    
     public String getUrl() {
         return url;
     }
@@ -69,6 +65,22 @@ public class Video implements Suggestable {
     @Override
     public String toString() {
         return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url;
+    }
+ 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Video)) {
+            return false;
+        }
+        Video v = (Video) o;
+        if (this.title.equals(v.title) &&
+                this.creator.equals(v.creator) &&
+                this.description.equals(v.description) &&
+                this.url.equals(v.url)) {
+            
+            return true;
+        }
+        return false;
     }
     
 }

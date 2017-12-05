@@ -1,20 +1,30 @@
 package ohtu.data_access;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Blog;
 
-public class InMemoryBlogDao implements BlogDao {
+public class InMemoryBlogDao implements InterfaceBlogDao {
     private List<Blog> blogs;
     
     public InMemoryBlogDao() {
         blogs = new ArrayList();
-        blogs.add(new Blog("How to Increase Velocity", "David Bernstein", "Increase code quality today to increase your velocity tomorrow.", "https://www.agilealliance.org/how-to-increase-velocity/", "Agile Alliance Blog"));
+        blogs.add(new Blog("How to Increase Velocity",
+                "David Bernstein", 
+                "Increase code quality today to increase your velocity tomorrow.", 
+                "https://www.agilealliance.org/how-to-increase-velocity/",
+                "Agile Alliance Blog"));
     }
     
     @Override
     public List<Blog> listAll() {
         return blogs;
+    }
+    
+    @Override
+    public HashMap<String, Blog> findByAll(String arg) {
+        return null;
     }
     
     @Override 
