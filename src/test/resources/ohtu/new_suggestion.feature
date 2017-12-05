@@ -46,6 +46,15 @@ Feature: User can add a new suggestion
     And title "Book name" and creator "Matti" and ISBN "78-100-98548-9-2" and description "" are entered
     Then message "ISBN is required\nISBN:" is displayed
 
+  Scenario: User cannot add suggestion with malformed ISBN
+    Given command "add" is selected
+    Given command "book" is selected
+    When title "Book name" is entered
+    And creator "Matti" is entered
+    And ISBN "08923478934-ADHASDJK-" is entered
+    And title "Book name" and creator "Matti" and ISBN "78-100-98548-9-2" and description "" are entered
+    Then message "ISBN must consist of only numbers" is displayed
+
   # BLOGS
   # url
   # title
@@ -54,37 +63,37 @@ Feature: User can add a new suggestion
   Scenario: User can add a suggestion with a new blog with full information
     Given command "add" is selected
     Given command "blog" is selected
-    When url "www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "FuzzBeed" and description "You won't believe it!" are entered
+    When url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "FuzzBeed" and description "You won't believe it!" are entered
     Then message "New suggestion with blog added!" is displayed
 
   Scenario: User can add a suggestion with a new blog without blogname and description
     Given command "add" is selected
     Given command "blog" is selected
-    When url "www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
+    When url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
     Then message "New suggestion with blog added!" is displayed
 
   Scenario: User cannot add blog without url
     Given command "add" is selected
     Given command "blog" is selected
     When url "" is entered
-    And url "www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
-    Then message "URL is required!\nUrl:" is displayed
+    And url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
+    Then message "URL is required!" is displayed
 
   Scenario: User cannot add blog without title
     Given command "add" is selected
     Given command "blog" is selected
-    When url "www.blowyourmind.io" is entered
+    When url "http://www.blowyourmind.io" is entered
     And title "" is entered
-    And url "www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
+    And url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
     Then message "Title is required!\nTitle:" is displayed
 
   Scenario: User cannot add blog without author
     Given command "add" is selected
     Given command "blog" is selected
-    When url "www.blowyourmind.io" is entered
+    When url "http://www.blowyourmind.io" is entered
     And title "5 clickbait titles" is entered
     And creator "" is entered
-    And url "www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
+    And url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
     Then message "Author is required!\nAuthor:" is displayed
 
   Scenario: User cannot add blog with existing URL
@@ -93,6 +102,13 @@ Feature: User can add a new suggestion
     When url "https://www.agilealliance.org/how-to-increase-velocity/" and title "How to Increase Velocity" and creator "David Bernstein" and blogname "" and description "" are entered
     Then message "Found the following blog:" is displayed
     And message "New suggestion with blog added!" is displayed
+
+  Scenario: User cannot add blog with malformed URL
+    Given command "add" is selected
+    Given command "blog" is selected
+    When url "abc.def" is entered
+    And url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
+    Then message "Malformed URL" is displayed
 
   # VIDEOS
   # url
@@ -116,7 +132,7 @@ Feature: User can add a new suggestion
     Given command "video" is selected
     When url "" is entered
     And url "https://github.com/micaminoff/ohtu_miniprojekti/commits/master" and title "Agile Livestream" and creator "" and description "" are entered
-    Then message "URL is required!\nURL:" is displayed
+    Then message "URL is required!" is displayed
 
   Scenario: User cannot add video without title
     Given command "add" is selected
@@ -132,6 +148,13 @@ Feature: User can add a new suggestion
     When url "https://www.youtube.com/watch?v=PvLaPKPzq2I" and title "" and creator "" and description "" are entered
     Then message "Found the following video:" is displayed
     And message "New suggestion with video added!" is displayed
+
+  Scenario: User cannot add video with malformed URL
+    Given command "add" is selected
+    Given command "video" is selected
+    When url "asd.fgh" is entered
+    And url "https://www.youtube.com/watch?v=PvLaPKPzq2I" and title "" and creator "" and description "" are entered
+    Then message "Malformed URL" is displayed
 
   # PODCASTS
   # url
@@ -156,7 +179,7 @@ Feature: User can add a new suggestion
     Given command "podcast" is selected
     When url "" is entered
     And url "http://podbay.fm/show/877968260/e/1511431200" and title "The FAST Way to Grow Instagram & Facebook (20k/day)" and podcast name "The Tai Lopez Show" and creator "" and description ""
-    Then message "URL is required!\nURL:" is displayed
+    Then message "URL is required!" is displayed
 
   Scenario: User cannot add podcast without title
     Given command "add" is selected
@@ -181,3 +204,10 @@ Feature: User can add a new suggestion
     When url "http://podcasts.joerogan.net/podcasts/mma-show-2" and title "" and podcast name "" and creator "" and description ""
     And message "Found the following podcast:" is displayed
     Then message "New suggestion with podcast added!" is displayed
+
+  Scenario: User cannot add podcast with malformed url
+    Given command "add" is selected
+    Given command "podcast" is selected
+    When url "123.456" is entered
+    And url "http://podbay.fm/show/877968260/e/1511431200" and title "The FAST Way to Grow Instagram & Facebook (20k/day)" and podcast name "The Tai Lopez Show" and creator "" and description ""
+    Then message "Malformed URL" is displayed
