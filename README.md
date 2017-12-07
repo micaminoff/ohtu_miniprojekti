@@ -15,10 +15,10 @@ https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3Q
 
 <strong>Asennus- ja käyttöohje:</strong>
 Sovellus on työpöytäsovellus jota käytetään tekstikäyttöliittymän kautta komentoriviltä.
-- Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti.jar
-- Nouda database.zip osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/database.zip
-- Siirry hakemistoon, johon tallensit tiedostot ja pura database.zip samaan kansioon
-- Käynnistä ohjelma komentorivilläsi seuraavalla komennolla: java -jar ohtu_miniprojekti.jar
+- Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti-all.jar
+- Nouda käytettävä tietokanta database.db osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/database.db
+- Siirry hakemistoon, johon tallensit tiedostot
+- Käynnistä ohjelma komentorivilläsi seuraavalla komennolla: java -jar ohtu_miniprojekti-all.jar
 - Käyttöliittymä on intuitiivinen ja listaa mahdolliset komennot käyttäjälle.
 - Jos koneellasi ei ole javaa, lataa java koneellesi osoitteesta https://java.com/en/download/.
 
@@ -35,5 +35,3 @@ Koodin ylläpidettävyyden tulee olla mahdollisimman hyvä:
 - koodikieli englanti
 - luokkien nimet isolla, metodien pienellä, yleisesti camelCase
 - noudatetaan yhdessä katsottua arkkitehtuuria
-
-Testimuutos / sprint 4, Mikko.
