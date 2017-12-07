@@ -35,3 +35,5 @@ Koodin ylläpidettävyyden tulee olla mahdollisimman hyvä:
 - koodikieli englanti
 - luokkien nimet isolla, metodien pienellä, yleisesti camelCase
 - noudatetaan yhdessä katsottua arkkitehtuuria
+
+Testimuutos / sprint 4, Mikko.
