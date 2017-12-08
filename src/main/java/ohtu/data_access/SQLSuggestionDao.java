@@ -22,13 +22,15 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
     private InterfaceBlogDao blogDao;
     private InterfacePodcastDao podcastDao;
     private InterfaceVideoDao videoDao;
+    private InterfaceTagDao tagDao;
 
-    public SQLSuggestionDao(Database database, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
+    public SQLSuggestionDao(Database database, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao, InterfaceTagDao tagDao) {
         this.database = database;
         this.bookDao = bookDao;
         this.blogDao = blogDao;
         this.podcastDao = podcastDao;
         this.videoDao = videoDao;
+        this.tagDao = tagDao;
     }
 
     @Override
@@ -73,12 +75,23 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
     public void add(Suggestion suggestion) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Suggestion (type, suggestableKey) VALUES (?, ?)");
+        
+        String type = suggestion.getType().toString();
+        String suggestableKey = suggestion.getSuggestableKey();
 
-        stmt.setString(1, suggestion.getType().toString());
-        stmt.setString(2, suggestion.getSuggestableKey());
+        stmt.setString(1, type);
+        stmt.setString(2, suggestableKey);
 
         stmt.executeUpdate();
+        
+        //selvitetään suggestion_id ja kutsutaan metodia addTagsForSuggestion(int id, List<Tag> tags)
+        stmt = connection.prepareStatement("SELECT MAX(id) AS max FROM Suggestion");
+        ResultSet rs = stmt.executeQuery();
+        int id = rs.getInt("max");
+        //tätä metodia ei vielä toteutettu tagDaoon
+        tagDao.addTagsForSuggestion(id, suggestion.getTags());
 
+        rs.close();
         stmt.close();
         connection.close();
     }
@@ -97,6 +110,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             e.printStackTrace();
         }
     }
+    
 
     @Override
     public boolean containsSuggestionForSuggestable(Suggestable suggestable) {

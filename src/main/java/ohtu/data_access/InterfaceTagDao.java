@@ -5,10 +5,14 @@
  */
 package ohtu.data_access;
 
+import java.sql.SQLException;
+import java.util.List;
+import ohtu.domain.Tag;
+
 /**
  *
  * @author hcpaavo
  */
 public interface InterfaceTagDao {
-    
+    public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException;
 }

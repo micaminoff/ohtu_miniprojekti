@@ -6,6 +6,7 @@
 package ohtu.services;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
@@ -18,6 +19,7 @@ import ohtu.data_access.InterfaceBookDao;
 import ohtu.data_access.InterfaceVideoDao;
 import ohtu.data_access.InterfacePodcastDao;
 import ohtu.data_access.InterfaceSuggestionDao;
+import ohtu.domain.Tag;
 
 /**
  *
@@ -91,9 +93,9 @@ public class SuggestionService {
     
     
     //Nää vois yhdistää yhdeksi
-    public boolean addSuggestion(Book book) throws SQLException {
+    public boolean addSuggestion(Book book, List<Tag> tags) throws SQLException {
         if (book != null) {
-            suggestionDao.add(new Suggestion(book));
+            suggestionDao.add(new Suggestion(book, tags));
             return true;
         }
         return false;
@@ -148,6 +150,7 @@ public class SuggestionService {
     }
     
     public void fillWithExampleData() throws SQLException {
+        List<Tag> tags = new ArrayList<>();
         Blog blog = new Blog("How to Increase Velocity",
                 "David Bernstein", 
                 "Increase code quality today to increase your velocity tomorrow.", 
@@ -167,12 +170,12 @@ public class SuggestionService {
                 "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", 
                 "978-951-98548-9-2");
         addBook(book);
-        addSuggestion(book);
+        addSuggestion(book, tags);
         book = new Book("Introduction to Algorithms", 
                 "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein", "The bible of algorithms. Widely used as a coursebook in CS curriculums.", 
                 "978-026-20338-4-8");
         addBook(book);
-        addSuggestion(book);
+        addSuggestion(book, tags);
         
         
         Podcast podcast = new Podcast("JRE #002 - MMA Show #2", 

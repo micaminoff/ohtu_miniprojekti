@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Suggestion {
     
-    // private List<Tag> tags;
+     private List<Tag> tags;
     //private List<Comment> comments;
     //private List<Courses> rcourses;
     //private List<Courses> esitietoKurssit;
@@ -36,6 +36,11 @@ public class Suggestion {
     public Suggestion(int id, Suggestable suggestable) {
         this.id = id;
         this.suggestable = suggestable;
+    }
+    
+    public Suggestion(Suggestable suggestable, List<Tag> tags) {
+        this.suggestable = suggestable;
+        this.tags = tags;
     }
     
     //merkki
@@ -61,6 +66,10 @@ public class Suggestion {
     
     public String getSuggestableKey() {
         return suggestable.getKey();
+    }
+    
+    public List<Tag> getTags() {
+        return this.tags;
     }
     
     @Override

@@ -3,6 +3,7 @@ package ohtu;
 import java.sql.SQLException;
 import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +13,7 @@ import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Tag;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -108,11 +110,20 @@ public class App {
         }
 //        Book book = sugg.findBookByTitleAndCreator(title, creator);
         Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
-
+        
+        List<Tag> tags = new ArrayList<>();
+        
         if (book == null) {
             String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
+            //Tagien lisääminen
+            String inputTags = io.readLine("Tags (seperate with a space):");
+            List<String> stringTags = new ArrayList<>();
+            stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
+            for (String tag: stringTags) {
+                tags.add(new Tag(tag));
+            }
             
         } else {
             io.print("\nThere already exist a book with that ISBN: \n");
@@ -120,7 +131,7 @@ public class App {
             book = null;
         }
 
-        if (sugg.addSuggestion(book)) {
+        if (sugg.addSuggestion(book, tags)) {
             io.print("\nNew suggestion with book added!");
         } else {
             io.print("\nAdding a new suggestion with book failed!");
@@ -367,7 +378,8 @@ public class App {
         InterfaceBlogDao blogDao = new SQLBlogDao(database);
         InterfaceVideoDao videoDao = new SQLVideoDao(database);
         InterfacePodcastDao podcastDao = new SQLPodcastDao(database);
-        InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(database, bookDao, blogDao, podcastDao, videoDao);
+        InterfaceTagDao tagDao = new SQLTagDao(database);
+        InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(database, bookDao, blogDao, podcastDao, videoDao, tagDao);
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
         
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
