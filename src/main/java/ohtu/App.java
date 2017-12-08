@@ -113,15 +113,17 @@ public class App {
             String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
+            
         } else {
-            io.print("\nFound the following book:");
+            io.print("\nThere already exist a book with that ISBN: \n");
             io.print(book.toString());
+            book = null;
         }
 
         if (sugg.addSuggestion(book)) {
-            io.print("New suggestion with book added!");
+            io.print("\nNew suggestion with book added!");
         } else {
-            io.print("Adding a new suggestion with book failed!");
+            io.print("\nAdding a new suggestion with book failed!");
         }
     }
 
