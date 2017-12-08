@@ -36,7 +36,8 @@ public class App {
                 break;
             }
             if (command.equals("list")) {
-                list();
+                list(sugg.listAllSuggestions(), false);
+//                list();
             } else if (command.equals("add")) {
                 add();
             } else if (command.equals("find")) {
@@ -50,12 +51,20 @@ public class App {
 
     }
 
-    //ei toimi vielä suggestionservicessä
     public void remove() throws SQLException {
-        List<Suggestion> suggestions = sugg.listAllSuggestions();
-        for (int i = 0; i < suggestions.size(); i++) {
-            io.print("\n" + i + ".:\n" + suggestions.get(i));
+        String ans = io.readLine("\nSearch suggestions to remove (type y)?");
+
+        List<Suggestion> suggestions = null;
+        
+        if (ans.equals("y")) {
+            String arg = io.readLine("Enter keyword:");
+            suggestions = sugg.findByAll(arg);
+        } else {
+            suggestions = sugg.listAllSuggestions();
         }
+        
+        list(suggestions, true);
+
         io.print("\nChoose suggestion to remove:");
         String input = io.readLine("");
 
@@ -262,75 +271,19 @@ public class App {
 
     }
 
-    public void list() throws SQLException {
-        List<Suggestion> suggestions = sugg.listAllSuggestions();
+    public void list(List<Suggestion> suggestions, boolean showIndexes) throws SQLException {
         if (suggestions.isEmpty()) {
-            io.print("\nThere are no suggestions yet! Type 'add' to add a new one");
+            io.print("\nNo suggestions found.");
         } else {
-            for (Suggestion s : suggestions) {
-                io.print("\n" + s);
+            for (int i = 0; i < suggestions.size(); i++) {
+                if (showIndexes)
+                    io.print("\n" + i + ".:\n" + suggestions.get(i));
+                else 
+                    io.print("\n" + suggestions.get(i));
             }
         }
     }
-//*************VANHA FIND PELKILLE KIRJOILLE*******************
-//    public void find() throws SQLException {
-//        List<Suggestable> booksFound = new ArrayList();
-//        String command;
-//        while (true) {
-//            command = io.readLine("Find by (any ,title, description, creator, isbn, q = back): ");
-//            if (command.equals("title")) {
-//                String command_title = io.readLine("Give title: ");
-//                List<Book> booksByTitle = sugg.findBookByTitle(command_title);
-//                if (!booksByTitle.isEmpty()) {
-//                    booksFound.addAll(booksByTitle);
-//                }
-//                break;
-//
-//            } else if (command.equals("description")) {
-//                String command_description = io.readLine("Give description: ");
-//                List<Book> booksByDesc = sugg.findBookByDescription(command_description);
-//                if (!booksByDesc.isEmpty()) {
-//                    booksFound.addAll(booksByDesc);
-//                }
-//                break;
-//
-//            } else if (command.equals("creator")) {
-//                String command_creator = io.readLine("Give creator: ");
-//                List<Book> booksByCreator = sugg.findBookByCreator(command_creator);
-//                if (!booksByCreator.isEmpty()) {
-//                    booksFound.addAll(booksByCreator);
-//                }
-//                break;
-//
-//            } else if (command.equals("isbn")) {
-//                String command_isbn = io.readLine("Give isbn: ");
-//
-//                if (sugg.findBookByISBN(command_isbn) != null) {
-//                    booksFound.add(sugg.findBookByISBN(command_isbn));
-//                }
-//                break;
-//
-//            } else if (command.equals("q")) {
-//                break;
-//            } else {
-//                io.print("Unknown command!");
-//                break;
-//            }
-//        }
-//        if (!command.equals("q")) {
-//            if (!booksFound.isEmpty()) {
-//                for (Suggestable suggestable : booksFound) {
-//                    //Nyt tarvitaan vielä suggestionille metodi findSuggestionById()
-//                    Book book = (Book) suggestable;
-//                    io.print("Author: " + book.getCreator() + "\nTitle: " + book.getTitle() + "\nDescription: " + book.getDescription() + "\nISBN: " + book.getISBN() + "\n");
-//                }
-//            } else {
-//                io.print("No books found.");
-//            }
-//        }
-//
-//    }
-
+    
     public void find() throws SQLException {
         List<Suggestion> suggestions_found = new ArrayList();
         String command;
@@ -352,9 +305,8 @@ public class App {
         
         if (!command.equals("q")) {
             if (!suggestions_found.isEmpty()) {
-                for (Suggestion suggestion : suggestions_found) {
-                    io.print(suggestion.getSuggestable().toString());
-                }
+                list(suggestions_found, false);
+                    
             } else {
                 io.print("No suggestions found.");
             }
