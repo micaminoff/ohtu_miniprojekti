@@ -31,19 +31,20 @@ public class App {
     public void run() throws SQLException {
         io.print("Welcome!");
         while (true) {
-            String command = io.readLine("\nCommand (list, find, remove or add, empty command exits program):");
+            String command = io.readLine("\nCommand (list, find, remove, add or edit empty command exits program):");
             if (command.isEmpty()) {
                 break;
             }
-            if (command.equals("list")) {
+           if (command.equals("list")) {
                 list(sugg.listAllSuggestions(), false);
-//                list();
             } else if (command.equals("add")) {
                 add();
             } else if (command.equals("find")) {
                 find();
             } else if (command.equals("remove")) {
                 remove();
+            } else if (command.equals("edit")) {
+                edit();
             } else {
                 io.print("Unknown command!");
             }
@@ -51,6 +52,40 @@ public class App {
 
     }
 
+    public void edit() throws SQLException {
+        String input = io.readLine("\nSearch suggestions to edit (type) y");
+        List<Suggestion> suggestions = null;
+        
+        if (input.equals("y")) {
+            String arg = io.readLine("Enter keyword:");
+            suggestions = sugg.findByAll(arg);
+        } else {
+            suggestions = sugg.listAllSuggestions();
+        }
+        
+        list(suggestions, true);
+        
+        io.print("\nChoose suggestion to edit:");
+        
+        input = io.readLine("");
+
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input);
+
+            if (index >= 0 && index < suggestions.size()) {
+                io.print("\nEditing following suggestion:");
+                io.print(suggestions.get(index).toString());
+                
+                String attribute = io.readLine("\nChoose attribute to edit:");
+                String newContent = io.readLine("\nEnter new content:");
+                
+                io.print("NOT YET IMPLEMENTED!");
+                return;
+            }
+        }
+        io.print("Incorrect index given!");
+    }
+    
     public void remove() throws SQLException {
         String ans = io.readLine("\nSearch suggestions to remove (type y)?");
 
