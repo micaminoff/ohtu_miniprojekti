@@ -44,6 +44,12 @@ public class Suggestion {
         this.tags = tags;
     }
     
+    public Suggestion(int id, Suggestable suggestable, List<Tag> tags) {
+        this.id = id;
+        this.suggestable = suggestable;
+        this.tags = tags;
+    }
+    
     //merkki
 //    public void addTags(Tag... tags) {
 //        this.tags.addAll(Arrays.asList(tags));
