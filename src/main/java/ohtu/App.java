@@ -5,13 +5,10 @@ import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import ohtu.data_access.*;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
-import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Tag;
 import ohtu.domain.Video;
@@ -22,10 +19,12 @@ public class App {
 
     private IO io;
     private SuggestionService sugg;
+    private Validator validator;
 
     public App(IO io, SuggestionService sugg) {
         this.io = io;
         this.sugg = sugg;
+        this.validator = new Validator();
     }
 
     public void run() throws SQLException {
@@ -154,14 +153,9 @@ public class App {
             creator = io.readLine("Author is required\nAuthor:");
         }
         String ISBN = io.readLine("(*)ISBN:");
-        Pattern p = Pattern.compile("^([0-9]+[-])(([0-9]+[-]+)*([0-9]+)+)+$");
-        Matcher m = p.matcher(ISBN);
-        while (ISBN.isEmpty() || !m.find()) {
-            if (!m.find()) {
-                io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
-            }
+        while (!validator.ISBNIsValid(ISBN)) {
+            io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
             ISBN = io.readLine("ISBN is required\nISBN:");
-            m = p.matcher(ISBN);
         }
 //        Book book = sugg.findBookByTitleAndCreator(title, creator);
         Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
@@ -190,14 +184,9 @@ public class App {
 
     private void addBlog() throws SQLException {
         String url = io.readLine("(*)URL:");
-        Pattern p = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-        Matcher m = p.matcher(url);
-        while (url.isEmpty() || !m.find()) {
-            if (!m.find()) {
-                io.print("Malformed URL!");
-            }
+        while (!validator.URLIsValid(url)) {
+            io.print("Malformed or empty URL!");
             url = io.readLine("URL is required!\nUrl:");
-            m = p.matcher(url);
         }
 
         Blog blog = sugg.findBlogByURL(url);
@@ -234,15 +223,9 @@ public class App {
 
     private void addVideo() throws SQLException {
         String url = io.readLine("(*)URL:");
-
-        Pattern p = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-        Matcher m = p.matcher(url);
-        while (url.isEmpty() || !m.find()) {
-            if (!m.find()) {
-                io.print("Malformed URL!");
-            }
+        while (!validator.URLIsValid(url)) {
+            io.print("Malformed or empty URL!");
             url = io.readLine("URL is required!\nUrl:");
-            m = p.matcher(url);
         }
 
         Video video = sugg.findVideoByURL(url);
@@ -277,14 +260,9 @@ public class App {
     private void addPodcast() throws SQLException {
         String url = io.readLine("(*)URL:");
 
-        Pattern p = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-        Matcher m = p.matcher(url);
-        while (url.isEmpty() || !m.find()) {
-            if (!m.find()) {
-                io.print("Malformed URL!");
-            }
+        while (!validator.URLIsValid(url)) {
+            io.print("Malformed or empty URL!");
             url = io.readLine("URL is required!\nUrl:");
-            m = p.matcher(url);
         }
 
         Podcast podcast = sugg.findPodcastByURL(url);
