@@ -41,7 +41,7 @@ Feature: User can add suggestions for blogs
     Given command "blog" is selected
     When url "https://www.agilealliance.org/how-to-increase-velocity/" and title "How to Increase Velocity" and creator "David Bernstein" and name "" and description "" are entered
     Then message "Found the following blog:" is displayed
-    And message "New suggestion with blog added!" is displayed
+    And message "Failed to add suggestion with blog!" is displayed
 
   Scenario: User cannot add blog with malformed URL
     Given command "add" is selected

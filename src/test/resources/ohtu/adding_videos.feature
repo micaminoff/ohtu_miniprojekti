@@ -32,7 +32,7 @@ Feature: User can add suggestions for videos
     Given command "video" is selected
     When url "https://www.youtube.com/watch?v=PvLaPKPzq2I" and title "" and creator "" and description "" are entered
     Then message "Found the following video:" is displayed
-    And message "New suggestion with video added!" is displayed
+    And message "Failed to add suggestion with video!" is displayed
 
   Scenario: User cannot add video with malformed URL
     Given command "add" is selected

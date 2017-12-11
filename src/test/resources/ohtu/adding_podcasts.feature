@@ -41,7 +41,7 @@ Feature: User can add suggestions for podcasts
     Given command "podcast" is selected
     When url "http://podcasts.joerogan.net/podcasts/mma-show-2" and title "" and podcast name "" and creator "" and description "" are entered
     And message "Found the following podcast:" is displayed
-    Then message "New suggestion with podcast added!" is displayed
+    Then message "Failed to add suggestion with podcast!" is displayed
 
   Scenario: User cannot add podcast with malformed url
     Given command "add" is selected
