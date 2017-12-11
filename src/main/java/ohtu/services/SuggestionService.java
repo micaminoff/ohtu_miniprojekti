@@ -12,6 +12,7 @@ import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.data_access.InterfaceBlogDao;
@@ -19,7 +20,7 @@ import ohtu.data_access.InterfaceBookDao;
 import ohtu.data_access.InterfaceVideoDao;
 import ohtu.data_access.InterfacePodcastDao;
 import ohtu.data_access.InterfaceSuggestionDao;
-import ohtu.domain.Suggestable;
+import ohtu.data_access.InterfaceTagDao;
 import ohtu.domain.Tag;
 
 /**
@@ -34,13 +35,23 @@ public class SuggestionService {
     private InterfacePodcastDao podcastDao;
     private InterfaceVideoDao videoDao;
     
+    private InterfaceTagDao tagDao;
+    
     public SuggestionService(InterfaceSuggestionDao suggestionDao, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         this.suggestionDao = suggestionDao;
         this.bookDao = bookDao;
         this.blogDao = blogDao;
         this.podcastDao = podcastDao;
         this.videoDao = videoDao;
-        
+    }
+    
+    public SuggestionService(InterfaceSuggestionDao suggestionDao, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao, InterfaceTagDao tagDao) {
+        this.suggestionDao = suggestionDao;
+        this.bookDao = bookDao;
+        this.blogDao = blogDao;
+        this.podcastDao = podcastDao;
+        this.videoDao = videoDao;
+        this.tagDao = tagDao;
     }
     
     public List<Suggestion> listAllSuggestions() throws SQLException {
@@ -126,6 +137,10 @@ public class SuggestionService {
             }
         }
         
+    }
+    
+    public void editTag(Tag t, String newContent) throws SQLException {
+        tagDao.edit(t, newContent);
     }
     
     public void fillWithExampleData() throws SQLException {

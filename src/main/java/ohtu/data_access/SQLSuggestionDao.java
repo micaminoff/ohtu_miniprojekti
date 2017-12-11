@@ -13,6 +13,7 @@ import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Tag;
 import ohtu.domain.Type;
 import ohtu.domain.Video;
 
@@ -49,16 +50,20 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             String suggestableKey = rs.getString("suggestableKey");
             if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableKey);
-                list.add(new Suggestion(id, book));
+                List<Tag> tags = tagDao.findBySuggestionId(id);
+                list.add(new Suggestion(book, tags));
             } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(id, blog));
+                List<Tag> tags = tagDao.findBySuggestionId(id);
+                list.add(new Suggestion(blog, tags));
             } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(id, video));
+                List<Tag> tags = tagDao.findBySuggestionId(id);
+                list.add(new Suggestion(video, tags));
             } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableKey);
-                list.add(new Suggestion(id, podcast));
+                List<Tag> tags = tagDao.findBySuggestionId(id);
+                list.add(new Suggestion(podcast, tags));
             }
         }
         rs.close();
@@ -222,7 +227,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Book(fields.getString("isbn"), fields.getString("title"), fields.getString("creator"), fields.getString("description"));
+                    return new Book(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("isbn"));
                 }
 
             } else if (type.equals(Type.BLOG.toString())) {
@@ -230,7 +235,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Blog(fields.getString("url"), fields.getString("title"), fields.getString("creator"), fields.getString("blogName"), fields.getString("description"));
+                    return new Blog(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"),  fields.getString("blogName"));
                 }
 
             } else if (type.equals(Type.VIDEO.toString())) {
@@ -238,7 +243,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Video(fields.getString("url"), fields.getString("title"), fields.getString("creator"), fields.getString("description"));
+                    return new Video(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"));
                 }
 
             } else if (type.equals(Type.PODCAST.toString())) {
@@ -246,7 +251,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Podcast(fields.getString("url"), fields.getString("title"), fields.getString("podcastName"), fields.getString("creator"), fields.getString("description"));
+                    return new Podcast(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"), fields.getString("podcastName"));
                 }
             }
         }
