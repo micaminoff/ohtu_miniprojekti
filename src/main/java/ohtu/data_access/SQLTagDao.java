@@ -77,8 +77,8 @@ public class SQLTagDao implements InterfaceTagDao {
 
         for (String keyword : keywords) {
             
-            PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name = ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name LIKE ?");
+            stmt.setString(1, "%" + arg + "%");
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {

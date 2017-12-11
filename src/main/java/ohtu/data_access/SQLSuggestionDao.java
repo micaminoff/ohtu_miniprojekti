@@ -165,10 +165,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             String suggestable_id = rs.getString("suggestablekey");
             String type = rs.getString("type");
             
-            List<Tag> tags = tagDao.findBySuggestionId(id);
-            
             Suggestable suggestable = null;
-            
              if (type.equals(Type.BOOK.toString())) {
                  suggestable = books.get(suggestable_id);
             } else if (type.equals(Type.BLOG.toString())) {
@@ -180,10 +177,9 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             }
             
              if (suggestable != null) {
-                matching_suggestions.add(new Suggestion(id, suggestable, tags));
+                matching_suggestions.add(new Suggestion(id, suggestable, tagDao.findBySuggestionId(id)));
                 suggestionsMatchedBySuggestables.add(id);
              }
-             
              
         }
 
@@ -191,7 +187,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             if (!suggestionsMatchedBySuggestables.contains(id)) {
                 Suggestable s = getSuggestionsSuggestable(id);
                 if (s != null) {
-                    matching_suggestions.add(new Suggestion(id, s));
+                    matching_suggestions.add(new Suggestion(id, s, tagDao.findBySuggestionId(id)));
                 }
             }
         }
