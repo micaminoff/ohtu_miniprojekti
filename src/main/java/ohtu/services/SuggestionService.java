@@ -92,35 +92,14 @@ public class SuggestionService {
         podcastDao.add(p);
     }
     
-    //Nää vois yhdistää yhdeksi
-    public boolean addSuggestion(Book book, List<Tag> tags) throws SQLException {
-        if (book != null) {
-            suggestionDao.add(new Suggestion(book, tags));
+    public boolean addSuggestion(Suggestable suggestable, List<Tag> tags) throws SQLException {
+        if (suggestable != null) {
+            suggestionDao.add(new Suggestion(suggestable, tags));
             return true;
         }
         return false;
     }
-    public boolean addSuggestion(Blog blog, List<Tag> tags) throws SQLException {
-       if (blog != null) {
-           suggestionDao.add(new Suggestion(blog, tags));
-           return true;
-       }
-       return false;
-    }
-    public boolean addSuggestion(Video video, List<Tag> tags) throws SQLException {
-        if (video != null) {
-            suggestionDao.add(new Suggestion(video, tags));
-            return true;
-        }
-        return false;
-    }
-    public boolean addSuggestion(Podcast podcast, List<Tag> tags) throws SQLException {
-        if (podcast != null) {
-            suggestionDao.add(new Suggestion(podcast, tags));
-            return true;
-        }
-        return false;
-    }
+    
     
     public List<Suggestion> findByAll(String arg) throws SQLException {
         return suggestionDao.findByAll(arg);

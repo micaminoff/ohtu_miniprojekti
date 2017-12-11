@@ -6,6 +6,7 @@
 package ohtu.data_access;
 
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
 import ohtu.domain.Tag;
 
@@ -15,4 +16,5 @@ import ohtu.domain.Tag;
  */
 public interface InterfaceTagDao {
     public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException;
+    public HashSet<Integer> findByAll(String arg) throws SQLException;
 }

@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import ohtu.domain.Tag;
 
@@ -47,7 +50,7 @@ public class SQLTagDao implements InterfaceTagDao {
                     tagTableInsert.executeUpdate();
                     tagTableInsert.close();
                 }
-                
+
                 //Lisätään liitostauluun SuggestionTag uusi rivi
                 PreparedStatement joinTableInsert = connection.prepareStatement("INSERT INTO SuggestionTag (suggestion_id, tag_name) VALUES (?, ?)");
                 joinTableInsert.setInt(1, id);
@@ -64,5 +67,28 @@ public class SQLTagDao implements InterfaceTagDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public HashSet<Integer> findByAll(String arg) throws SQLException {
+
+        HashSet<Integer> matched_ids = new HashSet();
+        List<String> keywords = Arrays.asList(arg.toLowerCase().split(" "));
+        Connection connection = database.getConnection();
+
+        for (String keyword : keywords) {
+            
+            PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name = ?");
+            stmt.setString(1, keyword);
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                matched_ids.add(rs.getInt("id"));
+            }
+            rs.close();
+            stmt.close();
+        }
+        
+        connection.close();
+        return matched_ids;
     }
 }

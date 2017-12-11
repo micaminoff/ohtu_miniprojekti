@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
@@ -75,7 +76,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
     public void add(Suggestion suggestion) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("INSERT INTO Suggestion (type, suggestableKey) VALUES (?, ?)");
-        
+
         String type = suggestion.getType().toString();
         String suggestableKey = suggestion.getSuggestableKey();
 
@@ -83,7 +84,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         stmt.setString(2, suggestableKey);
 
         stmt.executeUpdate();
-        
+
         //selvitetään suggestion_id ja kutsutaan metodia addTagsForSuggestion(int id, List<Tag> tags)
         stmt = connection.prepareStatement("SELECT MAX(id) AS max FROM Suggestion");
         ResultSet rs = stmt.executeQuery();
@@ -92,7 +93,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         rs.close();
         stmt.close();
         connection.close();
-        
+
         tagDao.addTagsForSuggestion(id, suggestion.getTags());
     }
 
@@ -110,7 +111,6 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             e.printStackTrace();
         }
     }
-    
 
     @Override
     public boolean containsSuggestionForSuggestable(Suggestable suggestable) {
@@ -142,6 +142,11 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         HashMap<String, Blog> blogs = blogDao.findByAll(arg);
         HashMap<String, Podcast> podcasts = podcastDao.findByAll(arg);
         HashMap<String, Video> videos = videoDao.findByAll(arg);
+        
+        //suggestioneiden id:t joiden tageissa esiintyy arg-stringin sanoja
+        HashSet<Integer> suggestionsMatchedByTags = tagDao.findByAll(arg);
+        //suggestioneiden id:t joiden suggestableissa esiintyy arg-stringin substringejä
+        HashSet<Integer> suggestionsMatchedBySuggestables = new HashSet();
 
         List<Suggestion> matching_suggestions = new ArrayList();
 
@@ -158,27 +163,94 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             if (type.equals(Type.BOOK.toString())) {
                 if (books.get(suggestable_id) != null) {
                     matching_suggestions.add(new Suggestion(id, books.get(suggestable_id)));
+                    suggestionsMatchedBySuggestables.add(id);
                 }
 
             } else if (type.equals(Type.BLOG.toString())) {
                 if (blogs.get(suggestable_id) != null) {
                     matching_suggestions.add(new Suggestion(id, blogs.get(suggestable_id)));
+                    suggestionsMatchedBySuggestables.add(id);
                 }
 
             } else if (type.equals(Type.PODCAST.toString())) {
                 if (podcasts.get(suggestable_id) != null) {
                     matching_suggestions.add(new Suggestion(id, podcasts.get(suggestable_id)));
+                    suggestionsMatchedBySuggestables.add(id);
                 }
 
             } else if (type.equals(Type.VIDEO.toString())) {
                 if (videos.get(suggestable_id) != null) {
                     matching_suggestions.add(new Suggestion(id, videos.get(suggestable_id)));
+                    suggestionsMatchedBySuggestables.add(id);
                 }
             }
         }
+
+        for (Integer id : suggestionsMatchedByTags) {
+            if (!suggestionsMatchedBySuggestables.contains(id)) {
+                Suggestable s = getSuggestionsSuggestable(id);
+                if (s != null) {
+                    matching_suggestions.add(new Suggestion(id, s));
+                }
+            }
+        }
+
         rs.close();
         stmt.close();
         connection.close();
         return matching_suggestions;
+    }
+
+    public Suggestable getSuggestionsSuggestable(Integer id) throws SQLException {
+        Connection connection = database.getConnection();
+        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE id = ?");
+        stmt.setInt(1, id);
+
+        ResultSet rs = stmt.executeQuery();
+
+        String type = null;
+        if (rs.next()) {
+            type = rs.getString("type");
+        }
+        
+        if (type != null) {
+           
+            PreparedStatement findSuggestable;
+            ResultSet fields;
+            if (type.equals(Type.BOOK.toString())) {
+                findSuggestable = connection.prepareStatement("SELECT * FROM Book JOIN Suggestion ON Book.isbn = Suggestion.suggestablekey WHERE Suggestion.id = ?");
+                findSuggestable.setInt(1, id);
+                fields = findSuggestable.executeQuery();
+                if (fields.next()) {
+                    return new Book(fields.getString("isbn"), fields.getString("title"), fields.getString("creator"), fields.getString("description"));
+                }
+
+            } else if (type.equals(Type.BLOG.toString())) {
+                findSuggestable = connection.prepareStatement("SELECT * FROM Blog JOIN Suggestion ON Blog.url = Suggestion.suggestablekey WHERE Suggestion.id = ?");
+                findSuggestable.setInt(1, id);
+                fields = findSuggestable.executeQuery();
+                if (fields.next()) {
+                    return new Blog(fields.getString("url"), fields.getString("title"), fields.getString("creator"), fields.getString("blogName"), fields.getString("description"));
+                }
+
+            } else if (type.equals(Type.VIDEO.toString())) {
+                findSuggestable = connection.prepareStatement("SELECT * FROM Video JOIN Suggestion ON Video.url = Suggestion.suggestablekey WHERE Suggestion.id = ?");
+                findSuggestable.setInt(1, id);
+                fields = findSuggestable.executeQuery();
+                if (fields.next()) {
+                    return new Video(fields.getString("url"), fields.getString("title"), fields.getString("creator"), fields.getString("description"));
+                }
+
+            } else if (type.equals(Type.PODCAST.toString())) {
+                findSuggestable = connection.prepareStatement("SELECT * FROM Podcast JOIN Suggestion ON Podcast.url = Suggestion.suggestablekey WHERE Suggestion.id = ?");
+                findSuggestable.setInt(1, id);
+                fields = findSuggestable.executeQuery();
+                if (fields.next()) {
+                    return new Podcast(fields.getString("url"), fields.getString("title"), fields.getString("podcastName"), fields.getString("creator"), fields.getString("description"));
+                }
+            }
+        }
+
+        return null;
     }
 }

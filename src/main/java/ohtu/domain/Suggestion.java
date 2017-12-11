@@ -21,6 +21,7 @@ public class Suggestion {
     //private List<Courses> esitietoKurssit;
     private int id;
     private Suggestable suggestable;
+    private String suggestableKey;
 //    private String type;
     
 //    public Suggestion(Suggestable suggestable, String type) {
