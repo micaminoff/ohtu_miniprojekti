@@ -94,15 +94,12 @@ public class Stepdefs {
     public void pod_name_is_entered(String name) {
         inputLines.add(name);
     }
-
-//    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-//    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
-//        inputLines.add(title);
-//        inputLines.add(creator);
-//        inputLines.add(ISBN);
-//        inputLines.add(description);
-//        runApp();
-//    }
+    
+    @When("^description \"([^\"]*)\" is entered")
+    public void description_is_entered(String description) {
+        inputLines.add(description);
+        runApp();
+    }
 
     @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void isbn_and_title_and_creator_and_description_are_entered(String ISBN, String title, String creator, String description) throws Throwable {
@@ -160,8 +157,6 @@ public class Stepdefs {
 
     @Then("^book is found$")
     public void book_is_found() throws Throwable {
-        boolean found = false;
-        ArrayList<String> prints = io.getPrints();
         message_is_displayed("Title: Clean Code: A Handbook of Agile Software Craftsmanship");
     }
 

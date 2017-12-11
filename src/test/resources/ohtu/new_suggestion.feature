@@ -6,52 +6,53 @@ Feature: User can add a new suggestion
     Then message "Unknown command!" is displayed
 
   # BOOKS
-
   Scenario: User can add a suggestion with a new book with full information
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "Book description" are entered
+    When ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "Book description" are entered
     Then message "New suggestion with book added!" is displayed
 
   Scenario: User can add suggestion with new book without description
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "" are entered
+    When ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "" are entered
     Then message "New suggestion with book added!" is displayed
 
-	#RIKKI
   Scenario: User cannot add suggestion with new book without title
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "78-100-98548-9-2" is entered
-	And title "" is entered
+    When ISBN "78-100-98548-9-2" is entered
+    And title "" is entered
+    And title "Book name" is entered
+    And creator "Author" is entered
+    And description "" is entered
     Then message "Title is required\nTitle:" is displayed
 
-	#RIKKI
   Scenario: User cannot add suggestion with new book without author
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "78-100-98548-9-2" is entered
-	And title "Book Name" is entered
-	And creator "" is entered
-	Then message "Author is required\nAuthor:" is displayed
+    When ISBN "78-100-98548-9-2" is entered
+    And title "Book Name" is entered
+    And creator "" is entered
+    And creator "Author" is entered
+    And description "" is entered
+    Then message "Author is required\nAuthor:" is displayed
 
-	#RIKKI
   Scenario: User cannot add suggestion with new book without ISBN
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "" is entered
-	Then message "ISBN is required\nISBN:" is displayed
+    When ISBN "" is entered
+    And ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "" are entered
+    Then message "ISBN is required\nISBN:" is displayed
 
-	#RIKKI
   Scenario: User cannot add suggestion with malformed ISBN
     Given command "add" is selected
     Given command "book" is selected
-	When ISBN "08923478934-ADHASDJK-" is entered
-	Then message "ISBN must consist of only numbers" is displayed
+    When ISBN "08923478934-ADHASDJK-" is entered
+    And ISBN "78-100-98548-9-2" and title "Book name" and creator "Matti" and description "" are entered
+    Then message "ISBN must consist of only numbers" is displayed
 
   # BLOGS
-
   Scenario: User can add a suggestion with a new blog with full information
     Given command "add" is selected
     Given command "blog" is selected
@@ -103,7 +104,6 @@ Feature: User can add a new suggestion
     Then message "Malformed or empty URL" is displayed
 
   # VIDEOS
-
   Scenario: User can add a suggestion with a new video with full information
     Given command "add" is selected
     Given command "video" is selected
@@ -146,7 +146,6 @@ Feature: User can add a new suggestion
     Then message "Malformed or empty URL" is displayed
 
   # PODCASTS
-
   Scenario: User can add a suggestion with a new podcast with full information
     Given command "add" is selected
     Given command "podcast" is selected
