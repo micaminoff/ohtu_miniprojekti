@@ -218,10 +218,13 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             type = rs.getString("type");
         }
         
+        rs.close();
+        stmt.close();
+        
         if (type != null) {
            
-            PreparedStatement findSuggestable;
-            ResultSet fields;
+            PreparedStatement findSuggestable = null;
+            ResultSet fields = null;
             if (type.equals(Type.BOOK.toString())) {
                 findSuggestable = connection.prepareStatement("SELECT * FROM Book JOIN Suggestion ON Book.isbn = Suggestion.suggestablekey WHERE Suggestion.id = ?");
                 findSuggestable.setInt(1, id);
@@ -254,7 +257,10 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                     return new Podcast(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"), fields.getString("podcastName"));
                 }
             }
+            fields.close();
+            findSuggestable.close();
         }
+        connection.close();
 
         return null;
     }
