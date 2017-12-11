@@ -108,7 +108,7 @@ Feature: User can add a new suggestion
     Given command "blog" is selected
     When url "abc.def" is entered
     And url "http://www.blowyourmind.io" and title "5 clickbait titles" and creator "Michael" and blogname "" and description "" are entered
-    Then message "Malformed URL" is displayed
+    Then message "Malformed or empty URL" is displayed
 
   # VIDEOS
   # url
@@ -154,7 +154,7 @@ Feature: User can add a new suggestion
     Given command "video" is selected
     When url "asd.fgh" is entered
     And url "https://www.youtube.com/watch?v=PvLaPKPzq2I" and title "" and creator "" and description "" are entered
-    Then message "Malformed URL" is displayed
+    Then message "Malformed or empty URL" is displayed
 
   # PODCASTS
   # url
@@ -210,4 +210,4 @@ Feature: User can add a new suggestion
     Given command "podcast" is selected
     When url "123.456" is entered
     And url "http://podbay.fm/show/877968260/e/1511431200" and title "The FAST Way to Grow Instagram & Facebook (20k/day)" and podcast name "The Tai Lopez Show" and creator "" and description ""
-    Then message "Malformed URL" is displayed
+    Then message "Malformed or empty URL" is displayed
