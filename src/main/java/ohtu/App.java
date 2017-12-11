@@ -9,8 +9,10 @@ import ohtu.data_access.*;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Tag;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -149,189 +151,58 @@ public class App {
     public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         if (command.equals("book")) {
-            addBook();
+            add(Type.BOOK);
         } else if (command.equals("blog")) {
-            addBlog();
+            add(Type.BLOG);
         } else if (command.equals("video")) {
-            addVideo();
+            add(Type.VIDEO);
         } else if (command.equals("podcast")) {
-            addPodcast();
+            add(Type.PODCAST);
         } else {
             io.print("Unknown command!");
         }
     }
 
-    public List<Tag> addTags() {
-        String inputTags = io.readLine("Tags (seperate with a space):");
-        List<String> stringTags = new ArrayList<>();
-        stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
-        List<Tag> realTags = new ArrayList();
-        for (String tag : stringTags) {
-            realTags.add(new Tag(tag));
-        }
-        return realTags;
-    }
-
-    private void addBook() throws SQLException {
-         String title = io.readLine("(*)Title:");
-         while (title.isEmpty()) {
-             title = io.readLine("Title is required\nTitle:");
-         }
-         
-         String creator = io.readLine("(*)Author:");
-         while (creator.isEmpty()) {
-             creator = io.readLine("Author is required\nAuthor:");
-         }
+     public void add(Type t) throws SQLException {
+        UserReader ur = new UserReader(io);
+        String key = ur.readKey(t);
+        Suggestable s = null;
         
-        String ISBN = io.readLine("(*)ISBN:");
-        while (!validator.ISBNIsValid(ISBN)) {
-            io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
-            ISBN = io.readLine("ISBN is required\nISBN:");
+        switch (t) {
+            case BOOK:
+                s = sugg.findBookByISBN(key);
+                break;
+            case BLOG:
+                 s = sugg.findBlogByURL(key);
+                 break;
+            case VIDEO:
+                s = sugg.findVideoByURL(key);
+                break;
+            case PODCAST:
+                s = sugg.findPodcastByURL(key);
+                break;
         }
         
-        Book book = sugg.findBookByISBN(ISBN);  
-
-        List<Tag> tags = new ArrayList<>();
-
-        if (book == null) {
-           
-            
-            String description = io.readLine("Description (optional):");
-            book = new Book(title, creator, description, ISBN);
-            sugg.addBook(book);
-            //Tagien lisääminen
-            tags = addTags();
-
-        } else {
-            io.print("\nThere already exists a book with this ISBN: \n");
-            io.print(book.toString());
-            book = null;
-        }
-
-        if (sugg.addSuggestion(book, tags)) {
-            io.print("\nNew suggestion with book added!");
-        } else {
-            io.print("\nAdding a new suggestion with book failed!");
-        }
-    }
-
-    private void addBlog() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Blog blog = sugg.findBlogByURL(url);
         List<Tag> tags = new ArrayList<>();
         
-        if (blog == null) {
-            String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-            String creator = io.readLine("(*)Author:");
-            while (creator.isEmpty()) {
-                creator = io.readLine("Author is required!\nAuthor:");
-            }
-
-            String blogName = io.readLine("Blogname (optional):");
-            String description = io.readLine("Description (optional):");
-            blog = new Blog(title, creator, description, url, blogName);
-            sugg.addBlog(blog);
+        if (s == null) {
+            s = ur.readAndCreateSuggestable(t, key);
+            sugg.addSuggestable(s);
+            tags = ur.readAndCreateTags();
             
-            tags = addTags();
         } else {
-            io.print("\n");
-            io.print("Found the following blog:");
-            io.print(blog.toString());
+            io.print("\nFound the following " + t.toString().toLowerCase() + ":");
+            io.print(s.toString());
         }
-
-        if (sugg.addSuggestion(blog, tags)) {
-            io.print("New suggestion with blog added!");
-        } else {
-            io.print("Failed to add suggestion with blog!");
-        }
-    }
-
-    private void addVideo() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Video video = sugg.findVideoByURL(url);
-        List<Tag> tags = new ArrayList<>();
         
-        if (video == null) {
-            String title = io.readLine("(*)Title:");
-
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            String description = io.readLine("Description (optional):");
-            video = new Video(title, creator, description, url);
-            sugg.addVideo(video);
-            
-            tags = addTags();
+        if (sugg.addSuggestion(s, tags)) {
+            io.print("New suggestion with " + t.toString().toLowerCase() + " added!");
         } else {
-            io.print("\n");
-            io.print("Found the following video:");
-            io.print(video.toString());
+            io.print("Failed to add suggestion with " + t.toString().toLowerCase() + "!");
         }
-
-        if (sugg.addSuggestion(video, tags)) {
-            io.print("New suggestion with video added!");
-        } else {
-            io.print("Failed to add suggestion with video!");
-        }
-    }
-
-    private void addPodcast() throws SQLException {
-        String url = io.readLine("(*)URL:");
-
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Podcast podcast = sugg.findPodcastByURL(url);
-        List<Tag> tags = new ArrayList();
         
-        if (podcast == null) {
-            String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-            String podcastName = io.readLine("(*)Podcast name:");
-            while (podcastName.isEmpty()) {
-                podcastName = io.readLine("Podcast name is required!\nPodcast name:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            String description = io.readLine("Description (optional):");
-
-            podcast = new Podcast(title, creator, description, url, podcastName);
-            sugg.addPodcast(podcast);
-            
-            tags = addTags();
-        } else {
-            io.print("\n");
-            io.print("Found the following podcast:");
-            io.print(podcast.toString());
-        }
-
-        if (sugg.addSuggestion(podcast, tags)) {
-            io.print("New suggestion with podcast added!");
-        } else {
-            io.print("Failed to add suggestion with podcast!");
-        }
-
     }
-
+    
     public void list(List<Suggestion> suggestions, boolean showIndexes) throws SQLException {
         if (suggestions.isEmpty()) {
             io.print("\nNo suggestions found.");

@@ -95,16 +95,23 @@ public class Stepdefs {
         inputLines.add(name);
     }
 
-    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
+//    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+//    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
+//        inputLines.add(title);
+//        inputLines.add(creator);
+//        inputLines.add(ISBN);
+//        inputLines.add(description);
+//        runApp();
+//    }
+
+    @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void isbn_and_title_and_creator_and_description_are_entered(String ISBN, String title, String creator, String description) throws Throwable {
+        inputLines.add(ISBN);
         inputLines.add(title);
         inputLines.add(creator);
-        inputLines.add(ISBN);
         inputLines.add(description);
         runApp();
     }
-
-
     
     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void url_and_title_and_creator_and_blogname_and_description_are_entered(String url, String title, String creator, String blogName, String description) throws Throwable {
