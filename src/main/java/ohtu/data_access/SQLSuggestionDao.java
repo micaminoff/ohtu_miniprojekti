@@ -152,8 +152,9 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         HashSet<Integer> suggestionsMatchedByTags = tagDao.findByAll(arg);
         //suggestioneiden id:t joiden suggestableissa esiintyy arg-stringin substringejä
         HashSet<Integer> suggestionsMatchedBySuggestables = new HashSet();
-
-        List<Suggestion> matching_suggestions = new ArrayList();
+        HashSet<Integer> suggestionsMatchedByType = new HashSet();
+        
+        List<Suggestion> matchingSuggestions = new ArrayList();
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
@@ -164,6 +165,10 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             int id = rs.getInt("id");
             String suggestable_id = rs.getString("suggestablekey");
             String type = rs.getString("type");
+            
+            if (arg.toLowerCase().matches(type.toLowerCase())) {
+                suggestionsMatchedByType.add(id);
+            }
             
             Suggestable suggestable = null;
              if (type.equals(Type.BOOK.toString())) {
@@ -177,27 +182,20 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             }
             
              if (suggestable != null) {
-                matching_suggestions.add(new Suggestion(id, suggestable, tagDao.findBySuggestionId(id)));
+                matchingSuggestions.add(new Suggestion(id, suggestable, tagDao.findBySuggestionId(id)));
                 suggestionsMatchedBySuggestables.add(id);
              }
-             
         }
-
-        for (Integer id : suggestionsMatchedByTags) {
-            if (!suggestionsMatchedBySuggestables.contains(id)) {
-                Suggestable s = getSuggestionsSuggestable(id);
-                if (s != null) {
-                    matching_suggestions.add(new Suggestion(id, s, tagDao.findBySuggestionId(id)));
-                }
-            }
-        }
-
+        
+        addToMatchingSuggestionsFromHashSet(suggestionsMatchedByTags, matchingSuggestions, suggestionsMatchedBySuggestables, tagDao);
+        addToMatchingSuggestionsFromHashSet(suggestionsMatchedByType, matchingSuggestions, suggestionsMatchedBySuggestables, tagDao);
+        
         rs.close();
         stmt.close();
         connection.close();
-        return matching_suggestions;
+        return matchingSuggestions;
     }
-
+    
     public Suggestable getSuggestionsSuggestable(Integer id) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE id = ?");
@@ -257,4 +255,19 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         rs.close();
         return null;
     }
+    
+    private void addToMatchingSuggestionsFromHashSet(HashSet<Integer> hs,
+                                                                                            List <Suggestion> matchingSuggestions,
+                                                                                            HashSet<Integer> suggestionsMatchedBySuggestables, 
+                                                                                            InterfaceTagDao tagDao) throws SQLException {
+        for (Integer id : hs) {
+            if (!suggestionsMatchedBySuggestables.contains(id)) {
+                Suggestable s = getSuggestionsSuggestable(id);
+                if (s != null) {
+                    matchingSuggestions.add(new Suggestion(id, s, tagDao.findBySuggestionId(id)));
+                }
+            }
+        }
+    }
+    
 }

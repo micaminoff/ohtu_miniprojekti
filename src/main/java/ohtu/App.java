@@ -54,7 +54,7 @@ public class App {
     }
 
     public void edit() throws SQLException {
-        String input = io.readLine("\nSearch suggestions to edit (type) y");
+        String input = io.readLine("\nSearch suggestions to edit (type y, otherwise press enter)");
         List<Suggestion> suggestions = null;
 
         if (input.equals("y")) {
@@ -119,7 +119,7 @@ public class App {
     }
     
     public void remove() throws SQLException {
-        String ans = io.readLine("\nSearch suggestions to remove (type y)?");
+        String ans = io.readLine("\nSearch suggestions to remove (type y, otherwise press enter)");
 
         List<Suggestion> suggestions = null;
 
