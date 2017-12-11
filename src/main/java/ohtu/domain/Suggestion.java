@@ -80,6 +80,9 @@ public class Suggestion {
     
     private String tagsAsString() {
         String tagsAsString = "";
+        if (this.tags == null) {
+            return "";
+        }
         for (Tag tag: this.tags) {
             tagsAsString = tagsAsString + tag.getName() + " ";
         }
