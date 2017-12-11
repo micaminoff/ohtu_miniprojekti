@@ -19,6 +19,7 @@ import ohtu.data_access.InterfaceBookDao;
 import ohtu.data_access.InterfaceVideoDao;
 import ohtu.data_access.InterfacePodcastDao;
 import ohtu.data_access.InterfaceSuggestionDao;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Tag;
 
 /**
@@ -91,7 +92,6 @@ public class SuggestionService {
         podcastDao.add(p);
     }
     
-    
     //Nää vois yhdistää yhdeksi
     public boolean addSuggestion(Book book, List<Tag> tags) throws SQLException {
         if (book != null) {
@@ -100,23 +100,23 @@ public class SuggestionService {
         }
         return false;
     }
-    public boolean addSuggestion(Blog blog) throws SQLException {
+    public boolean addSuggestion(Blog blog, List<Tag> tags) throws SQLException {
        if (blog != null) {
-           suggestionDao.add(new Suggestion(blog));
+           suggestionDao.add(new Suggestion(blog, tags));
            return true;
        }
        return false;
     }
-    public boolean addSuggestion(Video video) throws SQLException {
+    public boolean addSuggestion(Video video, List<Tag> tags) throws SQLException {
         if (video != null) {
-            suggestionDao.add(new Suggestion(video));
+            suggestionDao.add(new Suggestion(video, tags));
             return true;
         }
         return false;
     }
-    public boolean addSuggestion(Podcast podcast) throws SQLException {
+    public boolean addSuggestion(Podcast podcast, List<Tag> tags) throws SQLException {
         if (podcast != null) {
-            suggestionDao.add(new Suggestion(podcast));
+            suggestionDao.add(new Suggestion(podcast, tags));
             return true;
         }
         return false;
@@ -157,14 +157,14 @@ public class SuggestionService {
                 "https://www.agilealliance.org/how-to-increase-velocity/",
                 "Agile Alliance Blog");
         addBlog(blog);
-        addSuggestion(blog);
+        addSuggestion(blog, tags);
         blog = new Blog("Joulun käyttölahjoja",
                 "Johanna", 
                 "Johanna kirjoittaa elämästään norjalaisen kalastajan vaimona ja kahden söpöliinin äitinä. Blogissa pohditaan, miten arki voi olla kaunista, esitellään päivän asuja ja ihania sisustusasioita – sekä välillä pohditaan syvällisiä.", 
                 "https://www.menaiset.fi/blogit/kalastajan-vaimo/joulun-kayttolahjoja",
                 "Kalastajan vaimo");
         addBlog(blog);
-        addSuggestion(blog);
+        addSuggestion(blog, tags);
         
         Book book = new Book("Clean Code: A Handbook of Agile Software Craftsmanship", 
                 "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", 
@@ -184,7 +184,7 @@ public class SuggestionService {
                 "http://podcasts.joerogan.net/podcasts/mma-show-2", 
                 "The Joe Rogan Experience");
         addPodcast(podcast);
-        addSuggestion(podcast);
+        addSuggestion(podcast, tags);
         
         podcast = new Podcast("#038 Revolution In The Age Of Anger (with Pankaj Mishra)", 
                 "Russell Brand" , 
@@ -192,21 +192,21 @@ public class SuggestionService {
                 "https://art19.com/shows/under-the-skin/episodes/ef646cc4-c1dd-486e-ab33-6da8d88a8c13", 
                 "Under The Skin");
         addPodcast(podcast);
-        addSuggestion(podcast);
+        addSuggestion(podcast, tags);
         
         Video video = new Video("Turing Machine - Introduction (Part 1)",
                 "Neso Academy", 
                 "TOC: Introduction to Turing Machine",
                 "https://www.youtube.com/watch?v=PvLaPKPzq2I");
         addVideo(video);
-        addSuggestion(video);
+        addSuggestion(video, tags);
               
         video = new Video("Mitä tietojenkäsittely on?",
                 "Helsingin yliopisto", 
                 "Tietojenkäsittelytieteen laitoksen opettajat kertovat mitä tietojenkäsittely on, ja mihin olemme menossa.",
                 "https://www.youtube.com/watch?v=q44xFlrKCTE");
         addVideo(video);
-        addSuggestion(video);
+        addSuggestion(video, tags);
         
     }
     

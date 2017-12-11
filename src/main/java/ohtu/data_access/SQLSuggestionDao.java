@@ -88,12 +88,12 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         stmt = connection.prepareStatement("SELECT MAX(id) AS max FROM Suggestion");
         ResultSet rs = stmt.executeQuery();
         int id = rs.getInt("max");
-        //tätä metodia ei vielä toteutettu tagDaoon
-        tagDao.addTagsForSuggestion(id, suggestion.getTags());
 
         rs.close();
         stmt.close();
         connection.close();
+        
+        tagDao.addTagsForSuggestion(id, suggestion.getTags());
     }
 
     @Override

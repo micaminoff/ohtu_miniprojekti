@@ -35,7 +35,7 @@ public class App {
             if (command.isEmpty()) {
                 break;
             }
-           if (command.equals("list")) {
+            if (command.equals("list")) {
                 list(sugg.listAllSuggestions(), false);
             } else if (command.equals("add")) {
                 add();
@@ -55,18 +55,18 @@ public class App {
     public void edit() throws SQLException {
         String input = io.readLine("\nSearch suggestions to edit (type) y");
         List<Suggestion> suggestions = null;
-        
+
         if (input.equals("y")) {
             String arg = io.readLine("Enter keyword:");
             suggestions = sugg.findByAll(arg);
         } else {
             suggestions = sugg.listAllSuggestions();
         }
-        
+
         list(suggestions, true);
-        
+
         io.print("\nChoose suggestion to edit:");
-        
+
         input = io.readLine("");
 
         if (input.matches("\\d+")) {
@@ -75,29 +75,29 @@ public class App {
             if (index >= 0 && index < suggestions.size()) {
                 io.print("\nEditing following suggestion:");
                 io.print(suggestions.get(index).toString());
-                
+
                 String attribute = io.readLine("\nChoose attribute to edit:");
                 String newContent = io.readLine("\nEnter new content:");
-                
+
                 io.print("NOT YET IMPLEMENTED!");
                 return;
             }
         }
         io.print("Incorrect index given!");
     }
-    
+
     public void remove() throws SQLException {
         String ans = io.readLine("\nSearch suggestions to remove (type y)?");
 
         List<Suggestion> suggestions = null;
-        
+
         if (ans.equals("y")) {
             String arg = io.readLine("Enter keyword:");
             suggestions = sugg.findByAll(arg);
         } else {
             suggestions = sugg.listAllSuggestions();
         }
-        
+
         list(suggestions, true);
 
         io.print("\nChoose suggestion to remove:");
@@ -133,6 +133,17 @@ public class App {
         }
     }
 
+    public List<Tag> addTags() {
+        String inputTags = io.readLine("Tags (seperate with a space):");
+        List<String> stringTags = new ArrayList<>();
+        stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
+        List<Tag> realTags = new ArrayList();
+        for (String tag : stringTags) {
+            realTags.add(new Tag(tag));
+        }
+        return realTags;
+    }
+
     private void addBook() throws SQLException {
         String title = io.readLine("(*)Title:");
         while (title.isEmpty()) {
@@ -154,23 +165,18 @@ public class App {
         }
 //        Book book = sugg.findBookByTitleAndCreator(title, creator);
         Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
-        
+
         List<Tag> tags = new ArrayList<>();
-        
+
         if (book == null) {
             String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
             //Tagien lisääminen
-            String inputTags = io.readLine("Tags (seperate with a space):");
-            List<String> stringTags = new ArrayList<>();
-            stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
-            for (String tag: stringTags) {
-                tags.add(new Tag(tag));
-            }
-            
+            tags = addTags();
+
         } else {
-            io.print("\nThere already exist a book with that ISBN: \n");
+            io.print("\nThere already exists a book with this ISBN: \n");
             io.print(book.toString());
             book = null;
         }
@@ -195,7 +201,8 @@ public class App {
         }
 
         Blog blog = sugg.findBlogByURL(url);
-
+        List<Tag> tags = new ArrayList<>();
+        
         if (blog == null) {
             String title = io.readLine("(*)Title:");
             while (title.isEmpty()) {
@@ -210,13 +217,15 @@ public class App {
             String description = io.readLine("Description (optional):");
             blog = new Blog(title, creator, description, url, blogName);
             sugg.addBlog(blog);
+            
+            tags = addTags();
         } else {
             io.print("\n");
             io.print("Found the following blog:");
             io.print(blog.toString());
         }
 
-        if (sugg.addSuggestion(blog)) {
+        if (sugg.addSuggestion(blog, tags)) {
             io.print("New suggestion with blog added!");
         } else {
             io.print("Failed to add suggestion with blog!");
@@ -237,7 +246,8 @@ public class App {
         }
 
         Video video = sugg.findVideoByURL(url);
-
+        List<Tag> tags = new ArrayList<>();
+        
         if (video == null) {
             String title = io.readLine("(*)Title:");
 
@@ -249,13 +259,15 @@ public class App {
             String description = io.readLine("Description (optional):");
             video = new Video(title, creator, description, url);
             sugg.addVideo(video);
+            
+            tags = addTags();
         } else {
             io.print("\n");
             io.print("Found the following video:");
             io.print(video.toString());
         }
 
-        if (sugg.addSuggestion(video)) {
+        if (sugg.addSuggestion(video, tags)) {
             io.print("New suggestion with video added!");
         } else {
             io.print("Failed to add suggestion with video!");
@@ -276,7 +288,8 @@ public class App {
         }
 
         Podcast podcast = sugg.findPodcastByURL(url);
-
+        List<Tag> tags = new ArrayList();
+        
         if (podcast == null) {
             String title = io.readLine("(*)Title:");
             while (title.isEmpty()) {
@@ -292,13 +305,15 @@ public class App {
 
             podcast = new Podcast(title, creator, description, url, podcastName);
             sugg.addPodcast(podcast);
+            
+            tags = addTags();
         } else {
             io.print("\n");
             io.print("Found the following podcast:");
             io.print(podcast.toString());
         }
 
-        if (sugg.addSuggestion(podcast)) {
+        if (sugg.addSuggestion(podcast, tags)) {
             io.print("New suggestion with podcast added!");
         } else {
             io.print("Failed to add suggestion with podcast!");
@@ -311,14 +326,15 @@ public class App {
             io.print("\nNo suggestions found.");
         } else {
             for (int i = 0; i < suggestions.size(); i++) {
-                if (showIndexes)
+                if (showIndexes) {
                     io.print("\n" + i + ".:\n" + suggestions.get(i));
-                else 
+                } else {
                     io.print("\n" + suggestions.get(i));
+                }
             }
         }
     }
-    
+
     public void find() throws SQLException {
         List<Suggestion> suggestions_found = new ArrayList();
         String command;
@@ -337,11 +353,11 @@ public class App {
                 io.print("Unknown command!");
             }
         }
-        
+
         if (!command.equals("q")) {
             if (!suggestions_found.isEmpty()) {
                 list(suggestions_found, false);
-                    
+
             } else {
                 io.print("No suggestions found.");
             }
@@ -368,7 +384,7 @@ public class App {
         InterfaceTagDao tagDao = new SQLTagDao(database);
         InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(database, bookDao, blogDao, podcastDao, videoDao, tagDao);
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
-        
+
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
         if (sugg.listAllSuggestions().isEmpty()) {
             sugg.fillWithExampleData();
