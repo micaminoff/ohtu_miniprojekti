@@ -22,7 +22,7 @@ public class Validator {
     }
     
     public boolean ISBNIsValid(String input) {
-        if (input == null || input.isEmpty()) {
+        if (input == null || input.isEmpty() || input.length() > 100) {
             return false;
         }
         Matcher m = ISBNPattern.matcher(input);
@@ -30,11 +30,18 @@ public class Validator {
     }
     
     public boolean URLIsValid(String input) {
-        if (input == null || input.isEmpty()) {
+        if (input == null || input.isEmpty() || input.length() > 100) {
             return false;
         }
         Matcher m = URLPattern.matcher(input);
         return m.find();
     }
+    
+    public boolean lengthIsValid(String s, int maxLength, boolean required) {
+        if (s.isEmpty()) {
+            return !required;
+        }
+        return s.length() <= maxLength;
+    } 
     
 }

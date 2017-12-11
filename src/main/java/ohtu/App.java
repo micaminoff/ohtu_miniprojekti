@@ -145,12 +145,12 @@ public class App {
 
     private void addBook() throws SQLException {
         String title = io.readLine("(*)Title:");
-        while (title.isEmpty()) {
-            title = io.readLine("Title is required\nTitle:");
+        while (!validator.lengthIsValid(title, 60, true)) {
+            title = io.readLine("Title must be 1-60 characters long.\nTitle:");
         }
         String creator = io.readLine("(*)Author:");
-        while (creator.isEmpty()) {
-            creator = io.readLine("Author is required\nAuthor:");
+        while (!validator.lengthIsValid(creator, 40, true)) {
+            creator = io.readLine("Author's name must be 1-40 characters long\nAuthor:");
         }
         String ISBN = io.readLine("(*)ISBN:");
         while (!validator.ISBNIsValid(ISBN)) {
@@ -164,6 +164,9 @@ public class App {
 
         if (book == null) {
             String description = io.readLine("Description (optional):");
+            while (!validator.lengthIsValid(description, 200, false)) {
+                description = io.readLine("Description too long (over 200 characters).");
+            }
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
             //Tagien lisääminen
@@ -185,7 +188,7 @@ public class App {
     private void addBlog() throws SQLException {
         String url = io.readLine("(*)URL:");
         while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
+            io.print("Malformed or empty URL! (Max length 100)");
             url = io.readLine("URL is required!\nUrl:");
         }
 
@@ -194,16 +197,22 @@ public class App {
         
         if (blog == null) {
             String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
+            while (!validator.lengthIsValid(title, 60, true)) {
+                title = io.readLine("Title must be 1-60 characters long!\nTitle:");
             }
             String creator = io.readLine("(*)Author:");
-            while (creator.isEmpty()) {
-                creator = io.readLine("Author is required!\nAuthor:");
+            while (!validator.lengthIsValid(creator, 40, true)) {
+                creator = io.readLine("Author's name must be 1-40 characters long\nAuthor:");
             }
 
             String blogName = io.readLine("Blogname (optional):");
+            while (!validator.lengthIsValid(blogName, 40, false)) {
+                blogName = io.readLine("Name too long (max 40)");
+            }
             String description = io.readLine("Description (optional):");
+            while (!validator.lengthIsValid(description, 200, false)) {
+                description = io.readLine("Description too long (max 200)");
+            }
             blog = new Blog(title, creator, description, url, blogName);
             sugg.addBlog(blog);
             
@@ -224,7 +233,7 @@ public class App {
     private void addVideo() throws SQLException {
         String url = io.readLine("(*)URL:");
         while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
+            io.print("Malformed or empty URL! (Max length 100)");
             url = io.readLine("URL is required!\nUrl:");
         }
 
@@ -234,12 +243,18 @@ public class App {
         if (video == null) {
             String title = io.readLine("(*)Title:");
 
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
+            while (!validator.lengthIsValid(title, 60, true)) {
+                title = io.readLine("Title must be 1-60 characters long!\nTitle:");
             }
 
             String creator = io.readLine("Creator (optional):");
+            while (!validator.lengthIsValid(creator, 40, false)) {
+                creator = io.readLine("Name too long! (max 40)");
+            }
             String description = io.readLine("Description (optional):");
+            while (!validator.lengthIsValid(description, 200, false)) {
+                description = io.readLine("Description too long! (max 200)");
+            }
             video = new Video(title, creator, description, url);
             sugg.addVideo(video);
             
@@ -261,7 +276,7 @@ public class App {
         String url = io.readLine("(*)URL:");
 
         while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
+            io.print("Malformed or empty URL! (Max length 100)");
             url = io.readLine("URL is required!\nUrl:");
         }
 
@@ -270,16 +285,22 @@ public class App {
         
         if (podcast == null) {
             String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
+            while (!validator.lengthIsValid(title, 60, true)) {
+                title = io.readLine("Title must be 1-60 characters long.\nTitle:");
             }
             String podcastName = io.readLine("(*)Podcast name:");
-            while (podcastName.isEmpty()) {
-                podcastName = io.readLine("Podcast name is required!\nPodcast name:");
+            while (!validator.lengthIsValid(podcastName, 60, true)) {
+                podcastName = io.readLine("Name must be 1-60 characters long.!\nPodcast name:");
             }
 
             String creator = io.readLine("Creator (optional):");
+            while (!validator.lengthIsValid(creator, 40, false)) {
+                creator = io.readLine("Name too long. (max 40)");
+            }
             String description = io.readLine("Description (optional):");
+            while (!validator.lengthIsValid(description, 200, false)) {
+                description = io.readLine("Description too long. (max 200)");
+            }
 
             podcast = new Podcast(title, creator, description, url, podcastName);
             sugg.addPodcast(podcast);
