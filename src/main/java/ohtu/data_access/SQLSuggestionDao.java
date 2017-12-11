@@ -51,19 +51,19 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(book, tags));
+                list.add(new Suggestion(id, book, tags));
             } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(blog, tags));
+                list.add(new Suggestion(id, blog, tags));
             } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(video, tags));
+                list.add(new Suggestion(id, video, tags));
             } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(podcast, tags));
+                list.add(new Suggestion(id, podcast, tags));
             }
         }
         rs.close();
