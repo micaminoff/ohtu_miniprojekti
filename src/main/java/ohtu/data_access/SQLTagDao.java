@@ -87,4 +87,20 @@ public class SQLTagDao implements InterfaceTagDao {
         return tags;
         
     }
+
+    @Override
+    public void edit(Tag t, String newContent) throws SQLException {
+        Connection connection = database.getConnection();
+        
+        PreparedStatement stmt = connection.prepareStatement("UPDATE Tag SET name = ? WHERE name = ?");
+        stmt.setString(1, newContent);
+        stmt.setString(2, t.getName());
+        stmt.executeUpdate();
+        
+        stmt = connection.prepareStatement("UPDATE SuggestionTag SET tag_name = ? WHERE tag_name = ?");
+        stmt.setString(1, newContent);
+        stmt.setString(2, t.getName());
+        stmt.executeUpdate();
+    }
+    
 }

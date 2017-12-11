@@ -16,4 +16,5 @@ import ohtu.domain.Tag;
 public interface InterfaceTagDao {
     public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException;
     public List<Tag> findBySuggestionId(int id) throws SQLException;
+    public void edit(Tag t, String newContent) throws SQLException;
 }

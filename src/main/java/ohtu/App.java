@@ -73,18 +73,47 @@ public class App {
 
             if (index >= 0 && index < suggestions.size()) {
                 io.print("\nEditing following suggestion:");
-                io.print(suggestions.get(index).toString());
+                Suggestion s = suggestions.get(index);
+                io.print(s.toString());
 
-                String attribute = io.readLine("\nChoose attribute to edit:");
-                String newContent = io.readLine("\nEnter new content:");
-
-                io.print("NOT YET IMPLEMENTED!");
-                return;
+                io.print("\nSelect one:");
+                input = io.readLine(
+                        "\n1.: edit attribute" + 
+                        "\n2.: edit tag");
+                
+                if (input.equals("1")) {                    
+                    io.print("NOT YET IMPLEMENTED");
+                    //...
+                    //sugg.editSuggestionsSuggestable(Suggestable s, String oldContent, String newContent);
+                } else if (input.equals("2")) {
+                    editTag(s.getTags());
+                }
+            } else {
+                io.print("Incorrect index given!");
             }
+        } else {
+            io.print("Incorrect index given!");
         }
-        io.print("Incorrect index given!");
     }
 
+    private void editTag(List<Tag> tags) throws SQLException {
+        io.print("Choose tag to edit:");
+        for (int i = 0; i < tags.size(); i++) {
+            io.print(i + ".:" + tags.get(i).getName());
+        }
+        String input = io.readLine("");
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input);
+            if (index >= 0 && index < tags.size()) {
+                Tag t = tags.get(index);
+                input = io.readLine("\nEnter new content:");
+                sugg.editTag(t, input);
+            } else {
+                io.print("Incorrect index given!");
+            }
+        }
+    }
+    
     public void remove() throws SQLException {
         String ans = io.readLine("\nSearch suggestions to remove (type y)?");
 
@@ -144,25 +173,29 @@ public class App {
     }
 
     private void addBook() throws SQLException {
-        String title = io.readLine("(*)Title:");
-        while (title.isEmpty()) {
-            title = io.readLine("Title is required\nTitle:");
-        }
-        String creator = io.readLine("(*)Author:");
-        while (creator.isEmpty()) {
-            creator = io.readLine("Author is required\nAuthor:");
-        }
+         String title = io.readLine("(*)Title:");
+         while (title.isEmpty()) {
+             title = io.readLine("Title is required\nTitle:");
+         }
+         
+         String creator = io.readLine("(*)Author:");
+         while (creator.isEmpty()) {
+             creator = io.readLine("Author is required\nAuthor:");
+         }
+        
         String ISBN = io.readLine("(*)ISBN:");
         while (!validator.ISBNIsValid(ISBN)) {
             io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
             ISBN = io.readLine("ISBN is required\nISBN:");
         }
-//        Book book = sugg.findBookByTitleAndCreator(title, creator);
-        Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
+        
+        Book book = sugg.findBookByISBN(ISBN);  
 
         List<Tag> tags = new ArrayList<>();
 
         if (book == null) {
+           
+            
             String description = io.readLine("Description (optional):");
             book = new Book(title, creator, description, ISBN);
             sugg.addBook(book);
@@ -361,7 +394,7 @@ public class App {
         InterfacePodcastDao podcastDao = new SQLPodcastDao(database);
         InterfaceTagDao tagDao = new SQLTagDao(database);
         InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(database, bookDao, blogDao, podcastDao, videoDao, tagDao);
-        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
+        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao, tagDao);
 
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
         if (sugg.listAllSuggestions().isEmpty()) {
@@ -370,6 +403,8 @@ public class App {
 
         IO io = new ConsoleIO();
         new App(io, sugg).run();
+
+
     }
 
 }
