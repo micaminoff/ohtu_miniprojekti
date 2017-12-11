@@ -193,6 +193,7 @@ public class App {
         } else {
             io.print("\nFound the following " + t.toString().toLowerCase() + ":");
             io.print(s.toString());
+            s = null;   //ettei saa laittaa samalle teokselle useita
         }
         
         if (sugg.addSuggestion(s, tags)) {
