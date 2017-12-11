@@ -21,6 +21,7 @@ public class Suggestion {
     //private List<Courses> esitietoKurssit;
     private int id;
     private Suggestable suggestable;
+    private String suggestableKey;
 //    private String type;
     
 //    public Suggestion(Suggestable suggestable, String type) {
@@ -79,6 +80,9 @@ public class Suggestion {
     
     private String tagsAsString() {
         String tagsAsString = "";
+        if (this.tags == null) {
+            return "";
+        }
         for (Tag tag: this.tags) {
             tagsAsString = tagsAsString + tag.getName() + " ";
         }

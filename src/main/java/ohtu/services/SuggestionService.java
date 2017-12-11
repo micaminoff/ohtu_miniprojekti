@@ -12,6 +12,7 @@ import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestion;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.data_access.InterfaceBlogDao;
@@ -19,7 +20,7 @@ import ohtu.data_access.InterfaceBookDao;
 import ohtu.data_access.InterfaceVideoDao;
 import ohtu.data_access.InterfacePodcastDao;
 import ohtu.data_access.InterfaceSuggestionDao;
-import ohtu.domain.Suggestable;
+import ohtu.data_access.InterfaceTagDao;
 import ohtu.domain.Tag;
 
 /**
@@ -34,13 +35,23 @@ public class SuggestionService {
     private InterfacePodcastDao podcastDao;
     private InterfaceVideoDao videoDao;
     
+    private InterfaceTagDao tagDao;
+    
     public SuggestionService(InterfaceSuggestionDao suggestionDao, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao) {
         this.suggestionDao = suggestionDao;
         this.bookDao = bookDao;
         this.blogDao = blogDao;
         this.podcastDao = podcastDao;
         this.videoDao = videoDao;
-        
+    }
+    
+    public SuggestionService(InterfaceSuggestionDao suggestionDao, InterfaceBookDao bookDao, InterfaceBlogDao blogDao, InterfacePodcastDao podcastDao, InterfaceVideoDao videoDao, InterfaceTagDao tagDao) {
+        this.suggestionDao = suggestionDao;
+        this.bookDao = bookDao;
+        this.blogDao = blogDao;
+        this.podcastDao = podcastDao;
+        this.videoDao = videoDao;
+        this.tagDao = tagDao;
     }
     
     public List<Suggestion> listAllSuggestions() throws SQLException {
@@ -92,31 +103,27 @@ public class SuggestionService {
         podcastDao.add(p);
     }
     
-    //Nää vois yhdistää yhdeksi
-    public boolean addSuggestion(Book book, List<Tag> tags) throws SQLException {
-        if (book != null) {
-            suggestionDao.add(new Suggestion(book, tags));
-            return true;
-        }
-        return false;
+    public void addSuggestable(Suggestable s) {
+        Type t = s.getType();
+         switch (t) {
+             case BOOK:
+                 bookDao.add((Book) s);
+                 break;
+             case BLOG:
+                 blogDao.add((Blog) s);
+                 break;
+             case VIDEO:
+                 videoDao.add((Video) s);
+                 break;
+             case PODCAST:
+                 podcastDao.add((Podcast) s);
+                 break;
+         }
     }
-    public boolean addSuggestion(Blog blog, List<Tag> tags) throws SQLException {
-       if (blog != null) {
-           suggestionDao.add(new Suggestion(blog, tags));
-           return true;
-       }
-       return false;
-    }
-    public boolean addSuggestion(Video video, List<Tag> tags) throws SQLException {
-        if (video != null) {
-            suggestionDao.add(new Suggestion(video, tags));
-            return true;
-        }
-        return false;
-    }
-    public boolean addSuggestion(Podcast podcast, List<Tag> tags) throws SQLException {
-        if (podcast != null) {
-            suggestionDao.add(new Suggestion(podcast, tags));
+    
+    public boolean addSuggestion(Suggestable suggestable, List<Tag> tags) throws SQLException {
+        if (suggestable != null) {
+            suggestionDao.add(new Suggestion(suggestable, tags));
             return true;
         }
         return false;
@@ -147,6 +154,10 @@ public class SuggestionService {
             }
         }
         
+    }
+    
+    public void editTag(Tag t, String newContent) throws SQLException {
+        tagDao.edit(t, newContent);
     }
     
     public void fillWithExampleData() throws SQLException {

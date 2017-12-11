@@ -9,8 +9,10 @@ import ohtu.data_access.*;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Tag;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -73,18 +75,47 @@ public class App {
 
             if (index >= 0 && index < suggestions.size()) {
                 io.print("\nEditing following suggestion:");
-                io.print(suggestions.get(index).toString());
+                Suggestion s = suggestions.get(index);
+                io.print(s.toString());
 
-                String attribute = io.readLine("\nChoose attribute to edit:");
-                String newContent = io.readLine("\nEnter new content:");
-
-                io.print("NOT YET IMPLEMENTED!");
-                return;
+                io.print("\nSelect one:");
+                input = io.readLine(
+                        "\n1.: edit attribute" + 
+                        "\n2.: edit tag");
+                
+                if (input.equals("1")) {                    
+                    io.print("NOT YET IMPLEMENTED");
+                    //...
+                    //sugg.editSuggestionsSuggestable(Suggestable s, String oldContent, String newContent);
+                } else if (input.equals("2")) {
+                    editTag(s.getTags());
+                }
+            } else {
+                io.print("Incorrect index given!");
             }
+        } else {
+            io.print("Incorrect index given!");
         }
-        io.print("Incorrect index given!");
     }
 
+    private void editTag(List<Tag> tags) throws SQLException {
+        io.print("Choose tag to edit:");
+        for (int i = 0; i < tags.size(); i++) {
+            io.print(i + ".:" + tags.get(i).getName());
+        }
+        String input = io.readLine("");
+        if (input.matches("\\d+")) {
+            int index = Integer.parseInt(input);
+            if (index >= 0 && index < tags.size()) {
+                Tag t = tags.get(index);
+                input = io.readLine("\nEnter new content:");
+                sugg.editTag(t, input);
+            } else {
+                io.print("Incorrect index given!");
+            }
+        }
+    }
+    
     public void remove() throws SQLException {
         String ans = io.readLine("\nSearch suggestions to remove (type y)?");
 
@@ -120,206 +151,59 @@ public class App {
     public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         if (command.equals("book")) {
-            addBook();
+            add(Type.BOOK);
         } else if (command.equals("blog")) {
-            addBlog();
+            add(Type.BLOG);
         } else if (command.equals("video")) {
-            addVideo();
+            add(Type.VIDEO);
         } else if (command.equals("podcast")) {
-            addPodcast();
+            add(Type.PODCAST);
         } else {
             io.print("Unknown command!");
         }
     }
 
-    public List<Tag> addTags() {
-        String inputTags = io.readLine("Tags (seperate with a space):");
-        List<String> stringTags = new ArrayList<>();
-        stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
-        List<Tag> realTags = new ArrayList();
-        for (String tag : stringTags) {
-            realTags.add(new Tag(tag));
+     public void add(Type t) throws SQLException {
+        UserReader ur = new UserReader(io);
+        String key = ur.readKey(t);
+        Suggestable s = null;
+        
+        switch (t) {
+            case BOOK:
+                s = sugg.findBookByISBN(key);
+                break;
+            case BLOG:
+                 s = sugg.findBlogByURL(key);
+                 break;
+            case VIDEO:
+                s = sugg.findVideoByURL(key);
+                break;
+            case PODCAST:
+                s = sugg.findPodcastByURL(key);
+                break;
         }
-        return realTags;
-    }
-
-    private void addBook() throws SQLException {
-        String title = io.readLine("(*)Title:");
-        while (!validator.lengthIsValid(title, 60, true)) {
-            title = io.readLine("Title must be 1-60 characters long.\nTitle:");
-        }
-        String creator = io.readLine("(*)Author:");
-        while (!validator.lengthIsValid(creator, 40, true)) {
-            creator = io.readLine("Author's name must be 1-40 characters long\nAuthor:");
-        }
-        String ISBN = io.readLine("(*)ISBN:");
-        while (!validator.ISBNIsValid(ISBN)) {
-            io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
-            ISBN = io.readLine("ISBN is required\nISBN:");
-        }
-//        Book book = sugg.findBookByTitleAndCreator(title, creator);
-        Book book = sugg.findBookByISBN(ISBN);  //en jaksanut toteuttaa yllä olevaa
-
-        List<Tag> tags = new ArrayList<>();
-
-        if (book == null) {
-            String description = io.readLine("Description (optional):");
-            while (!validator.lengthIsValid(description, 200, false)) {
-                description = io.readLine("Description too long (over 200 characters).");
-            }
-            book = new Book(title, creator, description, ISBN);
-            sugg.addBook(book);
-            //Tagien lisääminen
-            tags = addTags();
-
-        } else {
-            io.print("\nThere already exists a book with this ISBN: \n");
-            io.print(book.toString());
-            book = null;
-        }
-
-        if (sugg.addSuggestion(book, tags)) {
-            io.print("\nNew suggestion with book added!");
-        } else {
-            io.print("\nAdding a new suggestion with book failed!");
-        }
-    }
-
-    private void addBlog() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL! (Max length 100)");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Blog blog = sugg.findBlogByURL(url);
+        
         List<Tag> tags = new ArrayList<>();
         
-        if (blog == null) {
-            String title = io.readLine("(*)Title:");
-            while (!validator.lengthIsValid(title, 60, true)) {
-                title = io.readLine("Title must be 1-60 characters long!\nTitle:");
-            }
-            String creator = io.readLine("(*)Author:");
-            while (!validator.lengthIsValid(creator, 40, true)) {
-                creator = io.readLine("Author's name must be 1-40 characters long\nAuthor:");
-            }
 
-            String blogName = io.readLine("Blogname (optional):");
-            while (!validator.lengthIsValid(blogName, 40, false)) {
-                blogName = io.readLine("Name too long (max 40)");
-            }
-            String description = io.readLine("Description (optional):");
-            while (!validator.lengthIsValid(description, 200, false)) {
-                description = io.readLine("Description too long (max 200)");
-            }
-            blog = new Blog(title, creator, description, url, blogName);
-            sugg.addBlog(blog);
+        if (s == null) {
+            s = ur.readAndCreateSuggestable(t, key);
+            sugg.addSuggestable(s);
+            tags = ur.readAndCreateTags();
             
-            tags = addTags();
         } else {
-            io.print("\n");
-            io.print("Found the following blog:");
-            io.print(blog.toString());
+            io.print("\nFound the following " + t.toString().toLowerCase() + ":");
+            io.print(s.toString());
         }
-
-        if (sugg.addSuggestion(blog, tags)) {
-            io.print("New suggestion with blog added!");
-        } else {
-            io.print("Failed to add suggestion with blog!");
-        }
-    }
-
-    private void addVideo() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL! (Max length 100)");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Video video = sugg.findVideoByURL(url);
-        List<Tag> tags = new ArrayList<>();
         
-        if (video == null) {
-            String title = io.readLine("(*)Title:");
-
-            while (!validator.lengthIsValid(title, 60, true)) {
-                title = io.readLine("Title must be 1-60 characters long!\nTitle:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            while (!validator.lengthIsValid(creator, 40, false)) {
-                creator = io.readLine("Name too long! (max 40)");
-            }
-            String description = io.readLine("Description (optional):");
-            while (!validator.lengthIsValid(description, 200, false)) {
-                description = io.readLine("Description too long! (max 200)");
-            }
-            video = new Video(title, creator, description, url);
-            sugg.addVideo(video);
-            
-            tags = addTags();
+        if (sugg.addSuggestion(s, tags)) {
+            io.print("New suggestion with " + t.toString().toLowerCase() + " added!");
         } else {
-            io.print("\n");
-            io.print("Found the following video:");
-            io.print(video.toString());
+            io.print("Failed to add suggestion with " + t.toString().toLowerCase() + "!");
         }
-
-        if (sugg.addSuggestion(video, tags)) {
-            io.print("New suggestion with video added!");
-        } else {
-            io.print("Failed to add suggestion with video!");
-        }
-    }
-
-    private void addPodcast() throws SQLException {
-        String url = io.readLine("(*)URL:");
-
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL! (Max length 100)");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Podcast podcast = sugg.findPodcastByURL(url);
-        List<Tag> tags = new ArrayList();
         
-        if (podcast == null) {
-            String title = io.readLine("(*)Title:");
-            while (!validator.lengthIsValid(title, 60, true)) {
-                title = io.readLine("Title must be 1-60 characters long.\nTitle:");
-            }
-            String podcastName = io.readLine("(*)Podcast name:");
-            while (!validator.lengthIsValid(podcastName, 60, true)) {
-                podcastName = io.readLine("Name must be 1-60 characters long.!\nPodcast name:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            while (!validator.lengthIsValid(creator, 40, false)) {
-                creator = io.readLine("Name too long. (max 40)");
-            }
-            String description = io.readLine("Description (optional):");
-            while (!validator.lengthIsValid(description, 200, false)) {
-                description = io.readLine("Description too long. (max 200)");
-            }
-
-            podcast = new Podcast(title, creator, description, url, podcastName);
-            sugg.addPodcast(podcast);
-            
-            tags = addTags();
-        } else {
-            io.print("\n");
-            io.print("Found the following podcast:");
-            io.print(podcast.toString());
-        }
-
-        if (sugg.addSuggestion(podcast, tags)) {
-            io.print("New suggestion with podcast added!");
-        } else {
-            io.print("Failed to add suggestion with podcast!");
-        }
-
     }
-
+    
     public void list(List<Suggestion> suggestions, boolean showIndexes) throws SQLException {
         if (suggestions.isEmpty()) {
             io.print("\nNo suggestions found.");
@@ -382,15 +266,17 @@ public class App {
         InterfacePodcastDao podcastDao = new SQLPodcastDao(database);
         InterfaceTagDao tagDao = new SQLTagDao(database);
         InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(database, bookDao, blogDao, podcastDao, videoDao, tagDao);
-        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
+        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao, tagDao);
 
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
-        if (sugg.listAllSuggestions().isEmpty()) {
-            sugg.fillWithExampleData();
-        }
+//        if (sugg.listAllSuggestions().isEmpty()) {
+//            sugg.fillWithExampleData();
+//        }
 
         IO io = new ConsoleIO();
         new App(io, sugg).run();
+
+
     }
 
 }
