@@ -51,19 +51,19 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(book, tags));
+                list.add(new Suggestion(id, book, tags));
             } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(blog, tags));
+                list.add(new Suggestion(id, blog, tags));
             } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(video, tags));
+                list.add(new Suggestion(id, video, tags));
             } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableKey);
                 List<Tag> tags = tagDao.findBySuggestionId(id);
-                list.add(new Suggestion(podcast, tags));
+                list.add(new Suggestion(id, podcast, tags));
             }
         }
         rs.close();
@@ -152,8 +152,9 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         HashSet<Integer> suggestionsMatchedByTags = tagDao.findByAll(arg);
         //suggestioneiden id:t joiden suggestableissa esiintyy arg-stringin substringejä
         HashSet<Integer> suggestionsMatchedBySuggestables = new HashSet();
-
-        List<Suggestion> matching_suggestions = new ArrayList();
+        HashSet<Integer> suggestionsMatchedByType = new HashSet();
+        
+        List<Suggestion> matchingSuggestions = new ArrayList();
 
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion");
@@ -164,48 +165,37 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             int id = rs.getInt("id");
             String suggestable_id = rs.getString("suggestablekey");
             String type = rs.getString("type");
-
-            if (type.equals(Type.BOOK.toString())) {
-                if (books.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, books.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+            
+            if (arg.toLowerCase().matches(type.toLowerCase())) {
+                suggestionsMatchedByType.add(id);
+            }
+            
+            Suggestable suggestable = null;
+             if (type.equals(Type.BOOK.toString())) {
+                 suggestable = books.get(suggestable_id);
             } else if (type.equals(Type.BLOG.toString())) {
-                if (blogs.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, blogs.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+                suggestable = blogs.get(suggestable_id);
             } else if (type.equals(Type.PODCAST.toString())) {
-                if (podcasts.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, podcasts.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+                suggestable = podcasts.get(suggestable_id);
             } else if (type.equals(Type.VIDEO.toString())) {
-                if (videos.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, videos.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
+                suggestable = videos.get(suggestable_id);
             }
+            
+             if (suggestable != null) {
+                matchingSuggestions.add(new Suggestion(id, suggestable, tagDao.findBySuggestionId(id)));
+                suggestionsMatchedBySuggestables.add(id);
+             }
         }
-
-        for (Integer id : suggestionsMatchedByTags) {
-            if (!suggestionsMatchedBySuggestables.contains(id)) {
-                Suggestable s = getSuggestionsSuggestable(id);
-                if (s != null) {
-                    matching_suggestions.add(new Suggestion(id, s));
-                }
-            }
-        }
-
+        
+        addToMatchingSuggestionsFromHashSet(suggestionsMatchedByTags, matchingSuggestions, suggestionsMatchedBySuggestables, tagDao);
+        addToMatchingSuggestionsFromHashSet(suggestionsMatchedByType, matchingSuggestions, suggestionsMatchedBySuggestables, tagDao);
+        
         rs.close();
         stmt.close();
         connection.close();
-        return matching_suggestions;
+        return matchingSuggestions;
     }
-
+    
     public Suggestable getSuggestionsSuggestable(Integer id) throws SQLException {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Suggestion WHERE id = ?");
@@ -218,10 +208,13 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             type = rs.getString("type");
         }
         
+        rs.close();
+        stmt.close();
+        
         if (type != null) {
            
-            PreparedStatement findSuggestable;
-            ResultSet fields;
+            PreparedStatement findSuggestable = null;
+            ResultSet fields = null;
             if (type.equals(Type.BOOK.toString())) {
                 findSuggestable = connection.prepareStatement("SELECT * FROM Book JOIN Suggestion ON Book.isbn = Suggestion.suggestablekey WHERE Suggestion.id = ?");
                 findSuggestable.setInt(1, id);
@@ -254,8 +247,27 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                     return new Podcast(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"), fields.getString("podcastName"));
                 }
             }
+            fields.close();
+            findSuggestable.close();
         }
-
+        connection.close();
+        stmt.close();
+        rs.close();
         return null;
     }
+    
+    private void addToMatchingSuggestionsFromHashSet(HashSet<Integer> hs,
+                                                                                            List <Suggestion> matchingSuggestions,
+                                                                                            HashSet<Integer> suggestionsMatchedBySuggestables, 
+                                                                                            InterfaceTagDao tagDao) throws SQLException {
+        for (Integer id : hs) {
+            if (!suggestionsMatchedBySuggestables.contains(id)) {
+                Suggestable s = getSuggestionsSuggestable(id);
+                if (s != null) {
+                    matchingSuggestions.add(new Suggestion(id, s, tagDao.findBySuggestionId(id)));
+                }
+            }
+        }
+    }
+    
 }
