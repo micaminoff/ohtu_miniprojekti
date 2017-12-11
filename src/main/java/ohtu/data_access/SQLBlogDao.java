@@ -51,7 +51,7 @@ public class SQLBlogDao implements InterfaceBlogDao {
             String blogName = rs.getString("blogName");
             String description = rs.getString("description");
             
-            blogs.put(url, new Blog(url, title, creator, blogName, description));
+            blogs.put(url, new Blog(title, creator, description, url, blogName));
         }
         
         rs.close();
