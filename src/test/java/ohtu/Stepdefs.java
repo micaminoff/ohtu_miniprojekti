@@ -23,7 +23,8 @@ public class Stepdefs {
     InterfaceBlogDao blogDao = new SQLBlogDao(test_data);
     InterfacePodcastDao podcastDao = new SQLPodcastDao(test_data);
     InterfaceVideoDao videoDao = new SQLVideoDao(test_data);
-    InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(test_data, bookDao, blogDao, podcastDao, videoDao);
+    InterfaceTagDao tagDao = new SQLTagDao(test_data);
+    InterfaceSuggestionDao suggestionDao = new SQLSuggestionDao(test_data, bookDao, blogDao, podcastDao, videoDao, tagDao);
     SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
     List<String> inputLines = new ArrayList<>();
     
