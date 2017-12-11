@@ -54,7 +54,7 @@ public class App {
     }
 
     public void edit() throws SQLException {
-        String input = io.readLine("\nSearch suggestions to edit (type y, otherwise press enter)");
+        String input = io.readLine("\nSearch suggestions to edit (type y, otherwise press enter to list all)");
         List<Suggestion> suggestions = null;
 
         if (input.equals("y")) {
@@ -67,7 +67,7 @@ public class App {
         if (suggestions.size() > 0) {
         list(suggestions, true);
         
-        io.print("\nChoose suggestion to edit:");
+        io.print("\nChoose suggestion to edit (type the number):");
 
         input = io.readLine("");
 
@@ -82,14 +82,27 @@ public class App {
                 io.print("\nSelect one:");
                 input = io.readLine(
                         "\n1.: edit attribute" + 
-                        "\n2.: edit tag");
+                        "\n2.: edit tags");
                 
                 if (input.equals("1")) {                    
                     io.print("NOT YET IMPLEMENTED");
                     //...
                     //sugg.editSuggestionsSuggestable(Suggestable s, String oldContent, String newContent);
                 } else if (input.equals("2")) {
-                    editTag(s.getTags());
+                    io.print("\nDo you want to edit existing tags or add new tags? Select one: ");
+                    input = io.readLine("\n1.: edit existing tag\n2.: add new tags");
+                    if (input.equals("1")) {
+                        editTag(s.getTags());
+                        io.print("The tag has been changed!");
+                    } else if (input.equals("2")) {
+                        UserReader ur = new UserReader(io);
+                        List<Tag> tags = new ArrayList<>();
+                        tags = ur.readAndCreateTags();
+                        sugg.addTagsForSuggestion(s.getId(), tags);
+                        io.print("New tag(s) added!");
+                    } else {
+                        io.print("Incorrect index given!");
+                    }
                 }
             } else {
                 io.print("Incorrect index given!");
@@ -243,6 +256,7 @@ public class App {
 
         if (!command.equals("q")) {
             if (!suggestions_found.isEmpty()) {
+                io.print("\nFound the following suggestions: ");
                 list(suggestions_found, false);
 
             } else {

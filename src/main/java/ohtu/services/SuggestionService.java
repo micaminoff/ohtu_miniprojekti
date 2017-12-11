@@ -160,6 +160,10 @@ public class SuggestionService {
         tagDao.edit(t, newContent);
     }
     
+    public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException {
+        this.tagDao.addTagsForSuggestion(id, tags);
+    }
+    
     public void fillWithExampleData() throws SQLException {
         List<Tag> tags = new ArrayList<>();
         Blog blog = new Blog("How to Increase Velocity",
