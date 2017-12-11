@@ -64,7 +64,7 @@ public class Video implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url;
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nurl: " + url;
     }
  
     @Override

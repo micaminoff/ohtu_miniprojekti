@@ -75,9 +75,9 @@ public class Stepdefs {
         inputLines.add(title);
     }
     
-    @When("^creator \"([^\"]*)\" is entered")
-    public void creator_is_entered(String creator) {
-        inputLines.add(creator);
+    @When("^author \"([^\"]*)\" is entered")
+    public void author_is_entered(String author) {
+        inputLines.add(author);
     }
     
     @When("^ISBN \"([^\"]*)\" is entered")
@@ -95,51 +95,51 @@ public class Stepdefs {
         inputLines.add(name);
     }
 
-//    @When("^title \"([^\"]*)\" and creator \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-//    public void title_and_creator_and_ISBN_and_description_are_entered(String title, String creator, String ISBN, String description) throws Throwable {
+//    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+//    public void title_and_author_and_ISBN_and_description_are_entered(String title, String author, String ISBN, String description) throws Throwable {
 //        inputLines.add(title);
-//        inputLines.add(creator);
+//        inputLines.add(author);
 //        inputLines.add(ISBN);
 //        inputLines.add(description);
 //        runApp();
 //    }
 
-    @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-    public void isbn_and_title_and_creator_and_description_are_entered(String ISBN, String title, String creator, String description) throws Throwable {
+    @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void isbn_and_title_and_author_and_description_are_entered(String ISBN, String title, String author, String description) throws Throwable {
         inputLines.add(ISBN);
         inputLines.add(title);
-        inputLines.add(creator);
+        inputLines.add(author);
         inputLines.add(description);
         runApp();
     }
     
-    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-    public void url_and_title_and_creator_and_blogname_and_description_are_entered(String url, String title, String creator, String blogName, String description) throws Throwable {
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and blogname \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void url_and_title_and_author_and_blogname_and_description_are_entered(String url, String title, String author, String blogName, String description) throws Throwable {
         inputLines.add(url);
         inputLines.add(title);
-        inputLines.add(creator);
+        inputLines.add(author);
         inputLines.add(blogName);
         inputLines.add(description);
         runApp();
     }
 
     
-    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-    public void url_and_title_and_creator_and_description_are_entered(String url, String title, String creator, String description) throws Throwable {
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void url_and_title_and_author_and_description_are_entered(String url, String title, String author, String description) throws Throwable {
         inputLines.add(url);
         inputLines.add(title);
-        inputLines.add(creator);
+        inputLines.add(author);
         inputLines.add(description);
         runApp();
     }
 
     
-     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and podcast name \"([^\"]*)\" and creator \"([^\"]*)\" and description \"([^\"]*)\"$")
-    public void url_and_title_and_podcast_name_and_creator_and_description(String url, String title, String podcastName, String creator, String description) throws Throwable {
+     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and podcast name \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\"$")
+    public void url_and_title_and_podcast_name_and_author_and_description(String url, String title, String podcastName, String author, String description) throws Throwable {
         inputLines.add(url);
         inputLines.add(title);
         inputLines.add(podcastName);
-        inputLines.add(creator);
+        inputLines.add(author);
         inputLines.add(description);
         runApp();
     }

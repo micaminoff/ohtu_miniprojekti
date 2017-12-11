@@ -27,4 +27,5 @@ public interface InterfaceBookDao {
     Book findByTitleAndCreator(String title, String creator);
     void add(Book book);
     void remove(Book book);
+    void update(Book book);
 }
