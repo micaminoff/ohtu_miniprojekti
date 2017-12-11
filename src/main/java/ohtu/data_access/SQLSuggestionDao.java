@@ -164,31 +164,27 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             int id = rs.getInt("id");
             String suggestable_id = rs.getString("suggestablekey");
             String type = rs.getString("type");
-
-            if (type.equals(Type.BOOK.toString())) {
-                if (books.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, books.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+            
+            List<Tag> tags = tagDao.findBySuggestionId(id);
+            
+            Suggestable suggestable = null;
+            
+             if (type.equals(Type.BOOK.toString())) {
+                 suggestable = books.get(suggestable_id);
             } else if (type.equals(Type.BLOG.toString())) {
-                if (blogs.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, blogs.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+                suggestable = blogs.get(suggestable_id);
             } else if (type.equals(Type.PODCAST.toString())) {
-                if (podcasts.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, podcasts.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
-
+                suggestable = podcasts.get(suggestable_id);
             } else if (type.equals(Type.VIDEO.toString())) {
-                if (videos.get(suggestable_id) != null) {
-                    matching_suggestions.add(new Suggestion(id, videos.get(suggestable_id)));
-                    suggestionsMatchedBySuggestables.add(id);
-                }
+                suggestable = videos.get(suggestable_id);
             }
+            
+             if (suggestable != null) {
+                matching_suggestions.add(new Suggestion(id, suggestable, tags));
+                suggestionsMatchedBySuggestables.add(id);
+             }
+             
+             
         }
 
         for (Integer id : suggestionsMatchedByTags) {
@@ -261,7 +257,8 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             findSuggestable.close();
         }
         connection.close();
-
+        stmt.close();
+        rs.close();
         return null;
     }
 }

@@ -63,9 +63,10 @@ public class App {
         } else {
             suggestions = sugg.listAllSuggestions();
         }
-
+        
+        if (suggestions.size() > 0) {
         list(suggestions, true);
-
+        
         io.print("\nChoose suggestion to edit:");
 
         input = io.readLine("");
@@ -95,6 +96,7 @@ public class App {
             }
         } else {
             io.print("Incorrect index given!");
+        }
         }
     }
 
@@ -128,24 +130,26 @@ public class App {
             suggestions = sugg.listAllSuggestions();
         }
 
-        list(suggestions, true);
+        if (suggestions.size() > 0) {
+             list(suggestions, true);
+            
+            io.print("\nChoose suggestion to remove:");
+            String input = io.readLine("");
 
-        io.print("\nChoose suggestion to remove:");
-        String input = io.readLine("");
+            if (input.matches("\\d+")) {
+                int index = Integer.parseInt(input);
 
-        if (input.matches("\\d+")) {
-            int index = Integer.parseInt(input);
-
-            if (index >= 0 && index < suggestions.size()) {
-                String confirm = io.readLine("Are you sure? (type y)");
-                if (confirm.equals("y")) {
-                    sugg.removeSuggestion(suggestions.get(index));
-                    io.print("Suggestion removed!");
+                if (index >= 0 && index < suggestions.size()) {
+                    String confirm = io.readLine("Are you sure? (type y)");
+                    if (confirm.equals("y")) {
+                        sugg.removeSuggestion(suggestions.get(index));
+                        io.print("Suggestion removed!");
+                    }
+                    return;
                 }
-                return;
             }
+            io.print("Incorrect index given!");
         }
-        io.print("Incorrect index given!");
     }
 
     public void add() throws SQLException {
