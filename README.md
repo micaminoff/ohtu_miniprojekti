@@ -3,15 +3,11 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/d11375bdbe984bdbbad74d83e588c210)](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti?utm_source=github.com&utm_medium=referral&utm_content=micaminoff/ohtu_miniprojekti&utm_campaign=Badge_Coverage)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d11375bdbe984bdbbad74d83e588c210)](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=micaminoff/ohtu_miniprojekti&amp;utm_campaign=Badge_Grade)
 
-[Travis CI](https://travis-ci.org/micaminoff/ohtu_miniprojekti)
+[Travis CI](https://travis-ci.org/micaminoff/ohtu_miniprojekti), [Codacy](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti/dashboard)
 
-[Codacy](https://www.codacy.com/app/micaminoff/ohtu_miniprojekti/dashboard)
+[Ohjelmistotuotanto GH](https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti)
 
-https://github.com/mluukkai/ohjelmistotuotanto2017/wiki/miniprojekti
-
-Backlogit (sis. hyväksymäkriteeri user storyille): 
-https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1
-
+[Backlogit (sis. hyväksymäkriteeri user storyille)](https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1)
 
 <strong>Asennus- ja käyttöohje:</strong>
 Sovellus on työpöytäsovellus jota käytetään tekstikäyttöliittymän kautta komentoriviltä.
