@@ -54,35 +54,35 @@ public class SuggestionService {
         this.tagDao = tagDao;
     }
     
-    public List<Suggestion> listAllSuggestions() throws SQLException {
+    public List<Suggestion> listAllSuggestions() {
         return suggestionDao.listAll();
     }
     
     public List<Book> findBookByCreator(String creator) {
         return bookDao.findByCreator(creator);
     }
-    public Book findBookByISBN(String ISBN) throws SQLException {
+    public Book findBookByISBN(String ISBN) {
         return bookDao.findByISBN(ISBN);
     }
     public List<Book> findBookByDescription(String description) {
         return bookDao.findByDescription(description);
     }
-    public List<Book> findBookByTitle(String title) throws SQLException {
+    public List<Book> findBookByTitle(String title) {
         return bookDao.findByTitle(title);
     }
     public Book findBookByTitleAndCreator(String title, String creator) {
         return bookDao.findByTitleAndCreator(title, creator);
     }
     
-    public Blog findBlogByURL(String url) throws SQLException {
+    public Blog findBlogByURL(String url) {
         return blogDao.findByUrl(url);
     }
     
-    public Video findVideoByURL(String url) throws SQLException {
+    public Video findVideoByURL(String url) {
         return videoDao.findByUrl(url);
     }
     
-    public Podcast findPodcastByURL(String url) throws SQLException {
+    public Podcast findPodcastByURL(String url) {
         return podcastDao.findByUrl(url);
     }
     
@@ -139,7 +139,7 @@ public class SuggestionService {
          }
     }
     
-    public boolean addSuggestion(Suggestable suggestable, List<Tag> tags) throws SQLException {
+    public boolean addSuggestion(Suggestable suggestable, List<Tag> tags) {
         if (suggestable != null) {
             suggestionDao.add(new Suggestion(suggestable, tags));
             return true;
@@ -147,7 +147,7 @@ public class SuggestionService {
         return false;
     }
     
-    public List<Suggestion> findByAll(String arg) throws SQLException {
+    public List<Suggestion> findByAll(String arg) {
         return suggestionDao.findByAll(arg);
     }
     
@@ -174,15 +174,15 @@ public class SuggestionService {
         
     }
     
-    public void editTag(Tag t, String newContent) throws SQLException {
+    public void editTag(Tag t, String newContent) {
         tagDao.edit(t, newContent);
     }
     
-    public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException {
+    public void addTagsForSuggestion(int id, List<Tag> tags) {
         this.tagDao.addTagsForSuggestion(id, tags);
     }
     
-    public void fillWithExampleData() throws SQLException {
+    public void fillWithExampleData() {
         List<Tag> tags = new ArrayList<>();
         Blog blog = new Blog("How to Increase Velocity",
                 "David Bernstein", 

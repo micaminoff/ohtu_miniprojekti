@@ -40,7 +40,7 @@ public class Stepdefs {
     }
     
     @Before
-    public void populate() throws SQLException {
+    public void populate() {
         sugg.fillWithExampleData();
     }
 
@@ -94,15 +94,6 @@ public class Stepdefs {
     public void pod_name_is_entered(String name) {
         inputLines.add(name);
     }
-
-//    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and ISBN \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
-//    public void title_and_author_and_ISBN_and_description_are_entered(String title, String author, String ISBN, String description) throws Throwable {
-//        inputLines.add(title);
-//        inputLines.add(author);
-//        inputLines.add(ISBN);
-//        inputLines.add(description);
-//        runApp();
-//    }
 
     @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void isbn_and_title_and_author_and_description_are_entered(String ISBN, String title, String author, String description) throws Throwable {
@@ -168,11 +159,7 @@ public class Stepdefs {
     private void runApp() {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
-        try {
-            app.run();
-        } catch (SQLException ex) {
-            System.out.println("Database error: " + ex.getMessage());
-        }
+        app.run();
     }
 
 }

@@ -1,23 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Blog;
 
-/**
- *
- * @author paavo
- */
 public class SQLBlogDao implements InterfaceBlogDao {
     private Database database;
     
@@ -31,7 +21,10 @@ public class SQLBlogDao implements InterfaceBlogDao {
     }
     
     @Override
-    public HashMap<String,Blog> findByAll(String arg) throws SQLException {
+    public HashMap<String,Blog> findByAll(String arg) {
+        HashMap<String, Blog> blogs = new HashMap();
+
+        try {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Blog WHERE url LIKE ? OR title LIKE ? OR creator LIKE ? OR blogName LIKE ? OR description LIKE ?");
         statement.setObject(1, "%" + arg + "%");
@@ -41,9 +34,6 @@ public class SQLBlogDao implements InterfaceBlogDao {
         statement.setObject(5, "%" + arg + "%");
         
         ResultSet rs = statement.executeQuery();
-
-        HashMap<String, Blog> blogs = new HashMap();
-        
         while (rs.next()) {
             String url = rs.getString("url");
             String title = rs.getString("title");
@@ -57,7 +47,9 @@ public class SQLBlogDao implements InterfaceBlogDao {
         rs.close();
         statement.close();
         connection.close();
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return blogs;
     }
 
@@ -72,7 +64,8 @@ public class SQLBlogDao implements InterfaceBlogDao {
     }
 
     @Override
-    public Blog findByUrl(String url) throws SQLException {
+    public Blog findByUrl(String url) {
+        try {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Blog WHERE url = ?");
         stmt.setObject(1, url);
@@ -93,6 +86,10 @@ public class SQLBlogDao implements InterfaceBlogDao {
         connection.close();
         
         return new Blog(title, writer, description, url, blogName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
