@@ -74,7 +74,7 @@ public class Blog implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nWriter: " + creator + "\nDescription: " + description +"\nUrl: " + url + "\nBlog name: " + blogName;
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description +"\nUrl: " + url + "\nBlog name: " + blogName;
     }
     
     @Override

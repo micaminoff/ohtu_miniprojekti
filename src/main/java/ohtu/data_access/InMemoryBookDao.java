@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.util.ArrayList;
@@ -10,11 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
 
-/**
- *
- * @author paavo
- * päivityksiä: mkotola
- */
 public class InMemoryBookDao implements InterfaceBookDao {
     private List<Book> books;
     
@@ -107,6 +97,11 @@ public class InMemoryBookDao implements InterfaceBookDao {
     @Override
     public void remove(Book book) {
         books.remove(book);
+    }
+
+    @Override
+    public void update(Book book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

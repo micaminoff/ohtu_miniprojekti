@@ -79,5 +79,10 @@ public class InMemoryBlogDao implements InterfaceBlogDao {
     public void remove(Blog blog) {
         blogs.remove(blog);
     }
+
+    @Override
+    public void update(Blog blog) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

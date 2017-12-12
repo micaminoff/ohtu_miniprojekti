@@ -33,3 +33,15 @@ creator varchar(40) NOT NULL,
 blogName varchar(40),
 description varchar(200)
 );
+
+CREATE TABLE Tag (
+name varchar(50) NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE SuggestionTag (
+suggestion_id integer NOT NULL,
+tag_name varchar(50) NOT NULL,
+FOREIGN KEY (suggestion_id) REFERENCES Suggestion(id), 
+FOREIGN KEY (tag_name) REFERENCES Tag(name)
+);
+
