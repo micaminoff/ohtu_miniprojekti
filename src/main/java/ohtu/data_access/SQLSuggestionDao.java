@@ -202,7 +202,6 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return matchingSuggestions;
     }
     
