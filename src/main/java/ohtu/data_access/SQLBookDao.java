@@ -55,9 +55,9 @@ public class SQLBookDao implements InterfaceBookDao {
             String creator = rs.getString("creator");
             String description = rs.getString("description");
 
-            books.put(isbn ,new Book(title, creator, description, isbn));
+            books.put(isbn, new Book(title, creator, description, isbn));
         }
-        
+
         rs.close();
         statement.close();
         connection.close();
@@ -70,14 +70,14 @@ public class SQLBookDao implements InterfaceBookDao {
         List<Book> list = new ArrayList<>();
 
         Connection connection = database.getConnection();
-        
+
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Book WHERE title LIKE ?");
         stmt.setObject(1, "%" + title + "%");
 
         ResultSet rs = stmt.executeQuery();
-        
+
         while (rs.next()) {
-            
+
             String author = rs.getString("creator");
             String title1 = rs.getString("title");
             String description = rs.getString("description");
@@ -161,6 +161,27 @@ public class SQLBookDao implements InterfaceBookDao {
             stmt.executeUpdate();
 
             stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Book book) {
+        try {
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("UPDATE Book SET title = ?, creator = ?, description = ? WHERE isbn = ?");
+
+            stmt.setString(1, book.getTitle());
+            stmt.setString(2, book.getCreator());
+            stmt.setString(3, book.getDescription());
+            stmt.setString(4, book.getISBN());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

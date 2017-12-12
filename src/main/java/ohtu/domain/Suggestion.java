@@ -76,6 +76,7 @@ public class Suggestion {
     }
     
     public List<Tag> getTags() {
+        
         return this.tags;
     }
     

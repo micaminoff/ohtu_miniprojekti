@@ -108,5 +108,10 @@ public class InMemoryBookDao implements InterfaceBookDao {
     public void remove(Book book) {
         books.remove(book);
     }
+
+    @Override
+    public void update(Book book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

@@ -120,6 +120,24 @@ public class SuggestionService {
                  break;
          }
     }
+
+    public void updateSuggestable(Suggestable s) {
+        Type t = s.getType();
+         switch (t) {
+             case BOOK:
+                 bookDao.update((Book) s);
+                 break;
+//             case BLOG:
+//                 blogDao.add((Blog) s);
+//                 break;
+//             case VIDEO:
+//                 videoDao.add((Video) s);
+//                 break;
+//             case PODCAST:
+//                 podcastDao.add((Podcast) s);
+//                 break;
+         }
+    }
     
     public boolean addSuggestion(Suggestable suggestable, List<Tag> tags) throws SQLException {
         if (suggestable != null) {
@@ -158,6 +176,10 @@ public class SuggestionService {
     
     public void editTag(Tag t, String newContent) throws SQLException {
         tagDao.edit(t, newContent);
+    }
+    
+    public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException {
+        this.tagDao.addTagsForSuggestion(id, tags);
     }
     
     public void fillWithExampleData() throws SQLException {

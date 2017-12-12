@@ -48,21 +48,19 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
             int id = rs.getInt("id");
             String type = rs.getString("type");
             String suggestableKey = rs.getString("suggestableKey");
+            List<Tag> tags = tagDao.findBySuggestionId(id);
+            
             if (type.equals(Type.BOOK.toString())) {
                 Book book = bookDao.findByISBN(suggestableKey);
-                List<Tag> tags = tagDao.findBySuggestionId(id);
                 list.add(new Suggestion(id, book, tags));
             } else if (type.equals(Type.BLOG.toString())) {
                 Blog blog = blogDao.findByUrl(suggestableKey);
-                List<Tag> tags = tagDao.findBySuggestionId(id);
                 list.add(new Suggestion(id, blog, tags));
             } else if (type.equals(Type.VIDEO.toString())) {
                 Video video = videoDao.findByUrl(suggestableKey);
-                List<Tag> tags = tagDao.findBySuggestionId(id);
                 list.add(new Suggestion(id, video, tags));
             } else if (type.equals(Type.PODCAST.toString())) {
                 Podcast podcast = podcastDao.findByUrl(suggestableKey);
-                List<Tag> tags = tagDao.findBySuggestionId(id);
                 list.add(new Suggestion(id, podcast, tags));
             }
         }
@@ -151,8 +149,8 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         //suggestioneiden id:t joiden tageissa esiintyy arg-stringin sanoja
         HashSet<Integer> suggestionsMatchedByTags = tagDao.findByAll(arg);
         //suggestioneiden id:t joiden suggestableissa esiintyy arg-stringin substringejä
-        HashSet<Integer> suggestionsMatchedBySuggestables = new HashSet();
         HashSet<Integer> suggestionsMatchedByType = new HashSet();
+        HashSet<Integer> suggestionsMatchedBySuggestables = new HashSet();
         
         List<Suggestion> matchingSuggestions = new ArrayList();
 
