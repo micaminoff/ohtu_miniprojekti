@@ -220,6 +220,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
         
         rs.close();
         stmt.close();
+        Suggestable s = null;
         
         if (type != null) {
            
@@ -230,7 +231,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Book(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("isbn"));
+                    s = new Book(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("isbn"));
                 }
 
             } else if (type.equals(Type.BLOG.toString())) {
@@ -238,7 +239,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Blog(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"),  fields.getString("blogName"));
+                    s = new Blog(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"),  fields.getString("blogName"));
                 }
 
             } else if (type.equals(Type.VIDEO.toString())) {
@@ -246,7 +247,7 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Video(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"));
+                    s = new Video(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"));
                 }
 
             } else if (type.equals(Type.PODCAST.toString())) {
@@ -254,15 +255,16 @@ public class SQLSuggestionDao implements InterfaceSuggestionDao {
                 findSuggestable.setInt(1, id);
                 fields = findSuggestable.executeQuery();
                 if (fields.next()) {
-                    return new Podcast(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"), fields.getString("podcastName"));
+                    s = new Podcast(fields.getString("title"), fields.getString("creator"), fields.getString("description"), fields.getString("url"), fields.getString("podcastName"));
                 }
             }
             fields.close();
             findSuggestable.close();
         }
         connection.close();
-        stmt.close();
-        rs.close();
+        return s;
+        //stmt.close();
+        //rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

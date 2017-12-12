@@ -123,6 +123,8 @@ public class SQLTagDao implements InterfaceTagDao {
         stmt.setString(1, newContent);
         stmt.setString(2, t.getName());
         stmt.executeUpdate();
+        stmt.close();
+        connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
