@@ -339,6 +339,7 @@ public class App {
 //        if (sugg.listAllSuggestions().isEmpty()) {
 //            sugg.fillWithExampleData();
 //        }
+
         IO io = new ConsoleIO();
         new App(io, sugg).run();
     }
