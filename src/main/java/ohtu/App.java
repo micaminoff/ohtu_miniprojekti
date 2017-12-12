@@ -9,8 +9,10 @@ import ohtu.data_access.*;
 import ohtu.domain.Blog;
 import ohtu.domain.Book;
 import ohtu.domain.Podcast;
+import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Tag;
+import ohtu.domain.Type;
 import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
@@ -52,7 +54,7 @@ public class App {
     }
 
     public void edit() throws SQLException {
-        String input = io.readLine("\nSearch suggestions to edit (type) y");
+        String input = io.readLine("\nSearch suggestions to edit (type y, otherwise press enter to list all)");
         List<Suggestion> suggestions = null;
 
         if (input.equals("y")) {
@@ -62,37 +64,51 @@ public class App {
             suggestions = sugg.listAllSuggestions();
         }
 
-        list(suggestions, true);
+        if (suggestions.size() > 0) {
 
-        io.print("\nChoose suggestion to edit:");
+            list(suggestions, true);
 
-        input = io.readLine("");
+            io.print("\nChoose suggestion to edit (type the number):");
 
-        if (input.matches("\\d+")) {
-            int index = Integer.parseInt(input);
+            input = io.readLine("");
 
-            if (index >= 0 && index < suggestions.size()) {
-                io.print("\nEditing following suggestion:");
-                Suggestion s = suggestions.get(index);
-                io.print(s.toString());
+            if (input.matches("\\d+")) {
+                int index = Integer.parseInt(input);
 
-                io.print("\nSelect one:");
-                input = io.readLine(
-                        "\n1.: edit attribute" + 
-                        "\n2.: edit tag");
-                
-                if (input.equals("1")) {                    
-                    io.print("NOT YET IMPLEMENTED");
-                    //...
-                    //sugg.editSuggestionsSuggestable(Suggestable s, String oldContent, String newContent);
-                } else if (input.equals("2")) {
-                    editTag(s.getTags());
+                if (index >= 0 && index < suggestions.size()) {
+                    io.print("\nEditing following suggestion:");
+                    Suggestion s = suggestions.get(index);
+                    io.print(s.toString());
+
+                    io.print("\nSelect one:");
+                    input = io.readLine(
+                            "\n1.: edit attribute"
+                            + "\n2.: edit tags");
+
+                    if (input.equals("1")) {
+
+                        editSuggestable(s.getSuggestable());
+
+                    } else if (input.equals("2")) {
+                        io.print("\nDo you want to edit existing tags or add new tags? Select one: ");
+                        input = io.readLine("\n1.: edit existing tag\n2.: add new tags");
+                        if (input.equals("1")) {
+                            editTag(s.getTags());
+                            io.print("The tag has been changed!");
+                        } else if (input.equals("2")) {
+                            UserReader ur = new UserReader(io);
+                            List<Tag> tags = new ArrayList<>();
+                            tags = ur.readAndCreateTags();
+                            sugg.addTagsForSuggestion(s.getId(), tags);
+                            io.print("New tag(s) added!");
+                        } else {
+                            io.print("Incorrect index given!");
+                        }
+                    }
+                } else {
+                    io.print("Incorrect index given!");
                 }
-            } else {
-                io.print("Incorrect index given!");
             }
-        } else {
-            io.print("Incorrect index given!");
         }
     }
 
@@ -113,9 +129,76 @@ public class App {
             }
         }
     }
+
+    private void editSuggestable(Suggestable s) throws SQLException {
+        io.print("Enter name of field to edit (e.g. title):");
+
+        String input = io.readLine("");
+        if (input.toLowerCase().equals("title")) {
+            String newValue = enterNewFieldValue("title");
+            s.setTitle(newValue);
+            sugg.updateSuggestable(s);
+            io.print("Field successfully updated!");
+        } else if (input.toLowerCase().equals("author")) {
+            String newValue = enterNewFieldValue("author");
+            s.setCreator(newValue);
+            sugg.updateSuggestable(s);
+            io.print("Field successfully updated!");
+        } else if (input.toLowerCase().equals("description")) {
+            String newValue = enterNewFieldValue("description");
+            s.setDescription(newValue);
+            sugg.updateSuggestable(s);
+            io.print("Field successfully updated!");
+        } else if (input.toLowerCase().equals("isbn")) {
+            if (s.getType().equals(Type.BOOK.toString())) {
+                io.print("Editing ISBN not supported.");
+            } else {
+                io.print("Incorrect field name.");
+            }
+
+        } else if (input.toLowerCase().equals("url")) {
+            if (!s.getType().equals(Type.BOOK.toString())) {
+                io.print("Editing URL not supported.");
+            } else {
+                io.print("Incorrect field name.");
+            }
+        } else if (input.toLowerCase().equals("blog name")) {
+            if (s.getType().equals(Type.BLOG.toString())) {
+                String newValue = enterNewFieldValue("blog name");
+                Blog b = (Blog) s;
+                b.setBlogName(newValue);
+                s = (Suggestable) b;
+                sugg.updateSuggestable(s);
+                io.print("Field successfully updated!");
+            } else {
+                io.print("Incorrect field name.");
+            }
+        } else if (input.toLowerCase().equals("podcast name")) {
+            if (s.getType().equals(Type.PODCAST.toString())) {
+                String newValue = enterNewFieldValue("podcast name");
+                Podcast b = (Podcast) s;
+                b.setPodcastName(newValue);
+                s = (Suggestable) b;
+                sugg.updateSuggestable(s);
+                io.print("Field successfully updated!");
+            } else {
+                io.print("Incorrect field name.");
+            }
+
+        } else {
+            io.print("Incorrect field name.");
+        }
+
+    }
+
+    private String enterNewFieldValue(String fieldName) {
+        io.print("New content for field " + fieldName + ": ");
+        return io.readLine("\nEnter new content:");
+    }
+
     
     public void remove() throws SQLException {
-        String ans = io.readLine("\nSearch suggestions to remove (type y)?");
+        String ans = io.readLine("\nSearch suggestions to remove (type y, otherwise press enter)");
 
         List<Suggestion> suggestions = null;
 
@@ -126,208 +209,80 @@ public class App {
             suggestions = sugg.listAllSuggestions();
         }
 
-        list(suggestions, true);
+        if (suggestions.size() > 0) {
+            list(suggestions, true);
 
-        io.print("\nChoose suggestion to remove:");
-        String input = io.readLine("");
+            io.print("\nChoose suggestion to remove:");
+            String input = io.readLine("");
 
-        if (input.matches("\\d+")) {
-            int index = Integer.parseInt(input);
+            if (input.matches("\\d+")) {
+                int index = Integer.parseInt(input);
 
-            if (index >= 0 && index < suggestions.size()) {
-                String confirm = io.readLine("Are you sure? (type y)");
-                if (confirm.equals("y")) {
-                    sugg.removeSuggestion(suggestions.get(index));
-                    io.print("Suggestion removed!");
+                if (index >= 0 && index < suggestions.size()) {
+                    String confirm = io.readLine("Are you sure? (type y)");
+                    if (confirm.equals("y")) {
+                        sugg.removeSuggestion(suggestions.get(index));
+                        io.print("Suggestion removed!");
+                    }
+                    return;
                 }
-                return;
             }
+            io.print("Incorrect index given!");
         }
-        io.print("Incorrect index given!");
     }
 
     public void add() throws SQLException {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         if (command.equals("book")) {
-            addBook();
+            add(Type.BOOK);
         } else if (command.equals("blog")) {
-            addBlog();
+            add(Type.BLOG);
         } else if (command.equals("video")) {
-            addVideo();
+            add(Type.VIDEO);
         } else if (command.equals("podcast")) {
-            addPodcast();
+            add(Type.PODCAST);
         } else {
             io.print("Unknown command!");
         }
     }
 
-    public List<Tag> addTags() {
-        String inputTags = io.readLine("Tags (seperate with a space):");
-        List<String> stringTags = new ArrayList<>();
-        stringTags = Arrays.asList(inputTags.toLowerCase().split(" "));
-        List<Tag> realTags = new ArrayList();
-        for (String tag : stringTags) {
-            realTags.add(new Tag(tag));
-        }
-        return realTags;
-    }
+    public void add(Type t) throws SQLException {
+        UserReader ur = new UserReader(io);
+        String key = ur.readKey(t);
+        Suggestable s = null;
 
-    private void addBook() throws SQLException {
-         String title = io.readLine("(*)Title:");
-         while (title.isEmpty()) {
-             title = io.readLine("Title is required\nTitle:");
-         }
-         
-         String creator = io.readLine("(*)Author:");
-         while (creator.isEmpty()) {
-             creator = io.readLine("Author is required\nAuthor:");
-         }
-        
-        String ISBN = io.readLine("(*)ISBN:");
-        while (!validator.ISBNIsValid(ISBN)) {
-            io.print("ISBN must consist of only numbers and dashes and contain at least one of each and cannot end with a dash!");
-            ISBN = io.readLine("ISBN is required\nISBN:");
+        switch (t) {
+            case BOOK:
+                s = sugg.findBookByISBN(key);
+                break;
+            case BLOG:
+                s = sugg.findBlogByURL(key);
+                break;
+            case VIDEO:
+                s = sugg.findVideoByURL(key);
+                break;
+            case PODCAST:
+                s = sugg.findPodcastByURL(key);
+                break;
         }
-        
-        Book book = sugg.findBookByISBN(ISBN);  
 
         List<Tag> tags = new ArrayList<>();
 
-        if (book == null) {
-           
-            
-            String description = io.readLine("Description (optional):");
-            book = new Book(title, creator, description, ISBN);
-            sugg.addBook(book);
-            //Tagien lisääminen
-            tags = addTags();
+        if (s == null) {
+            s = ur.readAndCreateSuggestable(t, key);
+            sugg.addSuggestable(s);
+            tags = ur.readAndCreateTags();
 
         } else {
-            io.print("\nThere already exists a book with this ISBN: \n");
-            io.print(book.toString());
-            book = null;
+            io.print("\nFound the following " + t.toString().toLowerCase() + ":");
+            io.print(s.toString());
+            s = null;   //ettei saa laittaa samalle teokselle useita testejä
         }
 
-        if (sugg.addSuggestion(book, tags)) {
-            io.print("\nNew suggestion with book added!");
+        if (sugg.addSuggestion(s, tags)) {
+            io.print("New suggestion with " + t.toString().toLowerCase() + " added!");
         } else {
-            io.print("\nAdding a new suggestion with book failed!");
-        }
-    }
-
-    private void addBlog() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Blog blog = sugg.findBlogByURL(url);
-        List<Tag> tags = new ArrayList<>();
-        
-        if (blog == null) {
-            String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-            String creator = io.readLine("(*)Author:");
-            while (creator.isEmpty()) {
-                creator = io.readLine("Author is required!\nAuthor:");
-            }
-
-            String blogName = io.readLine("Blogname (optional):");
-            String description = io.readLine("Description (optional):");
-            blog = new Blog(title, creator, description, url, blogName);
-            sugg.addBlog(blog);
-            
-            tags = addTags();
-        } else {
-            io.print("\n");
-            io.print("Found the following blog:");
-            io.print(blog.toString());
-        }
-
-        if (sugg.addSuggestion(blog, tags)) {
-            io.print("New suggestion with blog added!");
-        } else {
-            io.print("Failed to add suggestion with blog!");
-        }
-    }
-
-    private void addVideo() throws SQLException {
-        String url = io.readLine("(*)URL:");
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Video video = sugg.findVideoByURL(url);
-        List<Tag> tags = new ArrayList<>();
-        
-        if (video == null) {
-            String title = io.readLine("(*)Title:");
-
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            String description = io.readLine("Description (optional):");
-            video = new Video(title, creator, description, url);
-            sugg.addVideo(video);
-            
-            tags = addTags();
-        } else {
-            io.print("\n");
-            io.print("Found the following video:");
-            io.print(video.toString());
-        }
-
-        if (sugg.addSuggestion(video, tags)) {
-            io.print("New suggestion with video added!");
-        } else {
-            io.print("Failed to add suggestion with video!");
-        }
-    }
-
-    private void addPodcast() throws SQLException {
-        String url = io.readLine("(*)URL:");
-
-        while (!validator.URLIsValid(url)) {
-            io.print("Malformed or empty URL!");
-            url = io.readLine("URL is required!\nUrl:");
-        }
-
-        Podcast podcast = sugg.findPodcastByURL(url);
-        List<Tag> tags = new ArrayList();
-        
-        if (podcast == null) {
-            String title = io.readLine("(*)Title:");
-            while (title.isEmpty()) {
-                title = io.readLine("Title is required!\nTitle:");
-            }
-            String podcastName = io.readLine("(*)Podcast name:");
-            while (podcastName.isEmpty()) {
-                podcastName = io.readLine("Podcast name is required!\nPodcast name:");
-            }
-
-            String creator = io.readLine("Creator (optional):");
-            String description = io.readLine("Description (optional):");
-
-            podcast = new Podcast(title, creator, description, url, podcastName);
-            sugg.addPodcast(podcast);
-            
-            tags = addTags();
-        } else {
-            io.print("\n");
-            io.print("Found the following podcast:");
-            io.print(podcast.toString());
-        }
-
-        if (sugg.addSuggestion(podcast, tags)) {
-            io.print("New suggestion with podcast added!");
-        } else {
-            io.print("Failed to add suggestion with podcast!");
+            io.print("Failed to add suggestion with " + t.toString().toLowerCase() + "!");
         }
 
     }
@@ -367,6 +322,7 @@ public class App {
 
         if (!command.equals("q")) {
             if (!suggestions_found.isEmpty()) {
+                io.print("\nFound the following suggestions: ");
                 list(suggestions_found, false);
 
             } else {
@@ -397,13 +353,11 @@ public class App {
         SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao, tagDao);
 
         // Tässä kommentoituna mahdollisuus kutsua esimerkkidatan lisäämistä.
-        if (sugg.listAllSuggestions().isEmpty()) {
-            sugg.fillWithExampleData();
-        }
-
+//        if (sugg.listAllSuggestions().isEmpty()) {
+//            sugg.fillWithExampleData();
+//        }
         IO io = new ConsoleIO();
         new App(io, sugg).run();
-
 
     }
 

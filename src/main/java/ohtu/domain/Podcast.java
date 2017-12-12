@@ -74,7 +74,7 @@ public class Podcast implements Suggestable {
     
     @Override
     public String toString() {
-        return "Title: " + title + "\nCreator: " + creator + "\nDescription: " + description + "\nurl: " + url + "\nPodcast name: " + podcastName;
+        return "Title: " + title + "\nAuthor: " + creator + "\nDescription: " + description + "\nurl: " + url + "\nPodcast name: " + podcastName;
     }
     
     @Override

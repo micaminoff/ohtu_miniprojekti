@@ -77,8 +77,8 @@ public class SQLTagDao implements InterfaceTagDao {
 
         for (String keyword : keywords) {
             
-            PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name = ?");
-            stmt.setString(1, keyword);
+            PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name LIKE ?");
+            stmt.setString(1, "%" + arg + "%");
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
@@ -94,23 +94,24 @@ public class SQLTagDao implements InterfaceTagDao {
     
     @Override
     public List<Tag> findBySuggestionId(int id) throws SQLException {
+
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM SuggestionTag WHERE suggestion_id = ?");
         stmt.setObject(1, id);
-        
+
         ResultSet rs = stmt.executeQuery();
-        
+
         List<Tag> tags = new ArrayList<>();
         while (rs.next()) {
             tags.add(new Tag(rs.getString("tag_name")));
         }
-        
+
         rs.close();
         stmt.close();
         connection.close();
-        
+
         return tags;
-        
+
     }
 
     @Override
