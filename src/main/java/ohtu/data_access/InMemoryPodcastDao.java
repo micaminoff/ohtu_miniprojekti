@@ -75,5 +75,10 @@ public class InMemoryPodcastDao implements InterfacePodcastDao {
     public void remove(Podcast podcast) {
         podcasts.remove(podcast);
     }
+
+    @Override
+    public void update(Podcast podcast) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

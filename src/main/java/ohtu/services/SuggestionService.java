@@ -116,15 +116,15 @@ public class SuggestionService {
              case BOOK:
                  bookDao.update((Book) s);
                  break;
-//             case BLOG:
-//                 blogDao.add((Blog) s);
-//                 break;
-//             case VIDEO:
-//                 videoDao.add((Video) s);
-//                 break;
-//             case PODCAST:
-//                 podcastDao.add((Podcast) s);
-//                 break;
+             case BLOG:
+                 blogDao.update((Blog) s);
+                 break;
+             case VIDEO:
+                 videoDao.update((Video) s);
+                 break;
+             case PODCAST:
+                 podcastDao.update((Podcast) s);
+                 break;
          }
     }
     
@@ -173,6 +173,9 @@ public class SuggestionService {
     
     public void fillWithExampleData() {
         List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("code"));
+        tags.add(new Tag("agile"));
+        
         Blog blog = new Blog("How to Increase Velocity",
                 "David Bernstein", 
                 "Increase code quality today to increase your velocity tomorrow.", 
@@ -180,6 +183,10 @@ public class SuggestionService {
                 "Agile Alliance Blog");
         addBlog(blog);
         addSuggestion(blog, tags);
+        
+        tags.clear();
+        tags.add(new Tag("joulu"));
+        tags.add(new Tag("kalastus"));
         blog = new Blog("Joulun käyttölahjoja",
                 "Johanna", 
                 "Johanna kirjoittaa elämästään norjalaisen kalastajan vaimona ja kahden söpöliinin äitinä. Blogissa pohditaan, miten arki voi olla kaunista, esitellään päivän asuja ja ihania sisustusasioita – sekä välillä pohditaan syvällisiä.", 
@@ -188,18 +195,25 @@ public class SuggestionService {
         addBlog(blog);
         addSuggestion(blog, tags);
         
+        tags.clear();
+        tags.add(new Tag("agile"));
+        tags.add(new Tag("software"));
         Book book = new Book("Clean Code: A Handbook of Agile Software Craftsmanship", 
                 "Robert Martin", "Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship", 
                 "978-951-98548-9-2");
         addBook(book);
         addSuggestion(book, tags);
+        
+        tags.clear();
+        tags.add(new Tag("algorithms"));
         book = new Book("Introduction to Algorithms", 
                 "Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest and Clifford Stein", "The bible of algorithms. Widely used as a coursebook in CS curriculums.", 
                 "978-026-20338-4-8");
         addBook(book);
         addSuggestion(book, tags);
         
-        
+        tags.clear();
+        tags.add(new Tag("help"));
         Podcast podcast = new Podcast("JRE #002 - MMA Show #2", 
                 "Joe Rogan" , 
                 "Eddie Bravo needs help",
@@ -208,6 +222,9 @@ public class SuggestionService {
         addPodcast(podcast);
         addSuggestion(podcast, tags);
         
+        tags.clear();
+        tags.add(new Tag("history"));
+        tags.add(new Tag("individualism"));
         podcast = new Podcast("#038 Revolution In The Age Of Anger (with Pankaj Mishra)", 
                 "Russell Brand" , 
                 "Historian and novelist Pankaj Mishra joins me to talk about what he calls the ‘age of anger’ - a global pandemic of rage - and how the pursuit of progress and individualism has created a demoralised world.",
@@ -216,6 +233,9 @@ public class SuggestionService {
         addPodcast(podcast);
         addSuggestion(podcast, tags);
         
+        tags.clear();
+        tags.add(new Tag("turing"));
+        tags.add(new Tag("algorithms"));
         Video video = new Video("Turing Machine - Introduction (Part 1)",
                 "Neso Academy", 
                 "TOC: Introduction to Turing Machine",
@@ -223,6 +243,8 @@ public class SuggestionService {
         addVideo(video);
         addSuggestion(video, tags);
               
+        tags.clear();
+        tags.add(new Tag("tietojenkäsittely"));
         video = new Video("Mitä tietojenkäsittely on?",
                 "Helsingin yliopisto", 
                 "Tietojenkäsittelytieteen laitoksen opettajat kertovat mitä tietojenkäsittely on, ja mihin olemme menossa.",

@@ -14,5 +14,6 @@ public interface InterfaceBlogDao {
     HashMap<String ,Blog> findByAll(String arg);
     void add(Blog blog);
     void remove(Blog blog);
+    void update(Blog blog);
     
 }

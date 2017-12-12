@@ -9,8 +9,9 @@ import java.util.List;
 import ohtu.domain.Blog;
 
 public class SQLBlogDao implements InterfaceBlogDao {
+
     private Database database;
-    
+
     public SQLBlogDao(Database database) {
         this.database = database;
     }
@@ -19,7 +20,7 @@ public class SQLBlogDao implements InterfaceBlogDao {
     public List<Blog> listAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public HashMap<String,Blog> findByAll(String arg) {
         HashMap<String, Blog> blogs = new HashMap();
@@ -32,7 +33,7 @@ public class SQLBlogDao implements InterfaceBlogDao {
         statement.setObject(3, "%" + arg + "%");
         statement.setObject(4, "%" + arg + "%");
         statement.setObject(5, "%" + arg + "%");
-        
+
         ResultSet rs = statement.executeQuery();
         while (rs.next()) {
             String url = rs.getString("url");
@@ -40,10 +41,10 @@ public class SQLBlogDao implements InterfaceBlogDao {
             String creator = rs.getString("creator");
             String blogName = rs.getString("blogName");
             String description = rs.getString("description");
-            
+           
             blogs.put(url, new Blog(title, creator, description, url, blogName));
         }
-        
+
         rs.close();
         statement.close();
         connection.close();
@@ -75,16 +76,16 @@ public class SQLBlogDao implements InterfaceBlogDao {
         if (!rs.next()) {
             return null;
         }
-        
+
         String title = rs.getString("title");
         String writer = rs.getString("creator");
         String description = rs.getString("description");
         String blogName = rs.getString("blogName");
-        
+
         rs.close();
         stmt.close();
         connection.close();
-        
+
         return new Blog(title, writer, description, url, blogName);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -100,37 +101,59 @@ public class SQLBlogDao implements InterfaceBlogDao {
     @Override
     public void add(Blog blog) {
         try {
-          Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("INSERT INTO Blog (url, title, creator, blogName, description) VALUES (?, ?, ?, ?, ?)");
-          
-          stmt.setString(1, blog.getUrl());
-          stmt.setString(2, blog.getTitle());
-          stmt.setString(3, blog.getCreator());
-          stmt.setString(4, blog.getBlogName());
-          stmt.setString(5, blog.getDescription());
-          
-          stmt.executeUpdate();
-          
-          stmt.close();
-          connection.close();
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("INSERT INTO Blog (url, title, creator, blogName, description) VALUES (?, ?, ?, ?, ?)");
+
+            stmt.setString(1, blog.getUrl());
+            stmt.setString(2, blog.getTitle());
+            stmt.setString(3, blog.getCreator());
+            stmt.setString(4, blog.getBlogName());
+            stmt.setString(5, blog.getDescription());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void remove(Blog blog) {
         try {
-          Connection connection = database.getConnection();
-          PreparedStatement stmt = connection.prepareStatement("DELETE FROM Blog WHERE url = ?");
-          stmt.setString(1, blog.getUrl());
-          stmt.executeUpdate();
-          
-          stmt.close();
-          connection.close();
-      } catch (SQLException e) {
-          e.printStackTrace();
-      }
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("DELETE FROM Blog WHERE url = ?");
+            stmt.setString(1, blog.getUrl());
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-    
+
+    @Override
+    public void update(Blog blog) {
+        try {
+            Connection connection = database.getConnection();
+            PreparedStatement stmt = connection.prepareStatement("UPDATE Blog SET title = ?, creator = ?, blogName = ?, description = ? WHERE url = ?");
+
+            stmt.setString(1, blog.getTitle());
+            stmt.setString(2, blog.getCreator());
+            stmt.setString(3, blog.getBlogName());
+            stmt.setString(4, blog.getDescription());
+            stmt.setString(5, blog.getUrl());
+
+            stmt.executeUpdate();
+
+            stmt.close();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

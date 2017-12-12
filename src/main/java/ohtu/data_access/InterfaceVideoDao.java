@@ -14,4 +14,5 @@ public interface InterfaceVideoDao {
     Video findByUrl(String url);
     void add(Video video);
     void remove(Video video);
+    void update(Video video);
 }

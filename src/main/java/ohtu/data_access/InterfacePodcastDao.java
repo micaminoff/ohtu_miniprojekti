@@ -14,5 +14,6 @@ public interface InterfacePodcastDao {
     List<Podcast> findByPodcastName(String podcastName);
     void add(Podcast podcast);
     void remove(Podcast pocast);
+    void update(Podcast podcast);
     
 }

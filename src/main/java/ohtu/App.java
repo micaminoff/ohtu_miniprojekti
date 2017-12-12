@@ -64,9 +64,7 @@ public class App {
 
             list(suggestions, true);
 
-            io.print("\nChoose suggestion to edit (type the number):");
-
-            input = io.readLine("");
+            input = io.readLine("\nChoose suggestion to edit (type the number):");
 
             if (input.matches("\\d+")) {
                 int index = Integer.parseInt(input);
@@ -78,7 +76,7 @@ public class App {
 
                     io.print("\nSelect one:");
                     input = io.readLine(
-                            "\n1.: edit attribute"
+                            "1.: edit attribute"
                             + "\n2.: edit tags");
 
                     if (input.equals("1")) {
@@ -108,8 +106,8 @@ public class App {
         }
     }
 
-    private void editTag(List<Tag> tags) {
-        io.print("Choose tag to edit:");
+    private void editTag(List<Tag> tags){
+        io.print("\nChoose tag to edit:");
         for (int i = 0; i < tags.size(); i++) {
             io.print(i + ".:" + tags.get(i).getName());
         }
@@ -127,9 +125,7 @@ public class App {
     }
 
     private void editSuggestable(Suggestable s) {
-        io.print("Enter name of field to edit (e.g. title):");
-
-        String input = io.readLine("");
+        String input = io.readLine("\nEnter name of field to edit (e.g. title):");
         if (input.toLowerCase().equals("title")) {
             String newValue = enterNewFieldValue("title");
             s.setTitle(newValue);
@@ -188,8 +184,7 @@ public class App {
     }
 
     private String enterNewFieldValue(String fieldName) {
-        io.print("New content for field " + fieldName + ": ");
-        return io.readLine("\nEnter new content:");
+        return io.readLine("\nNew content for field " + fieldName + ": ");
     }
 
     

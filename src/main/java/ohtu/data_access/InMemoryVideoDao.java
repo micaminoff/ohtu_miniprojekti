@@ -77,5 +77,10 @@ public class InMemoryVideoDao implements InterfaceVideoDao {
     public void remove(Video video) {
         videos.remove(video);
     }
+
+    @Override
+    public void update(Video video) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
