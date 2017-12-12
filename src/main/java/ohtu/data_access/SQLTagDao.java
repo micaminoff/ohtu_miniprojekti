@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.sql.Connection;
@@ -15,10 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import ohtu.domain.Tag;
 
-/**
- *
- * @author hcpaavo
- */
 public class SQLTagDao implements InterfaceTagDao {
 
     private Database database;
@@ -28,7 +19,7 @@ public class SQLTagDao implements InterfaceTagDao {
     }
 
     @Override
-    public void addTagsForSuggestion(int id, List<Tag> tags) throws SQLException {
+    public void addTagsForSuggestion(int id, List<Tag> tags) {
         try {
             Connection connection = database.getConnection();
 
@@ -69,14 +60,14 @@ public class SQLTagDao implements InterfaceTagDao {
         }
     }
 
-    public HashSet<Integer> findByAll(String arg) throws SQLException {
-
+    public HashSet<Integer> findByAll(String arg) {
         HashSet<Integer> matched_ids = new HashSet();
+
+        try {
         List<String> keywords = Arrays.asList(arg.toLowerCase().split(" "));
         Connection connection = database.getConnection();
 
         for (String keyword : keywords) {
-            
             PreparedStatement stmt = connection.prepareStatement("SELECT Suggestion.id FROM Suggestion JOIN SuggestionTag ON Suggestion.id = SuggestionTag.suggestion_id JOIN Tag ON Tag.name = SuggestionTag.tag_name WHERE Tag.name LIKE ?");
             stmt.setString(1, "%" + keyword + "%");
             ResultSet rs = stmt.executeQuery();
@@ -87,21 +78,24 @@ public class SQLTagDao implements InterfaceTagDao {
             rs.close();
             stmt.close();
         }
-        
         connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return matched_ids;
     }
     
     @Override
-    public List<Tag> findBySuggestionId(int id) throws SQLException {
+    public List<Tag> findBySuggestionId(int id) {
+        List<Tag> tags = new ArrayList<>();
 
+        try {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM SuggestionTag WHERE suggestion_id = ?");
         stmt.setObject(1, id);
 
         ResultSet rs = stmt.executeQuery();
 
-        List<Tag> tags = new ArrayList<>();
         while (rs.next()) {
             tags.add(new Tag(rs.getString("tag_name")));
         }
@@ -109,13 +103,15 @@ public class SQLTagDao implements InterfaceTagDao {
         rs.close();
         stmt.close();
         connection.close();
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return tags;
-
     }
 
     @Override
-    public void edit(Tag t, String newContent) throws SQLException {
+    public void edit(Tag t, String newContent) {
+        try {
         Connection connection = database.getConnection();
         
         PreparedStatement stmt = connection.prepareStatement("UPDATE Tag SET name = ? WHERE name = ?");
@@ -127,6 +123,9 @@ public class SQLTagDao implements InterfaceTagDao {
         stmt.setString(1, newContent);
         stmt.setString(2, t.getName());
         stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 }

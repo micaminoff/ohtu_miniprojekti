@@ -1,15 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.domain;
 
-/**
- *
- * @author hasasami
- * päivityksiä: mkotola
- */
 public class Book implements Suggestable {
     private String title;
     private String creator;

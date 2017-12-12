@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.sql.Connection;
@@ -14,10 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Book;
 
-/**
- *
- * @author hcpaavo
- */
 public class SQLBookDao implements InterfaceBookDao {
 
     private Database database;
@@ -37,8 +28,9 @@ public class SQLBookDao implements InterfaceBookDao {
 
     }
 
-    public HashMap<String, Book> findByAll(String arg) throws SQLException {
-
+    public HashMap<String, Book> findByAll(String arg) {
+        HashMap<String, Book> books = new HashMap();
+        try {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Book WHERE isbn LIKE ? OR title LIKE ? OR creator LIKE ? OR description LIKE ?");
         statement.setObject(1, "%" + arg + "%");
@@ -48,7 +40,6 @@ public class SQLBookDao implements InterfaceBookDao {
 
         ResultSet rs = statement.executeQuery();
 
-        HashMap<String, Book> books = new HashMap();
         while (rs.next()) {
             String isbn = rs.getString("isbn");
             String title = rs.getString("title");
@@ -61,14 +52,17 @@ public class SQLBookDao implements InterfaceBookDao {
         rs.close();
         statement.close();
         connection.close();
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return books;
     }
 
     @Override
-    public List<Book> findByTitle(String title) throws SQLException {
+    public List<Book> findByTitle(String title) {
         List<Book> list = new ArrayList<>();
 
+        try {
         Connection connection = database.getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Book WHERE title LIKE ?");
@@ -89,6 +83,10 @@ public class SQLBookDao implements InterfaceBookDao {
         rs.close();
         stmt.close();
         connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
         return list;
     }
 
@@ -98,7 +96,8 @@ public class SQLBookDao implements InterfaceBookDao {
     }
 
     @Override
-    public Book findByISBN(String ISBN) throws SQLException {
+    public Book findByISBN(String ISBN) {
+        try {
         Connection connection = database.getConnection();
 
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Book WHERE isbn = ?");
@@ -117,8 +116,12 @@ public class SQLBookDao implements InterfaceBookDao {
         rs.close();
         stmt.close();
         connection.close();
-
+        
         return new Book(title, author, description, ISBN);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

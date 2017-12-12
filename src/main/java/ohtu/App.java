@@ -1,19 +1,15 @@
 package ohtu;
 
-import java.sql.SQLException;
 import ohtu.io.ConsoleIO;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import ohtu.data_access.*;
 import ohtu.domain.Blog;
-import ohtu.domain.Book;
 import ohtu.domain.Podcast;
 import ohtu.domain.Suggestable;
 import ohtu.domain.Suggestion;
 import ohtu.domain.Tag;
 import ohtu.domain.Type;
-import ohtu.domain.Video;
 import ohtu.io.IO;
 import ohtu.services.SuggestionService;
 
@@ -29,7 +25,7 @@ public class App {
         this.validator = new Validator();
     }
 
-    public void run() throws SQLException {
+    public void run() {
         io.print("Welcome!");
         while (true) {
             String command = io.readLine("\nCommand (list, find, remove, add or edit empty command exits program):");
@@ -53,7 +49,7 @@ public class App {
 
     }
 
-    public void edit() throws SQLException {
+    public void edit() {
         String input = io.readLine("\nSearch suggestions to edit (type y, otherwise press enter to list all)");
         List<Suggestion> suggestions = null;
 
@@ -112,7 +108,7 @@ public class App {
         }
     }
 
-    private void editTag(List<Tag> tags) throws SQLException {
+    private void editTag(List<Tag> tags) {
         io.print("Choose tag to edit:");
         for (int i = 0; i < tags.size(); i++) {
             io.print(i + ".:" + tags.get(i).getName());
@@ -130,7 +126,7 @@ public class App {
         }
     }
 
-    private void editSuggestable(Suggestable s) throws SQLException {
+    private void editSuggestable(Suggestable s) {
         io.print("Enter name of field to edit (e.g. title):");
 
         String input = io.readLine("");
@@ -197,7 +193,7 @@ public class App {
     }
 
     
-    public void remove() throws SQLException {
+    public void remove() {
         String ans = io.readLine("\nSearch suggestions to remove (type y, otherwise press enter)");
 
         List<Suggestion> suggestions = null;
@@ -223,6 +219,8 @@ public class App {
                     if (confirm.equals("y")) {
                         sugg.removeSuggestion(suggestions.get(index));
                         io.print("Suggestion removed!");
+                    } else {
+                        io.print("Suggestion not removed!");
                     }
                     return;
                 }
@@ -231,7 +229,7 @@ public class App {
         }
     }
 
-    public void add() throws SQLException {
+    public void add() {
         String command = io.readLine("What would you like to add? (types: book, blog, video, podcast)");
         if (command.equals("book")) {
             add(Type.BOOK);
@@ -246,7 +244,7 @@ public class App {
         }
     }
 
-    public void add(Type t) throws SQLException {
+    public void add(Type t) {
         UserReader ur = new UserReader(io);
         String key = ur.readKey(t);
         Suggestable s = null;
@@ -287,7 +285,7 @@ public class App {
 
     }
 
-    public void list(List<Suggestion> suggestions, boolean showIndexes) throws SQLException {
+    public void list(List<Suggestion> suggestions, boolean showIndexes) {
         if (suggestions.isEmpty()) {
             io.print("\nNo suggestions found.");
         } else {
@@ -301,7 +299,7 @@ public class App {
         }
     }
 
-    public void find() throws SQLException {
+    public void find() {
         List<Suggestion> suggestions_found = new ArrayList();
         String command;
         while (true) {
@@ -331,17 +329,7 @@ public class App {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-
-//        BookDao bookDao = new InMemoryBookDao();
-//        BlogDao blogDao = new InMemoryBlogDao();
-//        PodcastDao podcastDao = new InMemoryPodcastDao();
-//        VideoDao videoDao = new InMemoryVideoDao();
-//        SuggestionDao suggestionDao = new InMemorySuggestionDao(bookDao, blogDao, podcastDao, videoDao);
-//        IO io = new ConsoleIO();
-//        SuggestionService sugg = new SuggestionService(suggestionDao, bookDao, blogDao, podcastDao, videoDao);
-//        new App(io, sugg).run();
-        //Tästä kommentti pois niin toimii tietokannalla
+    public static void main(String[] args) throws ClassNotFoundException {
         Database database = new Database("jdbc:sqlite:database.db");
 
         InterfaceBookDao bookDao = new SQLBookDao(database);
@@ -358,7 +346,6 @@ public class App {
 //        }
         IO io = new ConsoleIO();
         new App(io, sugg).run();
-
     }
 
 }

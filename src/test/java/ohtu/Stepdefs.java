@@ -40,7 +40,7 @@ public class Stepdefs {
     }
     
     @Before
-    public void populate() throws SQLException {
+    public void populate() {
         sugg.fillWithExampleData();
     }
 
@@ -226,11 +226,7 @@ public class Stepdefs {
     private void runApp() {
         io = new StubIO(inputLines);
         app = new App(io, sugg);
-        try {
-            app.run();
-        } catch (SQLException ex) {
-            System.out.println("Database error: " + ex.getMessage());
-        }
+        app.run();
     }
 
 }

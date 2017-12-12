@@ -1,23 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ohtu.data_access;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import ohtu.domain.Video;
 
-/**
- *
- * @author hcpaavo
- */
 public class SQLVideoDao implements InterfaceVideoDao {
     private Database database;
     
@@ -46,7 +36,8 @@ public class SQLVideoDao implements InterfaceVideoDao {
     }
 
     @Override
-    public Video findByUrl(String url) throws SQLException {
+    public Video findByUrl(String url) {
+        try {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Video WHERE url = ?");
         stmt.setObject(1, url);
@@ -66,6 +57,10 @@ public class SQLVideoDao implements InterfaceVideoDao {
         connection.close();
         
         return new Video(title, creator, description, url);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -104,7 +99,10 @@ public class SQLVideoDao implements InterfaceVideoDao {
     }
     
     @Override
-    public HashMap<String, Video> findByAll(String arg) throws SQLException {
+    public HashMap<String, Video> findByAll(String arg) {
+        HashMap<String, Video> videos = new HashMap();
+
+        try {
         Connection connection = database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Video WHERE url LIKE ? OR title LIKE ? OR creator LIKE ? OR description LIKE ?");
         statement.setObject(1, "%" + arg + "%");
@@ -114,7 +112,6 @@ public class SQLVideoDao implements InterfaceVideoDao {
 
         ResultSet rs = statement.executeQuery();
 
-        HashMap<String, Video> videos = new HashMap();
         while (rs.next()) {
             String url = rs.getString("url");
             String title = rs.getString("title");
@@ -127,7 +124,9 @@ public class SQLVideoDao implements InterfaceVideoDao {
         rs.close();
         statement.close();
         connection.close();
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return videos;
     }
     
