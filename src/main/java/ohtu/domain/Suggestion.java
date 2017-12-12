@@ -81,7 +81,7 @@ public class Suggestion {
     
     @Override
     public String toString() {
-        return suggestable.toString() + "\nType: " + getType();
+        return suggestable.toString() + "\nType: " + getType() + "\nTags: " + tagsAsString();
     }
     
     private String tagsAsString() {
