@@ -90,9 +90,20 @@ public class Stepdefs {
         inputLines.add(url);
     }
     
-    @When("^podcast name \"([^\"]*)\" is entered")
-    public void pod_name_is_entered(String name) {
+    @When("^name \"([^\"]*)\" is entered")
+    public void name_is_entered(String name) {
         inputLines.add(name);
+    }
+    
+    @When("^wrong description \"([^\"]*)\" is entered")
+    public void wrong_description_is_entered(String description) {
+        inputLines.add(description);
+    }
+    
+    @When("^description \"([^\"]*)\" is entered")
+    public void description_is_entered(String description) {
+        inputLines.add(description);
+        runApp();
     }
 
     @When("^ISBN \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
@@ -101,6 +112,55 @@ public class Stepdefs {
         inputLines.add(title);
         inputLines.add(author);
         inputLines.add(description);
+        runApp();
+    }
+    
+    @When("title \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void title_and_author_and_description_are_entered(String title, String author, String description) throws Throwable {
+        inputLines.add(title);
+        inputLines.add(author);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and author \"([^\"]*)\" and name \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void url_and_title_and_author_and_name_and_description_are_entered(String url, String title, String author, String name, String description) throws Throwable {
+        inputLines.add(url);
+        inputLines.add(title);
+        inputLines.add(author);
+        inputLines.add(name);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^title \"([^\"]*)\" and author \"([^\"]*)\" and name \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void title_and_author_and_name_and_description_are_entered(String title, String author, String name, String description) throws Throwable {
+        inputLines.add(title);
+        inputLines.add(author);
+        inputLines.add(name);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^author \"([^\"]*)\" and name \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void author_and_name_and_description_are_entered(String author, String name, String description) throws Throwable {
+        inputLines.add(author);
+        inputLines.add(name);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^name \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void name_and_author_and_description_are_entered(String name, String author, String description) throws Throwable {
+        inputLines.add(name);
+        inputLines.add(author);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^name \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void name_and_description_are_entered(String name, String description) throws Throwable {
+        inputLines.add(name);
         runApp();
     }
     
@@ -125,9 +185,18 @@ public class Stepdefs {
     }
 
     
-     @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and podcast name \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\"$")
+    @When("^url \"([^\"]*)\" and title \"([^\"]*)\" and podcast name \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
     public void url_and_title_and_podcast_name_and_author_and_description(String url, String title, String podcastName, String author, String description) throws Throwable {
         inputLines.add(url);
+        inputLines.add(title);
+        inputLines.add(podcastName);
+        inputLines.add(author);
+        inputLines.add(description);
+        runApp();
+    }
+    
+    @When("^title \"([^\"]*)\" and podcast name \"([^\"]*)\" and author \"([^\"]*)\" and description \"([^\"]*)\" are entered$")
+    public void title_and_podcast_name_and_author_and_description(String title, String podcastName, String author, String description) throws Throwable {
         inputLines.add(title);
         inputLines.add(podcastName);
         inputLines.add(author);
@@ -151,8 +220,6 @@ public class Stepdefs {
 
     @Then("^book is found$")
     public void book_is_found() throws Throwable {
-        boolean found = false;
-        ArrayList<String> prints = io.getPrints();
         message_is_displayed("Title: Clean Code: A Handbook of Agile Software Craftsmanship");
     }
 
