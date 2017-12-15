@@ -9,6 +9,8 @@
 
 [Backlogit (sis. hyväksymäkriteeri user storyille)](https://docs.google.com/spreadsheets/d/1A-KVJh2fhpbPtjkOAJumxaMg-83lkm0ApZ5xVJ3QzVU/edit?ts=5a0d637d#gid=1)
 
+<strong>Loppuraportti</strong>: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/Ohtu-loppuraportti%20Kurkku.pdf
+
 <strong>Asennus- ja käyttöohje:</strong>
 Sovellus on työpöytäsovellus jota käytetään tekstikäyttöliittymän kautta komentoriviltä.
 - Nouda jar-tiedosto osoitteesta: https://github.com/micaminoff/ohtu_miniprojekti/blob/master/ohtu_miniprojekti-all.jar
